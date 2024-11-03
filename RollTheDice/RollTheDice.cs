@@ -60,20 +60,20 @@ namespace RollTheDice
             _dices = new List<Func<CCSPlayerController, CCSPlayerPawn, string>>
             {
                 // add functions for each dice
-                // (player, playerPawn) => DiceIncreaseHealth(player, playerPawn),
-                // (player, playerPawn) => DiceDecreaseHealth(player, playerPawn),
-                // (player, playerPawn) => DiceIncreaseSpeed(player, playerPawn),
-                // (player, playerPawn) => DiceChangeName(player, playerPawn),
-                // (player, playerPawn) => DicePlayerInvisible(player, playerPawn),
-                // (player, playerPawn) => DicePlayerSuicide(player, playerPawn),
-                // (player, playerPawn) => DicePlayerRespawn(player, playerPawn),
-                // (player, playerPawn) => DiceStripWeapons(player, playerPawn),
-                // (player, playerPawn) => DiceChickenLeader(player, playerPawn),
-                // (player, playerPawn) => DiceFastBombAction(player, playerPawn),
-                // (player, playerPawn) => DicePlayerVampire(player, playerPawn),
-                // (player, playerPawn) => DicePlayerLowGravity(player, playerPawn),
-                // (player, playerPawn) => DicePlayerHighGravity(player, playerPawn),
-                // (player, playerPawn) => DicePlayerOneHP(player, playerPawn),
+                (player, playerPawn) => DiceIncreaseHealth(player, playerPawn),
+                (player, playerPawn) => DiceDecreaseHealth(player, playerPawn),
+                (player, playerPawn) => DiceIncreaseSpeed(player, playerPawn),
+                (player, playerPawn) => DiceChangeName(player, playerPawn),
+                (player, playerPawn) => DicePlayerInvisible(player, playerPawn),
+                (player, playerPawn) => DicePlayerSuicide(player, playerPawn),
+                (player, playerPawn) => DicePlayerRespawn(player, playerPawn),
+                (player, playerPawn) => DiceStripWeapons(player, playerPawn),
+                (player, playerPawn) => DiceChickenLeader(player, playerPawn),
+                (player, playerPawn) => DiceFastBombAction(player, playerPawn),
+                (player, playerPawn) => DicePlayerVampire(player, playerPawn),
+                (player, playerPawn) => DicePlayerLowGravity(player, playerPawn),
+                (player, playerPawn) => DicePlayerHighGravity(player, playerPawn),
+                (player, playerPawn) => DicePlayerOneHP(player, playerPawn),
             };
         }
 
