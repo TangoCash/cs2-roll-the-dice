@@ -50,6 +50,8 @@ namespace RollTheDice
             ResetDiceChangeName();
             ResetDiceFastBombAction();
             ResetDicePlayerVampire();
+            // announce round start
+            SendGlobalChatMessage(Localizer["core.announcement"]);
             // continue event
             return HookResult.Continue;
         }

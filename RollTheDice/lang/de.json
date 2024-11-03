@@ -4,6 +4,7 @@
     "core.defaultconfig": "[WürfelSpiel] Keine kartenspezifische Konfiguration für {mapName} gefunden, Standardkonfiguration wird verwendet!",
     "core.noconfig": "[WürfelSpiel] Keine kartenspezifische Konfiguration für {mapName} oder Standardkonfiguration gefunden. Überspringen!",
     "core.foundconfig": "[WürfelSpiel] {count} passende kartenspezifische Konfigurationen für {mapName} gefunden!",
+    "core.announcement": "{orange}[WürfelSpiel] {default}Erhalte einen Überraschungseffekt, indem du {green}!rtd{default} im Chat eingibst!",
     "command.rollthedice.notalive": "[WürfelSpiel] Du musst am Leben sein, um zu würfeln!",
     "command.rollthedice.alreadyrolled": "{orange}[WürfelSpiel] {default}Du hast in dieser Runde bereits gewürfelt!",
     "command.rollthedice.error": "{orange}[WürfelSpiel] {green}{playerName} {default}konnte nicht würfeln :(",
