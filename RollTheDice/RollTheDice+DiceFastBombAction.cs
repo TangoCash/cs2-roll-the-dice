@@ -19,7 +19,7 @@ namespace RollTheDice
             else if (playerPawn.TeamNum == (int)CsTeam.CounterTerrorist)
             {
                 _playersCanInstantDefuse.Add(player);
-                return $"{ChatColors.Green}{player.PlayerName}{ChatColors.Default} can now instant defuce the bomb!";
+                return $"{ChatColors.Green}{player.PlayerName}{ChatColors.Default} can now instant defuse the bomb!";
             }
             else
             {
