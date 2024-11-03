@@ -21,6 +21,7 @@ namespace RollTheDice
             InitializeDices();
             // register listeners
             RegisterEventHandler<EventRoundStart>(OnRoundStart);
+            RegisterListener<Listeners.OnServerPrecacheResources>(OnServerPrecacheResources);
             // print message if hot reload
             if (hotReload)
             {
@@ -63,6 +64,7 @@ namespace RollTheDice
                 (player, playerPawn) => DicePlayerSuicide(player, playerPawn),
                 (player, playerPawn) => DicePlayerRespawn(player, playerPawn),
                 (player, playerPawn) => DiceStripWeapons(player, playerPawn),
+                (player, playerPawn) => DiceChickenLeader(player, playerPawn),
             };
         }
 

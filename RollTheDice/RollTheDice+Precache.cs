@@ -7,7 +7,8 @@ namespace RollTheDice
     {
         private readonly List<string> _precacheModels = new List<string>
         {
-            "models/props/cs_office/file_cabinet1.vmdl"
+            "models/chicken/chicken.vmdl",
+            "particles/burning_fx/env_fire_tiny.vpcf"
         };
 
         private void OnServerPrecacheResources(ResourceManifest manifest)
