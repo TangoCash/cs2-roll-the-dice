@@ -44,6 +44,7 @@ namespace RollTheDice
             // reset dice rolls on round start
             ResetDicePlayerInvisible();
             ResetDiceIncreaseSpeed();
+            ResetDiceChangeName();
             // continue event
             return HookResult.Continue;
         }

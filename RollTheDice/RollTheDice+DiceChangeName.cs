@@ -6,6 +6,9 @@ namespace RollTheDice
 {
     public partial class RollTheDice : BasePlugin
     {
+        private List<CCSPlayerController> _playersWithChangedNames = new();
+        private Dictionary<CCSPlayerController, string> _playersWithChangedNamesOldNames = new();
+
         private string DiceChangeName(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             // select random string from list
@@ -25,10 +28,25 @@ namespace RollTheDice
                 "Egon Kowalski", "Fritz Fink", "Heinz Hering"
             };
             var randomName = names[random.Next(names.Count)];
-            var oldName = player.PlayerName;
+            _playersWithChangedNames.Add(player);
+            _playersWithChangedNamesOldNames[player] = player.PlayerName;
             player.PlayerName = randomName;
-            Utilities.SetStateChanged(playerPawn, "CBaseEntity", "m_iszPlayerName");
-            return $"{ChatColors.Green}{oldName}{ChatColors.Default} changed their name to {ChatColors.Green}{randomName}{ChatColors.Default}!";
+            return $"{ChatColors.Green}{_playersWithChangedNamesOldNames[player]}{ChatColors.Default} changed their name to {ChatColors.Green}{randomName}{ChatColors.Default}!";
+        }
+
+        private void ResetDiceChangeName()
+        {
+            // iterate through all players
+            foreach (var player in _playersWithChangedNames)
+            {
+                if (player == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || player.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
+                // get player pawn
+                var playerPawn = player.PlayerPawn.Value!;
+                // reset player name
+                player.PlayerName = _playersWithChangedNamesOldNames[player];
+            }
+            _playersWithChangedNames.Clear();
+            _playersWithChangedNamesOldNames.Clear();
         }
     }
 }
