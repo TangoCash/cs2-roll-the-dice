@@ -71,6 +71,8 @@ namespace RollTheDice
                 (player, playerPawn) => DiceChickenLeader(player, playerPawn),
                 (player, playerPawn) => DiceFastBombAction(player, playerPawn),
                 (player, playerPawn) => DicePlayerVampire(player, playerPawn),
+                (player, playerPawn) => DicePlayerLowGravity(player, playerPawn),
+                (player, playerPawn) => DicePlayerHighGravity(player, playerPawn),
             };
         }
 
