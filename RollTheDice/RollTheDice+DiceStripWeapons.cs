@@ -1,6 +1,5 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
-using CounterStrikeSharp.API.Modules.Utils;
 
 namespace RollTheDice
 {
@@ -16,12 +15,12 @@ namespace RollTheDice
                 // ignore C4
                 if (weapon.Value!.DesignerName == $"weapon_{CsItem.C4.ToString().ToLower()}")
                     continue;
-                Console.WriteLine(weapon.Value!.DesignerName);
                 weapon.Value!.Remove();
             }
             // give knife to player to force update of view
             player.GiveNamedItem(CsItem.Knife);
-            return $"{ChatColors.Green}{player.PlayerName}{ChatColors.Default} lost all weapons!";
+            return Localizer["DiceStripWeapons"].Value
+                .Replace("{playerName}", player.PlayerName);
         }
     }
 }

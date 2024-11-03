@@ -1,5 +1,4 @@
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Utils;
 
 namespace RollTheDice
 {
@@ -30,7 +29,9 @@ namespace RollTheDice
             _playersWithChangedNames.Add(player);
             _playersWithChangedNamesOldNames[player] = player.PlayerName;
             player.PlayerName = randomName;
-            return $"{ChatColors.Green}{_playersWithChangedNamesOldNames[player]}{ChatColors.Default} changed their name to {ChatColors.Green}{randomName}{ChatColors.Default}!";
+            return Localizer["DiceChangeName"].Value
+                .Replace("{playerName}", _playersWithChangedNamesOldNames[player])
+                .Replace("{randomName}", randomName);
         }
 
         private void ResetDiceChangeName()

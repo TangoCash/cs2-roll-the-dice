@@ -1,5 +1,4 @@
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Utils;
 
 namespace RollTheDice
 {
@@ -8,7 +7,8 @@ namespace RollTheDice
         private string DicePlayerRespawn(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             player.Respawn();
-            return $"{ChatColors.Green}{player.PlayerName}{ChatColors.Default} got respawned!";
+            return Localizer["DicePlayerRespawn"].Value
+                .Replace("{playerName}", player.PlayerName);
         }
     }
 }

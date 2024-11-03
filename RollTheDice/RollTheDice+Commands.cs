@@ -14,12 +14,12 @@ namespace RollTheDice
             CCSPlayerPawn playerPawn = player!.PlayerPawn.Value!;
             if (!player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || playerPawn.LifeState != (byte)LifeState_t.LIFE_ALIVE)
             {
-                command.ReplyToCommand("[RollTheDice] You need to be alive to roll the dice (no bot)!");
+                command.ReplyToCommand(Localizer["command.rollthedice.notalive"]);
                 return;
             };
             if (_playersThatRolledTheDice.Contains(player))
             {
-                command.ReplyToCommand("[RollTheDice] You already rolled the dice this round!");
+                command.ReplyToCommand(Localizer["command.rollthedice.alreadyrolled"]);
                 return;
             }
             // add player to list
@@ -28,7 +28,7 @@ namespace RollTheDice
             var dice = GetRandomDice();
             // execute dice function
             var message = _dices[dice](player, playerPawn);
-            SendGlobalChatMessage($"[RollTheDice] {message}");
+            SendGlobalChatMessage(message);
         }
     }
 }

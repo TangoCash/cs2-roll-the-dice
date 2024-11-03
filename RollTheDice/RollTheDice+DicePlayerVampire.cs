@@ -11,7 +11,8 @@ namespace RollTheDice
         private string DicePlayerVampire(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             _playerVampires.Add(player);
-            return $"{ChatColors.Green}{player.PlayerName}{ChatColors.Default} has become a vampire!";
+            return Localizer["DicePlayerVampire"].Value
+                .Replace("{playerName}", player.PlayerName);
         }
 
         private void ResetDicePlayerVampire()

@@ -1,6 +1,5 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Utils;
 using System.Drawing;
 
 namespace RollTheDice
@@ -14,7 +13,8 @@ namespace RollTheDice
             _playersThatAreInvisible.Add(player);
             playerPawn.Render = Color.FromArgb(125, 255, 255, 255);
             Utilities.SetStateChanged(playerPawn, "CBaseModelEntity", "m_clrRender");
-            return $"{ChatColors.Green}{player.PlayerName}{ChatColors.Default} is now (almost) invisible!";
+            return Localizer["DicePlayerInvisible"].Value
+                .Replace("{playerName}", player.PlayerName);
         }
 
         private void ResetDicePlayerInvisible()

@@ -14,16 +14,20 @@ namespace RollTheDice
             if (playerPawn.TeamNum == (int)CsTeam.Terrorist)
             {
                 _playersCanInstantPlant.Add(player);
-                return $"{ChatColors.Green}{player.PlayerName}{ChatColors.Default} can now instant plant the bomb!";
+                return Localizer["DiceFastBombActionT"].Value
+                    .Replace("{playerName}", player.PlayerName);
+
             }
             else if (playerPawn.TeamNum == (int)CsTeam.CounterTerrorist)
             {
                 _playersCanInstantDefuse.Add(player);
-                return $"{ChatColors.Green}{player.PlayerName}{ChatColors.Default} can now instant defuse the bomb!";
+                return Localizer["DiceFastBombActionCT"].Value
+                    .Replace("{playerName}", player.PlayerName);
             }
             else
             {
-                return $"{ChatColors.Green}{player.PlayerName}{ChatColors.Default} could not roll the dice.";
+                return Localizer["command.rollthedice.error"].Value
+                    .Replace("{playerName}", player.PlayerName);
             }
         }
 

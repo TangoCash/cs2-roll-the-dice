@@ -1,5 +1,4 @@
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Utils;
 
 namespace RollTheDice
 {
@@ -10,7 +9,8 @@ namespace RollTheDice
         private string DicePlayerHighGravity(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             playerPawn.GravityScale = 1.5f;
-            return $"{ChatColors.Green}{player.PlayerName}{ChatColors.Default} got high gravity!";
+            return Localizer["DicePlayerHighGravity"].Value
+                .Replace("{playerName}", player.PlayerName);
         }
     }
 }

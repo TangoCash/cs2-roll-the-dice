@@ -16,7 +16,9 @@ namespace RollTheDice
             playerPawn.VelocityModifier *= (float)speedIncrease;
             Utilities.SetStateChanged(playerPawn, "CCSPlayerPawn", "m_flVelocityModifier");
             var percentageIncrease = (speedIncrease - 1.0) * 100;
-            return $"{ChatColors.Green}{player.PlayerName}{ChatColors.Default} increased their speed by {percentageIncrease:F2}%!";
+            return Localizer["DiceIncreaseSpeed"].Value
+                .Replace("{playerName}", player.PlayerName)
+                .Replace("{percentageIncrease}", Math.Round(percentageIncrease, 2).ToString());
         }
 
         private void ResetDiceIncreaseSpeed()

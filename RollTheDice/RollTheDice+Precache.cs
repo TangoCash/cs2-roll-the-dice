@@ -15,7 +15,6 @@ namespace RollTheDice
         {
             foreach (var model in _precacheModels)
             {
-                Console.WriteLine($"[RollTheDice] Precaching {model}");
                 manifest.AddResource(model);
             }
         }

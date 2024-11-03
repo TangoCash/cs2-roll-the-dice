@@ -8,7 +8,8 @@ namespace RollTheDice
         private string DicePlayerSuicide(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             playerPawn.CommitSuicide(true, true);
-            return $"{ChatColors.Green}{player.PlayerName}{ChatColors.Default} exploded!";
+            return Localizer["DicePlayerSuicide"].Value
+                .Replace("{playerName}", player.PlayerName);
         }
     }
 }

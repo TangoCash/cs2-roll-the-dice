@@ -1,6 +1,5 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Utils;
 
 namespace RollTheDice
 {
@@ -10,7 +9,8 @@ namespace RollTheDice
         {
             playerPawn.Health = 1;
             Utilities.SetStateChanged(playerPawn, "CBaseEntity", "m_iHealth");
-            return $"{ChatColors.Green}{player.PlayerName}{ChatColors.Default} has only 1HP left!";
+            return Localizer["DicePlayerOneHP"].Value
+                .Replace("{playerName}", player.PlayerName);
         }
     }
 }

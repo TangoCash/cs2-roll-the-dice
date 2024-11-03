@@ -1,6 +1,5 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Utils;
 
 namespace RollTheDice
 {
@@ -17,7 +16,9 @@ namespace RollTheDice
             playerPawn.Health += healthIncrease;
             Utilities.SetStateChanged(playerPawn, "CBaseEntity", "m_iHealth");
             Utilities.SetStateChanged(playerPawn, "CBaseEntity", "m_iMaxHealth");
-            return $"{ChatColors.Green}{player.PlayerName}{ChatColors.Default} increased their health by {healthIncrease}!";
+            return Localizer["DiceIncreaseHealth"].Value
+                .Replace("{playerName}", player.PlayerName)
+                .Replace("{healthIncrease}", healthIncrease.ToString());
         }
     }
 }

@@ -45,7 +45,8 @@ namespace RollTheDice
                     });
                 }
             }
-            return $"{ChatColors.Green}{player.PlayerName}{ChatColors.Default} is a chicken leader!";
+            return Localizer["DiceChickenLeader"].Value
+                .Replace("{playerName}", player.PlayerName);
         }
     }
 }

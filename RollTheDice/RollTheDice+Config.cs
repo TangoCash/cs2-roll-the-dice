@@ -43,21 +43,21 @@ namespace RollTheDice
                 {
                     // add default configuration
                     _currentMapConfigs = new[] { config };
-                    Console.WriteLine("[RollTheDice] Found no map-specific configuration for " + mapName + ", using default one!");
+                    Console.WriteLine(Localizer["core.defaultconfig"].Value.Replace("{mapName}", mapName));
                 }
                 else
                 {
                     // there is no config to apply
-                    Console.WriteLine("[RollTheDice] No map-specific configuration for " + mapName + " or default one found. Skipping!");
+                    Console.WriteLine(Localizer["core.noconfig"].Value.Replace("{mapName}", mapName));
                 }
             }
             else
             {
-                Console.WriteLine("[RollTheDice] No map-specific configuration for " + mapName + " found. Creating default one!");
+                Console.WriteLine(Localizer["core.defaultconfig"].Value.Replace("{mapName}", mapName));
                 // create default configuration
                 Config.MapConfigs.Add(mapName, new MapConfig());
             }
-            Console.WriteLine("[RollTheDice] Found " + _currentMapConfigs.Count() + " matching map-specific configurations for " + mapName + "!");
+            Console.WriteLine(Localizer["core.foundconfig"].Value.Replace("{count}", _currentMapConfigs.Length.ToString()).Replace("{mapName}", mapName));
         }
 
         public void OnConfigParsed(PluginConfig config)
