@@ -26,7 +26,7 @@ namespace RollTheDice
             // iterate through all players
             foreach (var player in _playersWithIncreasedSpeed)
             {
-                if (player == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || player.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
+                if (player == null || player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || player.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
                 // get player pawn
                 var playerPawn = player.PlayerPawn.Value!;
                 // reset player speed

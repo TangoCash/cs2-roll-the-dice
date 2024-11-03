@@ -39,7 +39,7 @@ namespace RollTheDice
             // iterate through all players
             foreach (var player in _playersWithChangedNames)
             {
-                if (player == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || player.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
+                if (player == null || player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || player.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
                 // reset player name
                 player.PlayerName = _playersWithChangedNamesOldNames[player];
             }

@@ -12,7 +12,7 @@ namespace RollTheDice
         public void CommandRollTheDice(CCSPlayerController? player, CommandInfo command)
         {
             CCSPlayerPawn playerPawn = player!.PlayerPawn.Value!;
-            if (!player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || playerPawn.LifeState != (byte)LifeState_t.LIFE_ALIVE)
+            if (player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || playerPawn.LifeState != (byte)LifeState_t.LIFE_ALIVE)
             {
                 command.ReplyToCommand(Localizer["command.rollthedice.notalive"]);
                 return;
