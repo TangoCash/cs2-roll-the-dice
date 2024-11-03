@@ -73,6 +73,7 @@ namespace RollTheDice
                 (player, playerPawn) => DicePlayerVampire(player, playerPawn),
                 (player, playerPawn) => DicePlayerLowGravity(player, playerPawn),
                 (player, playerPawn) => DicePlayerHighGravity(player, playerPawn),
+                (player, playerPawn) => DicePlayerOneHP(player, playerPawn),
             };
         }
 
