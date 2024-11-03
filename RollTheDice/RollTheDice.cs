@@ -38,11 +38,7 @@ namespace RollTheDice
         public override void Unload(bool hotReload)
         {
             // reset dice rolls on unload
-            ResetDicePlayerInvisible();
-            ResetDiceIncreaseSpeed();
-            ResetDiceChangeName();
-            ResetDiceFastBombAction();
-            ResetDicePlayerVampire();
+            ResetDices();
             Console.WriteLine(Localizer["core.unload"]);
         }
 
@@ -51,11 +47,7 @@ namespace RollTheDice
             // reset players that rolled the dice
             _playersThatRolledTheDice.Clear();
             // reset dice rolls on round start
-            ResetDicePlayerInvisible();
-            ResetDiceIncreaseSpeed();
-            ResetDiceChangeName();
-            ResetDiceFastBombAction();
-            ResetDicePlayerVampire();
+            ResetDices();
             // announce round start
             SendGlobalChatMessage(Localizer["core.announcement"]);
             // continue event
@@ -83,6 +75,15 @@ namespace RollTheDice
                 (player, playerPawn) => DicePlayerHighGravity(player, playerPawn),
                 (player, playerPawn) => DicePlayerOneHP(player, playerPawn),
             };
+        }
+
+        private void ResetDices()
+        {
+            ResetDicePlayerInvisible();
+            ResetDiceIncreaseSpeed();
+            ResetDiceChangeName();
+            ResetDiceFastBombAction();
+            ResetDicePlayerVampire();
         }
 
         private int GetRandomDice()
