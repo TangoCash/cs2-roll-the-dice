@@ -23,7 +23,7 @@ namespace RollTheDice
                 return;
             }
             // add player to list
-            //_playersThatRolledTheDice.Add(player);
+            _playersThatRolledTheDice.Add(player);
             // get random dice
             var dice = GetRandomDice();
             // execute dice function
