@@ -1,6 +1,6 @@
 {
-    "core.hotreload": "Hot-Reloaded RollTheDice Plugin!",
-    "core.unload": "RollTheDice Plugin entladen!",
+    "core.hotreload": "[WürfelSpiel] Hot-Reloaded RollTheDice Plugin!",
+    "core.unload": "[WürfelSpiel] RollTheDice Plugin entladen!",
     "core.defaultconfig": "[WürfelSpiel] Keine kartenspezifische Konfiguration für {mapName} gefunden, Standardkonfiguration wird verwendet!",
     "core.noconfig": "[WürfelSpiel] Keine kartenspezifische Konfiguration für {mapName} oder Standardkonfiguration gefunden. Überspringen!",
     "core.foundconfig": "[WürfelSpiel] {count} passende kartenspezifische Konfigurationen für {mapName} gefunden!",
