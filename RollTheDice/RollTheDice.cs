@@ -22,6 +22,7 @@ namespace RollTheDice
             // register listeners
             RegisterEventHandler<EventRoundStart>(OnRoundStart);
             RegisterListener<Listeners.OnServerPrecacheResources>(OnServerPrecacheResources);
+            CreateDiceFastBombActionListener();
             // print message if hot reload
             if (hotReload)
             {
@@ -46,6 +47,7 @@ namespace RollTheDice
             ResetDicePlayerInvisible();
             ResetDiceIncreaseSpeed();
             ResetDiceChangeName();
+            ResetDiceFastBombAction();
             // continue event
             return HookResult.Continue;
         }
@@ -65,6 +67,7 @@ namespace RollTheDice
                 (player, playerPawn) => DicePlayerRespawn(player, playerPawn),
                 (player, playerPawn) => DiceStripWeapons(player, playerPawn),
                 (player, playerPawn) => DiceChickenLeader(player, playerPawn),
+                (player, playerPawn) => DiceFastBombAction(player, playerPawn),
             };
         }
 
