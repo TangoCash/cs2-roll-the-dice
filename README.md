@@ -1,2 +1,2 @@
 # cs2-roll-the-dice
-Roll the Dice each round to get some present
+Counterstrike 2 (Counterstrikesharp) Roll the Dice
