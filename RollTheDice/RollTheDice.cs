@@ -37,6 +37,12 @@ namespace RollTheDice
 
         public override void Unload(bool hotReload)
         {
+            // reset dice rolls on unload
+            ResetDicePlayerInvisible();
+            ResetDiceIncreaseSpeed();
+            ResetDiceChangeName();
+            ResetDiceFastBombAction();
+            ResetDicePlayerVampire();
             Console.WriteLine(Localizer["core.unload"]);
         }
 
