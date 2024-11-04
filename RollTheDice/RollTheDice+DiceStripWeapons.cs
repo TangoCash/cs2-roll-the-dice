@@ -32,10 +32,8 @@ namespace RollTheDice
                 playerPawn.WeaponServices.ActiveWeapon.Raw = weapon.Raw;
                 // drop active weapon
                 player.DropActiveWeapon();
-                Server.RunOnTick(Server.TickCount + 1, () =>
-                {
-                    weapon.Value.Remove();
-                });
+                // delete it
+                weapon.Value.Remove();
             }
             // put knife in hand of player
             playerPawn.WeaponServices.ActiveWeapon.Raw = weaponRaw;
