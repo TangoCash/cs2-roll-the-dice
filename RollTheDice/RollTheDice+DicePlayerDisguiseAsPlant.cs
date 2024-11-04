@@ -16,6 +16,7 @@ namespace RollTheDice
 
         private string DicePlayerDisguiseAsPlant(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
+            if (_playersDisguisedAsPlants.Contains(player)) return Localizer["command.rollthedice.error"].Value.Replace("{playerName}", player.PlayerName);
             _playersDisguisedAsPlants.Add(player);
             _playersDisguisedAsPlantsStates[player] = 0;
             _playersDisguisedAsPlantsOldModels[player] = GetPlayerModel(playerPawn);
@@ -43,20 +44,33 @@ namespace RollTheDice
             {
                 foreach (CCSPlayerController player in _playersDisguisedAsPlants)
                 {
-                    // sanity checks
-                    if (player == null || player.Pawn == null || player.Pawn.Value == null
-                    || player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null
-                    || player.PlayerPawn.Value.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
-                    // change player model if player is not pressing any buttons
-                    if (player.Buttons == 0 && _playersDisguisedAsPlantsStates[player] != 1)
+                    try
                     {
-                        _playersDisguisedAsPlantsStates[player] = 1;
-                        player.Pawn.Value.SetModel(_playersDisguisedAsPlantsNewModels[player]);
+                        // sanity checks
+                        if (player == null
+                        || player.Pawn == null
+                        || player.Pawn.Value == null
+                        || player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null
+                        || player.PlayerPawn.Value.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
+                        // change player model if player is not pressing any buttons
+                        if (player.Buttons == 0 && _playersDisguisedAsPlantsStates[player] != 1)
+                        {
+                            _playersDisguisedAsPlantsStates[player] = 1;
+                            player.Pawn.Value.SetModel(_playersDisguisedAsPlantsNewModels[player]);
+                        }
+                        else if (player.Buttons != 0 && _playersDisguisedAsPlantsStates[player] != 0)
+                        {
+                            _playersDisguisedAsPlantsStates[player] = 0;
+                            if (_playersDisguisedAsPlantsOldModels[player] != "") player.Pawn.Value.SetModel(_playersDisguisedAsPlantsOldModels[player]);
+                        }
                     }
-                    else if (player.Buttons != 0 && _playersDisguisedAsPlantsStates[player] != 0)
+                    catch (Exception e)
                     {
-                        _playersDisguisedAsPlantsStates[player] = 0;
-                        if (_playersDisguisedAsPlantsOldModels[player] != "") player.Pawn.Value.SetModel(_playersDisguisedAsPlantsOldModels[player]);
+                        // remove player
+                        _playersDisguisedAsPlants.Remove(player);
+                        _playersDisguisedAsPlantsStates.Remove(player);
+                        _playersDisguisedAsPlantsOldModels.Remove(player);
+                        _playersDisguisedAsPlantsNewModels.Remove(player);
                     }
                 }
             });

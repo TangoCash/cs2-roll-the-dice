@@ -22,6 +22,7 @@ namespace RollTheDice
             InitializeDices();
             // register listeners
             RegisterEventHandler<EventRoundStart>(OnRoundStart);
+            RegisterEventHandler<EventRoundEnd>(OnRoundEnd);
             RegisterListener<Listeners.OnServerPrecacheResources>(OnServerPrecacheResources);
             CreateDiceFastBombActionListener();
             CreateDicePlayerVampireListener();
@@ -48,10 +49,15 @@ namespace RollTheDice
         {
             // reset players that rolled the dice
             _playersThatRolledTheDice.Clear();
-            // reset dice rolls on round start
-            ResetDices();
             // announce round start
             SendGlobalChatMessage(Localizer["core.announcement"]);
+            // continue event
+            return HookResult.Continue;
+        }
+
+        private HookResult OnRoundEnd(EventRoundEnd @event, GameEventInfo info)
+        {
+            ResetDices();
             // continue event
             return HookResult.Continue;
         }
