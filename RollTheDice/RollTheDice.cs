@@ -99,8 +99,7 @@ namespace RollTheDice
         private int GetRandomDice()
         {
             // get random dice
-            var random = new Random();
-            return random.Next(0, _dices.Count);
+            return _random.Next(0, _dices.Count);
         }
     }
 }
