@@ -22,5 +22,6 @@
     "DicePlayerRespawn": "{orange}[WürfelSpiel] {green}{playerName} {default}ist wieder am Spawn!",
     "DicePlayerSuicide": "{orange}[WürfelSpiel] {green}{playerName} {default}hat Selbstmord begangen!",
     "DicePlayerVampire": "{orange}[WürfelSpiel] {green}{playerName} {default}ist ein Vampir geworden!",
-    "DiceStripWeapons": "{orange}[WürfelSpiel] {green}{playerName} {default}hat alle Waffen verloren!"
+    "DiceStripWeapons": "{orange}[WürfelSpiel] {green}{playerName} {default}hat alle Waffen verloren!",
+    "DicePlayerDisguiseAsPlant": "{orange}[WürfelSpiel] {green}{playerName} {default}ist ein Blumentopf wenn er still steht!"
 }

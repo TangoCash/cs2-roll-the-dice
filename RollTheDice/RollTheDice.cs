@@ -12,6 +12,7 @@ namespace RollTheDice
         private string _currentMap = "";
         private List<CCSPlayerController> _playersThatRolledTheDice = new();
         private List<Func<CCSPlayerController, CCSPlayerPawn, string>> _dices = new();
+        private Random _random = new Random();
 
         public override void Load(bool hotReload)
         {
@@ -24,6 +25,7 @@ namespace RollTheDice
             RegisterListener<Listeners.OnServerPrecacheResources>(OnServerPrecacheResources);
             CreateDiceFastBombActionListener();
             CreateDicePlayerVampireListener();
+            CreateDicePlayerDisguiseAsPlantListener();
             // print message if hot reload
             if (hotReload)
             {
@@ -74,6 +76,7 @@ namespace RollTheDice
                 (player, playerPawn) => DicePlayerLowGravity(player, playerPawn),
                 (player, playerPawn) => DicePlayerHighGravity(player, playerPawn),
                 (player, playerPawn) => DicePlayerOneHP(player, playerPawn),
+                (player, playerPawn) => DicePlayerDisguiseAsPlant(player, playerPawn),
             };
         }
 
@@ -84,6 +87,7 @@ namespace RollTheDice
             ResetDiceChangeName();
             ResetDiceFastBombAction();
             ResetDicePlayerVampire();
+            ResetDicePlayerDisguiseAsPlant();
         }
 
         private int GetRandomDice()

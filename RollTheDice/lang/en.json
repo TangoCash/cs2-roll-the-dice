@@ -22,5 +22,6 @@
     "DicePlayerRespawn": "{orange}[RollTheDice] {green}{playerName} {default}did respawn!",
     "DicePlayerSuicide": "{orange}[RollTheDice] {green}{playerName} {default}committed suicide!",
     "DicePlayerVampire": "{orange}[RollTheDice] {green}{playerName} {default}has become a vampire!",
-    "DiceStripWeapons": "{orange}[RollTheDice] {green}{playerName} {default}lost all weapons!"
+    "DiceStripWeapons": "{orange}[RollTheDice] {green}{playerName} {default}lost all weapons!",
+    "DicePlayerDisguiseAsPlant": "{orange}[RollTheDice] {green}{playerName} {default}becomes a Planter if he does not move!"
 }
