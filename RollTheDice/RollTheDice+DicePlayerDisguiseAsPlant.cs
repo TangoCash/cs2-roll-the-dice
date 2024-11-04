@@ -71,6 +71,8 @@ namespace RollTheDice
                         _playersDisguisedAsPlantsStates.Remove(player);
                         _playersDisguisedAsPlantsOldModels.Remove(player);
                         _playersDisguisedAsPlantsNewModels.Remove(player);
+                        // log error
+                        Console.WriteLine(Localizer["core.error"].Value.Replace("{error}", e.Message));
                     }
                 }
             });
