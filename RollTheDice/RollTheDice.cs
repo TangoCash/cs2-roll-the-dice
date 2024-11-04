@@ -49,6 +49,8 @@ namespace RollTheDice
         {
             // reset players that rolled the dice
             _playersThatRolledTheDice.Clear();
+            // reset dices (necessary after warmup)
+            ResetDices();
             // announce round start
             SendGlobalChatMessage(Localizer["core.announcement"]);
             // continue event
