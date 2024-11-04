@@ -42,7 +42,8 @@ namespace RollTheDice
         {
             RegisterListener<Listeners.OnTick>(() =>
             {
-                foreach (CCSPlayerController player in _playersDisguisedAsPlants)
+                List<CCSPlayerController> _playersDisguisedAsPlantsCopy = new(_playersDisguisedAsPlants);
+                foreach (CCSPlayerController player in _playersDisguisedAsPlantsCopy)
                 {
                     try
                     {
