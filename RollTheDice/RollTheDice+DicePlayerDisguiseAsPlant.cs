@@ -10,8 +10,7 @@ namespace RollTheDice
         private Dictionary<CCSPlayerController, string> _playersDisguisedAsPlantsNewModels = new();
         private List<string> _playersDisguisedAsPlantsModels = new()
         {
-            "models/props/cs_office/plant01.vmdl",
-            "models/props_plants/plantairport01.vmdl"
+            "models/props/cs_office/plant01.vmdl"
         };
 
         private string DicePlayerDisguiseAsPlant(CCSPlayerController player, CCSPlayerPawn playerPawn)
