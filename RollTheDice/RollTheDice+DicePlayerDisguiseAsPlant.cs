@@ -8,20 +8,28 @@ namespace RollTheDice
         private Dictionary<CCSPlayerController, int> _playersDisguisedAsPlantsStates = new();
         private Dictionary<CCSPlayerController, string> _playersDisguisedAsPlantsOldModels = new();
         private Dictionary<CCSPlayerController, string> _playersDisguisedAsPlantsNewModels = new();
-        private List<string> _playersDisguisedAsPlantsModels = new()
+        private readonly Dictionary<string, string> _playersDisguisedAsPlantsModels = new()
         {
-            "models/props/cs_office/plant01.vmdl"
-        };
+            //{"Office/Plant", "models/props/cs_office/plant01.vmdl"},
+            //{"Trafficcone", "models/props/de_vertigo/trafficcone_clean.vmdl"},
+            //{"Barstool", "models/generic/barstool_01/barstool_01.vmdl"},
+            //{"Fireextinguisher", "models/generic/fire_extinguisher_01/fire_extinguisher_01.vmdl"},
+            {"Hostage", "models/hostage/hostage.vmdl"},
+            //{"Pottery", "models/ar_shoots/shoots_pottery_02.vmdl"},
+            //{"AnubisInfoPanel", "models/anubis/signs/anubis_info_panel_01.vmdl"}
 
+        };
         private string DicePlayerDisguiseAsPlant(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             if (_playersDisguisedAsPlants.Contains(player)) return Localizer["command.rollthedice.error"].Value.Replace("{playerName}", player.PlayerName);
             _playersDisguisedAsPlants.Add(player);
             _playersDisguisedAsPlantsStates[player] = 0;
             _playersDisguisedAsPlantsOldModels[player] = GetPlayerModel(playerPawn);
-            _playersDisguisedAsPlantsNewModels[player] = _playersDisguisedAsPlantsModels[_random.Next(0, _playersDisguisedAsPlantsModels.Count)];
+            var randomKey = _playersDisguisedAsPlantsModels.Keys.ElementAt(_random.Next(0, _playersDisguisedAsPlantsModels.Count));
+            _playersDisguisedAsPlantsNewModels[player] = _playersDisguisedAsPlantsModels[randomKey];
             return Localizer["DicePlayerDisguiseAsPlant"].Value
-                .Replace("{playerName}", player.PlayerName);
+                .Replace("{playerName}", player.PlayerName)
+                .Replace("{model}", randomKey);
         }
 
         private void ResetDicePlayerDisguiseAsPlant()

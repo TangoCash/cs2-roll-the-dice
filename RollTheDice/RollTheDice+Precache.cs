@@ -10,6 +10,12 @@ namespace RollTheDice
             "models/chicken/chicken.vmdl",
             "particles/burning_fx/env_fire_tiny.vpcf",
             "models/props/cs_office/plant01.vmdl",
+            "models/props/de_vertigo/trafficcone_clean.vmdl",
+            "models/generic/barstool_01/barstool_01.vmdl",
+            "models/generic/fire_extinguisher_01/fire_extinguisher_01.vmdl",
+            "models/hostage/hostage.vmdl",
+            "models/ar_shoots/shoots_pottery_02.vmdl",
+            "models/anubis/signs/anubis_info_panel_01.vmdl",
         };
 
         private void OnServerPrecacheResources(ResourceManifest manifest)
