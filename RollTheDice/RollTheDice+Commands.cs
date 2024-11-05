@@ -10,15 +10,23 @@ namespace RollTheDice
         [ConsoleCommand("rtd", "Roll the Dice")]
         [ConsoleCommand("dice", "Roll the Dice")]
         [CommandHelper(whoCanExecute: CommandUsage.CLIENT_ONLY)]
-        public void CommandRollTheDice(CCSPlayerController? player, CommandInfo command)
+        public void CommandRollTheDice(CCSPlayerController player, CommandInfo command)
         {
-            CCSPlayerPawn playerPawn = player!.PlayerPawn.Value!;
+            Config.MapConfigs.TryGetValue(_currentMap, out var mapConfig);
+            if ((!Config.Enabled)
+                || (Config.Enabled && mapConfig != null && !mapConfig.Enabled))
+            {
+                if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["core.disabled"]);
+                command.ReplyToCommand(Localizer["core.disabled"]);
+                return;
+            }
             if (!_isDuringRound || (bool)GetGameRule("WarmupPeriod")!)
             {
                 if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.noactiveround"]);
                 command.ReplyToCommand(Localizer["command.rollthedice.noactiveround"]);
                 return;
             }
+            CCSPlayerPawn playerPawn = player!.PlayerPawn.Value!;
             if (player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || playerPawn.LifeState != (byte)LifeState_t.LIFE_ALIVE)
             {
                 if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.notalive"]);

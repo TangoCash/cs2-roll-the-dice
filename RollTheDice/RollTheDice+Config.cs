@@ -8,12 +8,16 @@ namespace RollTheDice
 {
     public class MapConfig
     {
+        // disabled
+        [JsonPropertyName("enabled")] public bool Enabled { get; set; } = true;
         // disabled features
         [JsonPropertyName("dices")] public Dictionary<string, bool> Features { get; set; } = new();
     }
 
     public class PluginConfig : BasePluginConfig
     {
+        // disabled
+        [JsonPropertyName("enabled")] public bool Enabled { get; set; } = true;
         // disabled features
         [JsonPropertyName("dices")] public Dictionary<string, bool> Features { get; set; } = new();
         // map configurations
