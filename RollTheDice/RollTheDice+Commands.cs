@@ -13,6 +13,11 @@ namespace RollTheDice
         public void CommandRollTheDice(CCSPlayerController? player, CommandInfo command)
         {
             CCSPlayerPawn playerPawn = player!.PlayerPawn.Value!;
+            if (!_isDuringRound)
+            {
+                command.ReplyToCommand(Localizer["command.rollthedice.noactiveround"]);
+                return;
+            }
             if (player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || playerPawn.LifeState != (byte)LifeState_t.LIFE_ALIVE)
             {
                 command.ReplyToCommand(Localizer["command.rollthedice.notalive"]);

@@ -13,6 +13,7 @@ namespace RollTheDice
         private List<CCSPlayerController> _playersThatRolledTheDice = new();
         private List<Func<CCSPlayerController, CCSPlayerPawn, string>> _dices = new();
         private Random _random = new Random();
+        private bool _isDuringRound = false;
 
         public override void Load(bool hotReload)
         {
@@ -35,6 +36,7 @@ namespace RollTheDice
                 // initialize configuration
                 InitializeConfig(_currentMap);
                 Console.WriteLine(Localizer["core.hotreload"]);
+                SendGlobalChatMessage(Localizer["core.hotreload"]);
             }
         }
 
@@ -56,6 +58,8 @@ namespace RollTheDice
             ResetDices();
             // announce round start
             SendGlobalChatMessage(Localizer["core.announcement"]);
+            // allow dice rolls
+            _isDuringRound = true;
             // continue event
             return HookResult.Continue;
         }
@@ -63,6 +67,8 @@ namespace RollTheDice
         private HookResult OnRoundEnd(EventRoundEnd @event, GameEventInfo info)
         {
             ResetDices();
+            // disallow dice rolls
+            _isDuringRound = false;
             // continue event
             return HookResult.Continue;
         }
