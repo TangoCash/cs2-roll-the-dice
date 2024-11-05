@@ -15,16 +15,19 @@ namespace RollTheDice
             CCSPlayerPawn playerPawn = player!.PlayerPawn.Value!;
             if (!_isDuringRound || (bool)GetGameRule("WarmupPeriod")!)
             {
+                if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.noactiveround"]);
                 command.ReplyToCommand(Localizer["command.rollthedice.noactiveround"]);
                 return;
             }
             if (player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || playerPawn.LifeState != (byte)LifeState_t.LIFE_ALIVE)
             {
+                if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.noactiveround"]);
                 command.ReplyToCommand(Localizer["command.rollthedice.notalive"]);
                 return;
             };
             if (_playersThatRolledTheDice.Contains(player))
             {
+                if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.noactiveround"]);
                 command.ReplyToCommand(Localizer["command.rollthedice.alreadyrolled"]);
                 return;
             }
