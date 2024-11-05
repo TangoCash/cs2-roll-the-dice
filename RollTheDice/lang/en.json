@@ -6,6 +6,7 @@
     "core.foundconfig": "[RollTheDice] Found {count} matching map-specific configurations for {mapName}!",
     "core.announcement": "{orange}[RollTheDice] {default}Get a suprise effect by typing {green}!rtd{default}",
     "core.error": "{orange}[RollTheDice] {default}Error: {error}",
+    "core.nodicesenabled": "{orange}[RollTheDice] {default}No dices enabled! Please enable at least one dice in the configuration!",
     "command.rollthedice.noactiveround": "{orange}[RollTheDice] {default}No active round!",
     "command.rollthedice.notalive": "[RollTheDice] You need to be alive to roll the dice!",
     "command.rollthedice.alreadyrolled": "{orange}[RollTheDice] {default}You already rolled the dice this round!",

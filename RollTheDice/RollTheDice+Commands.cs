@@ -35,6 +35,12 @@ namespace RollTheDice
             _playersThatRolledTheDice.Add(player);
             // get random dice
             var dice = GetRandomDice();
+            if (dice == -1)
+            {
+                if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["core.nodicesenabled"]);
+                command.ReplyToCommand(Localizer["command.rollthedice.nodicesenabled"]);
+                return;
+            }
             // execute dice function
             var message = _dices[dice](player, playerPawn);
             SendGlobalChatMessage(message);

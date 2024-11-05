@@ -2,19 +2,20 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Config;
 
 namespace RollTheDice
 {
     public class MapConfig
     {
         // disabled features
-        [JsonPropertyName("disabled_dices")] public List<string> DisabledDices { get; set; } = new();
+        [JsonPropertyName("dices")] public Dictionary<string, bool> Features { get; set; } = new();
     }
 
     public class PluginConfig : BasePluginConfig
     {
         // disabled features
-        [JsonPropertyName("disabled_dices")] public List<string> DisabledDices { get; set; } = new();
+        [JsonPropertyName("dices")] public Dictionary<string, bool> Features { get; set; } = new();
         // map configurations
         [JsonPropertyName("maps")] public Dictionary<string, MapConfig> MapConfigs { get; set; } = new Dictionary<string, MapConfig>();
     }
@@ -27,6 +28,7 @@ namespace RollTheDice
 
         private void LoadConfig()
         {
+            Config = ConfigManager.Load<PluginConfig>("RollTheDice");
             _configPath = Path.Combine(ModuleDirectory, $"../../configs/plugins/RollTheDice/RollTheDice.json");
         }
 
@@ -64,6 +66,26 @@ namespace RollTheDice
         {
             Config = config;
             Console.WriteLine("[RollTheDice] Initialized map configuration!");
+        }
+
+        private void UpdateConfig()
+        {
+            // iterate through all dices and add them to the configuration file
+            foreach (var dice in _dices)
+            {
+                if (!Config.Features.ContainsKey(dice.Method.Name))
+                {
+                    Config.Features.Add(dice.Method.Name, true);
+                }
+            }
+            // delete all keys that do not exist anymore
+            foreach (var key in Config.Features.Keys)
+            {
+                if (!_dices.Any(dice => dice.Method.Name == key))
+                {
+                    Config.Features.Remove(key);
+                }
+            }
         }
 
         private void SaveConfig()

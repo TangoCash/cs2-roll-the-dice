@@ -17,14 +17,17 @@ namespace RollTheDice
 
         public override void Load(bool hotReload)
         {
-            // initialize configuration
-            LoadConfig();
             // initialize dices
             InitializeDices();
+            // initialize configuration
+            LoadConfig();
+            UpdateConfig();
+            SaveConfig();
             // register listeners
             RegisterEventHandler<EventRoundStart>(OnRoundStart);
             RegisterEventHandler<EventRoundEnd>(OnRoundEnd);
-            RegisterEventHandler<EventMapShutdown>(OnMapShutdown);
+            RegisterListener<Listeners.OnMapStart>(OnMapStart);
+            RegisterListener<Listeners.OnMapEnd>(OnMapEnd);
             RegisterListener<Listeners.OnServerPrecacheResources>(OnServerPrecacheResources);
             CreateDiceFastBombActionListener();
             CreateDicePlayerVampireListener();
@@ -47,6 +50,8 @@ namespace RollTheDice
             // reset dice rolls on unload
             ResetDices();
             // unregister listeners
+            RemoveListener<Listeners.OnMapStart>(OnMapStart);
+            RemoveListener<Listeners.OnMapEnd>(OnMapEnd);
             RemoveListener<Listeners.OnServerPrecacheResources>(OnServerPrecacheResources);
             RemoveDicePlayerDisguiseAsPlantListener();
             RemoveDicePlayerRespawnListener();
@@ -78,13 +83,21 @@ namespace RollTheDice
             return HookResult.Continue;
         }
 
-        private HookResult OnMapShutdown(EventMapShutdown @event, GameEventInfo info)
+        private void OnMapStart(string mapName)
+        {
+            // set current map
+            _currentMap = mapName;
+            // update configuration
+            LoadConfig();
+            UpdateConfig();
+            SaveConfig();
+        }
+
+        private void OnMapEnd()
         {
             ResetDices();
             // disallow dice rolls
             _isDuringRound = false;
-            // continue event
-            return HookResult.Continue;
         }
 
         private void InitializeDices()
@@ -92,22 +105,21 @@ namespace RollTheDice
             // create dynamic list containing functions to execute for each dice
             _dices = new List<Func<CCSPlayerController, CCSPlayerPawn, string>>
             {
-                // add functions for each dice
-                (player, playerPawn) => DiceIncreaseHealth(player, playerPawn),
-                (player, playerPawn) => DiceDecreaseHealth(player, playerPawn),
-                (player, playerPawn) => DiceIncreaseSpeed(player, playerPawn),
-                (player, playerPawn) => DiceChangeName(player, playerPawn),
-                (player, playerPawn) => DicePlayerInvisible(player, playerPawn),
-                (player, playerPawn) => DicePlayerSuicide(player, playerPawn),
-                (player, playerPawn) => DicePlayerRespawn(player, playerPawn),
-                (player, playerPawn) => DiceStripWeapons(player, playerPawn),
-                (player, playerPawn) => DiceChickenLeader(player, playerPawn),
-                (player, playerPawn) => DiceFastBombAction(player, playerPawn),
-                (player, playerPawn) => DicePlayerVampire(player, playerPawn),
-                (player, playerPawn) => DicePlayerLowGravity(player, playerPawn),
-                (player, playerPawn) => DicePlayerHighGravity(player, playerPawn),
-                (player, playerPawn) => DicePlayerOneHP(player, playerPawn),
-                (player, playerPawn) => DicePlayerDisguiseAsPlant(player, playerPawn),
+                DiceIncreaseHealth,
+                DiceDecreaseHealth,
+                DiceIncreaseSpeed,
+                DiceChangeName,
+                DicePlayerInvisible,
+                DicePlayerSuicide,
+                DicePlayerRespawn,
+                DiceStripWeapons,
+                DiceChickenLeader,
+                DiceFastBombAction,
+                DicePlayerVampire,
+                DicePlayerLowGravity,
+                DicePlayerHighGravity,
+                DicePlayerOneHP,
+                DicePlayerDisguiseAsPlant
             };
         }
 
@@ -124,8 +136,30 @@ namespace RollTheDice
 
         private int GetRandomDice()
         {
-            // get random dice
-            return _random.Next(0, _dices.Count);
+            // Filter enabled dices based on map-specific and global configuration
+            var enabledDiceIndices = _dices
+                .Select((dice, index) => new { dice, index })
+                .Where(diceInfo =>
+                {
+                    var diceName = diceInfo.dice.Method.Name;
+                    // Check map-specific configuration
+                    if (Config.MapConfigs.TryGetValue(_currentMap, out var mapConfig) && mapConfig.Features.TryGetValue(diceName, out var isEnabled))
+                    {
+                        return isEnabled;
+                    }
+                    // Check global configuration
+                    if (Config.Features.TryGetValue(diceName, out isEnabled))
+                    {
+                        return isEnabled;
+                    }
+                    // Default to enabled if not found in either configuration
+                    return true;
+                })
+                .Select(diceInfo => diceInfo.index)
+                .ToList();
+            if (enabledDiceIndices.Count == 0) return -1;
+            // Get random dice from enabled dices
+            return enabledDiceIndices[_random.Next(0, enabledDiceIndices.Count)];
         }
     }
 }

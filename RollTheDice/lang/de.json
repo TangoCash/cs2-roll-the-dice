@@ -6,6 +6,7 @@
     "core.foundconfig": "[WürfelSpiel] {count} passende kartenspezifische Konfigurationen für {mapName} gefunden!",
     "core.announcement": "{orange}[WürfelSpiel] {default}Erhalte einen Überraschungseffekt mit {green}!rtd{default}",
     "core.error": "{orange}[WürfelSpiel] {default}Fehler: {error}",
+    "core.nodicesenabled": "{orange}[WürfelSpiel] {default}Keine Würfel aktiviert! Bitte aktiviere mindestens einen Würfel in der Konfiguration!",
     "command.rollthedice.noactiveround": "{orange}[WürfelSpiel] {default}Runde ist nicht gestartet!",
     "command.rollthedice.notalive": "[WürfelSpiel] Du musst am Leben sein, um zu würfeln!",
     "command.rollthedice.alreadyrolled": "{orange}[WürfelSpiel] {default}Du hast in dieser Runde bereits gewürfelt!",
