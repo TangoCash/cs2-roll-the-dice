@@ -52,6 +52,7 @@ namespace RollTheDice
             // execute dice function
             var message = _dices[dice](player, playerPawn);
             SendGlobalChatMessage(message);
+            player.ExecuteClientCommand("play sounds/ui/coin_pickup_01.vsnd");
         }
     }
 }
