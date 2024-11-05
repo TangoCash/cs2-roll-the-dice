@@ -5,9 +5,9 @@ namespace RollTheDice
 {
     public partial class RollTheDice : BasePlugin, IPluginConfig<PluginConfig>
     {
-        public override string ModuleName => "Map Modifiers Plugin";
+        public override string ModuleName => "Roll The Dice";
         public override string ModuleAuthor => "Jon-Mailes Graeffe <mail@jonni.it> / Kalle <kalle@kandru.de>";
-        public override string ModuleVersion => "0.0.11";
+        public override string ModuleVersion => "1.0.0";
 
         private string _currentMap = "";
         private List<CCSPlayerController> _playersThatRolledTheDice = new();
