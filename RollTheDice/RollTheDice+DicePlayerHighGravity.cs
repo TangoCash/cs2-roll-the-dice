@@ -6,7 +6,7 @@ namespace RollTheDice
     {
         private string DicePlayerHighGravity(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
-            playerPawn.GravityScale = 1.5f;
+            playerPawn.GravityScale = 4f;
             return Localizer["DicePlayerHighGravity"].Value
                 .Replace("{playerName}", player.PlayerName);
         }
