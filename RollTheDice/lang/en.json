@@ -1,5 +1,5 @@
 {
-    "core.hotreload": "[RollTheDice] Hot-Reloaded RollTheDice Plugin!",
+    "core.hotreload": "[RollTheDice] Hot-Reloaded RollTheDice Plugin! Rolling from next round!",
     "core.unload": "[RollTheDice] Unloaded RollTheDice Plugin!",
     "core.defaultconfig": "[RollTheDice] Found no map-specific configuration for {mapName}, using default one!",
     "core.noconfig": "[RollTheDice] No map-specific configuration for {mapName} or default one found. Skipping!",
