@@ -24,6 +24,7 @@ namespace RollTheDice
             // register listeners
             RegisterEventHandler<EventRoundStart>(OnRoundStart);
             RegisterEventHandler<EventRoundEnd>(OnRoundEnd);
+            RegisterEventHandler<EventMapShutdown>(OnMapShutdown);
             RegisterListener<Listeners.OnServerPrecacheResources>(OnServerPrecacheResources);
             CreateDiceFastBombActionListener();
             CreateDicePlayerVampireListener();
@@ -69,6 +70,15 @@ namespace RollTheDice
         }
 
         private HookResult OnRoundEnd(EventRoundEnd @event, GameEventInfo info)
+        {
+            ResetDices();
+            // disallow dice rolls
+            _isDuringRound = false;
+            // continue event
+            return HookResult.Continue;
+        }
+
+        private HookResult OnMapShutdown(EventMapShutdown @event, GameEventInfo info)
         {
             ResetDices();
             // disallow dice rolls
