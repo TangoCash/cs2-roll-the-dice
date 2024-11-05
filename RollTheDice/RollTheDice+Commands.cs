@@ -8,6 +8,7 @@ namespace RollTheDice
     {
         [ConsoleCommand("rollthedice", "Roll the Dice")]
         [ConsoleCommand("rtd", "Roll the Dice")]
+        [ConsoleCommand("dice", "Roll the Dice")]
         [CommandHelper(whoCanExecute: CommandUsage.CLIENT_ONLY)]
         public void CommandRollTheDice(CCSPlayerController? player, CommandInfo command)
         {
