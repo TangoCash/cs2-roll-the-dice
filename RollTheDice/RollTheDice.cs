@@ -28,6 +28,7 @@ namespace RollTheDice
             CreateDiceFastBombActionListener();
             CreateDicePlayerVampireListener();
             CreateDicePlayerDisguiseAsPlantListener();
+            CreateDicePlayerRespawnListener();
             // print message if hot reload
             if (hotReload)
             {
@@ -47,6 +48,7 @@ namespace RollTheDice
             // unregister listeners
             RemoveListener<Listeners.OnServerPrecacheResources>(OnServerPrecacheResources);
             RemoveDicePlayerDisguiseAsPlantListener();
+            RemoveDicePlayerRespawnListener();
             Console.WriteLine(Localizer["core.unload"]);
         }
 
@@ -56,6 +58,8 @@ namespace RollTheDice
             _playersThatRolledTheDice.Clear();
             // reset dices (necessary after warmup)
             ResetDices();
+            // abort if warmup
+            if ((bool)GetGameRule("WarmupPeriod")!) return HookResult.Continue;
             // announce round start
             SendGlobalChatMessage(Localizer["core.announcement"]);
             // allow dice rolls
@@ -105,6 +109,7 @@ namespace RollTheDice
             ResetDiceFastBombAction();
             ResetDicePlayerVampire();
             ResetDicePlayerDisguiseAsPlant();
+            ResetDicePlayerRespawn();
         }
 
         private int GetRandomDice()
