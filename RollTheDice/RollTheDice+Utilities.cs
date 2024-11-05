@@ -23,5 +23,38 @@ namespace RollTheDice
                 else AddTimer(delay, () => player.PrintToCenterHtml(message));
             }
         }
+
+        private void ChangeGameRule(string rule, object value)
+        {
+            var ents = Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules");
+            foreach (var ent in ents)
+            {
+                var gameRules = ent.GameRules;
+                if (gameRules == null) continue;
+
+                var property = gameRules.GetType().GetProperty(rule);
+                if (property != null && property.CanWrite)
+                {
+                    property.SetValue(gameRules, Convert.ChangeType(value, property.PropertyType));
+                }
+            }
+        }
+
+        private string GetGameRule(string rule)
+        {
+            var ents = Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules");
+            foreach (var ent in ents)
+            {
+                var gameRules = ent.GameRules;
+                if (gameRules == null) continue;
+
+                var property = gameRules.GetType().GetProperty(rule);
+                if (property != null && property.CanRead)
+                {
+                    return property.GetValue(gameRules)!.ToString()!;
+                }
+            }
+            return "";
+        }
     }
 }
