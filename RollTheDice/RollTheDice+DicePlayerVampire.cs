@@ -29,6 +29,7 @@ namespace RollTheDice
                 if (playerPawn == null) return HookResult.Continue;
                 if (!_playerVampires.Contains(attacker)) return HookResult.Continue;
                 playerPawn.Health += (int)float.Round(@event.DmgHealth);
+                if (playerPawn.Health > 200) playerPawn.Health = 200;
                 attacker.PrintToCenterAlert($"+{(int)float.Round(@event.DmgHealth)} health!");
                 Utilities.SetStateChanged(playerPawn, "CBaseEntity", "m_iHealth");
                 return HookResult.Continue;
