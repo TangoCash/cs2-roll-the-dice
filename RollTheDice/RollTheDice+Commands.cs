@@ -13,7 +13,7 @@ namespace RollTheDice
         public void CommandRollTheDice(CCSPlayerController? player, CommandInfo command)
         {
             CCSPlayerPawn playerPawn = player!.PlayerPawn.Value!;
-            if (!_isDuringRound)
+            if (!_isDuringRound || (bool)GetGameRule("WarmupPeriod")!)
             {
                 command.ReplyToCommand(Localizer["command.rollthedice.noactiveround"]);
                 return;

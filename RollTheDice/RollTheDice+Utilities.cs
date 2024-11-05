@@ -40,7 +40,7 @@ namespace RollTheDice
             }
         }
 
-        private string GetGameRule(string rule)
+        private object? GetGameRule(string rule)
         {
             var ents = Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules");
             foreach (var ent in ents)
@@ -51,10 +51,10 @@ namespace RollTheDice
                 var property = gameRules.GetType().GetProperty(rule);
                 if (property != null && property.CanRead)
                 {
-                    return property.GetValue(gameRules)!.ToString()!;
+                    return property.GetValue(gameRules);
                 }
             }
-            return "";
+            return null;
         }
     }
 }
