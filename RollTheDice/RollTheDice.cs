@@ -33,6 +33,7 @@ namespace RollTheDice
             CreateDicePlayerVampireListener();
             CreateDicePlayerDisguiseAsPlantListener();
             CreateDicePlayerRespawnListener();
+            CreateDicePlayerAsChickenListener();
             // print message if hot reload
             if (hotReload)
             {
@@ -55,6 +56,7 @@ namespace RollTheDice
             RemoveListener<Listeners.OnServerPrecacheResources>(OnServerPrecacheResources);
             RemoveDicePlayerDisguiseAsPlantListener();
             RemoveDicePlayerRespawnListener();
+            RemoveDicePlayerAsChickenListener();
             Console.WriteLine(Localizer["core.unload"]);
         }
 
@@ -119,7 +121,8 @@ namespace RollTheDice
                 DicePlayerLowGravity,
                 DicePlayerHighGravity,
                 DicePlayerOneHP,
-                DicePlayerDisguiseAsPlant
+                DicePlayerDisguiseAsPlant,
+                DicePlayerAsChicken
             };
         }
 
@@ -132,6 +135,7 @@ namespace RollTheDice
             ResetDicePlayerVampire();
             ResetDicePlayerDisguiseAsPlant();
             ResetDicePlayerRespawn();
+            ResetDicePlayerAsChicken();
         }
 
         private int GetRandomDice()

@@ -30,7 +30,7 @@ namespace RollTheDice
             _playersDisguisedAsPlants.Add(player, new Dictionary<string, string>());
             _playersDisguisedAsPlants[player]["status"] = "player";
             var randomKey = _playersDisguisedAsPlantsModels.Keys.ElementAt(_random.Next(0, _playersDisguisedAsPlantsModels.Count));
-            _playersDisguisedAsPlants[player]["prop"] = spawnPlant(
+            _playersDisguisedAsPlants[player]["prop"] = SpawnProp(
                 player,
                 _playersDisguisedAsPlantsModels[randomKey]["model"].ToString()!
             ).ToString();
@@ -46,8 +46,8 @@ namespace RollTheDice
             foreach (CCSPlayerController player in _playersDisguisedAsPlants.Keys)
             {
                 if (player == null || player.Pawn == null || player.Pawn.Value == null) continue;
-                removePlant(int.Parse(_playersDisguisedAsPlants[player]["prop"]));
-                makePlayerVisible(player);
+                RemoveProp(int.Parse(_playersDisguisedAsPlants[player]["prop"]));
+                MakePlayerVisible(player);
             }
             _playersDisguisedAsPlants.Clear();
         }
@@ -81,8 +81,8 @@ namespace RollTheDice
                     if (player.Buttons == 0 && playerData["status"] == "player")
                     {
                         _playersDisguisedAsPlants[player]["status"] = "plant";
-                        makePlayerInvisible(player);
-                        updatePlant(
+                        MakePlayerInvisible(player);
+                        UpdateProp(
                             player,
                             int.Parse(playerData["prop"]),
                             int.Parse(_playersDisguisedAsPlants[player]["offset_z"]),
@@ -92,12 +92,12 @@ namespace RollTheDice
                     else if (player.Buttons != 0 && playerData["status"] == "plant")
                     {
                         _playersDisguisedAsPlants[player]["status"] = "player";
-                        makePlayerVisible(player);
-                        removePlant(int.Parse(playerData["prop"]), true);
+                        MakePlayerVisible(player);
+                        RemoveProp(int.Parse(playerData["prop"]), true);
                     }
                     else if (playerData["status"] == "plant")
                     {
-                        updatePlant(
+                        UpdateProp(
                             player,
                             int.Parse(playerData["prop"]),
                             int.Parse(_playersDisguisedAsPlants[player]["offset_z"]),
@@ -120,133 +120,11 @@ namespace RollTheDice
             CCSPlayerController player = @event.Userid!;
             if (_playersDisguisedAsPlants.ContainsKey(player))
             {
-                removePlant(int.Parse(_playersDisguisedAsPlants[player]["prop"]));
-                makePlayerVisible(player);
+                RemoveProp(int.Parse(_playersDisguisedAsPlants[player]["prop"]));
+                MakePlayerVisible(player);
                 _playersDisguisedAsPlants.Remove(player);
             }
             return HookResult.Continue;
-        }
-
-        private int spawnPlant(CCSPlayerController player, string model)
-        {
-            // sanity checks
-            if (player == null
-            || player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null
-            || player.PlayerPawn.Value.LifeState != (byte)LifeState_t.LIFE_ALIVE
-            || !_playersDisguisedAsPlants.ContainsKey(player)) return -1;
-            // create dynamic prop
-            CDynamicProp prop;
-            prop = Utilities.CreateEntityByName<CDynamicProp>("prop_dynamic_override")!;
-            // set attributes
-            prop.Collision.SolidType = SolidType_t.SOLID_NONE;
-            prop.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_NONE;
-            // spawn it
-            prop.DispatchSpawn();
-            prop.SetModel(model);
-            prop.Teleport(new Vector(-999, -999, -999));
-            return (int)prop.Index;
-        }
-
-        private void updatePlant(CCSPlayerController player, int index, int offset_z = 0, int offset_angle = 0)
-        {
-            var prop = Utilities.GetEntityFromIndex<CDynamicProp>((int)index);
-            // sanity checks
-            if (prop == null
-            || player == null
-            || player.Pawn == null
-            || player.Pawn.Value == null
-            || player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null
-            || player.PlayerPawn.Value.LifeState != (byte)LifeState_t.LIFE_ALIVE
-            || !_playersDisguisedAsPlants.ContainsKey(player)) return;
-            // get player pawn
-            var playerPawn = player!.PlayerPawn!.Value;
-            // teleport it to player
-            Vector playerOrigin = new Vector(
-                (float)Math.Round(playerPawn.AbsOrigin!.X, 3),
-                (float)Math.Round(playerPawn.AbsOrigin!.Y, 3),
-                (float)Math.Round(playerPawn.AbsOrigin!.Z, 3) + offset_z
-            );
-            Vector propOrigin = new Vector(
-                (float)Math.Round(prop.AbsOrigin!.X, 3),
-                (float)Math.Round(prop.AbsOrigin!.Y, 3),
-                (float)Math.Round(prop.AbsOrigin!.Z, 3)
-            );
-            QAngle playerRotation = new QAngle(
-                0,
-                (float)Math.Round(playerPawn.AbsRotation!.Y, 3) + offset_angle,
-                0
-            );
-            QAngle propRotation = new QAngle(
-                0,
-                (float)Math.Round(prop.AbsRotation!.Y, 3),
-                0
-            );
-            if (playerOrigin.X == propOrigin.X
-                && playerOrigin.Y == propOrigin.Y
-                && playerOrigin.Z == propOrigin.Z
-                && playerRotation.Y == propRotation.Y) return;
-            prop.Teleport(playerOrigin, playerRotation);
-        }
-
-        private void removePlant(int index, bool softRemove = false)
-        {
-            var prop = Utilities.GetEntityFromIndex<CDynamicProp>((int)index);
-            // remove plant entity
-            if (prop == null)
-                return;
-            if (softRemove)
-                prop.Teleport(new Vector(-999, -999, -999));
-            else
-                prop.Remove();
-        }
-
-        private void makePlayerInvisible(CCSPlayerController player)
-        {
-            // sanity checks
-            if (player == null
-            || player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null
-            || player.PlayerPawn.Value.LifeState != (byte)LifeState_t.LIFE_ALIVE) return;
-            // get player pawn
-            var playerPawn = player!.PlayerPawn!.Value;
-            playerPawn.Render = Color.FromArgb(0, 255, 255, 255);
-            Utilities.SetStateChanged(playerPawn, "CBaseModelEntity", "m_clrRender");
-            if (playerPawn.WeaponServices?.MyWeapons != null)
-            {
-                foreach (var gun in playerPawn.WeaponServices!.MyWeapons)
-                {
-                    var weapon = gun.Value;
-                    if (weapon != null)
-                    {
-                        weapon.Render = Color.FromArgb(0, 255, 255, 255);
-                        weapon.ShadowStrength = 0.0f;
-                        Utilities.SetStateChanged(weapon, "CBaseModelEntity", "m_clrRender");
-                    }
-                }
-            }
-        }
-
-        private void makePlayerVisible(CCSPlayerController player)
-        {
-            // sanity checks
-            if (player == null
-            || player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null) return;
-            // get player pawn
-            var playerPawn = player!.PlayerPawn!.Value;
-            playerPawn.Render = Color.FromArgb(255, 255, 255, 255);
-            Utilities.SetStateChanged(playerPawn, "CBaseModelEntity", "m_clrRender");
-            if (playerPawn.WeaponServices!.MyWeapons != null)
-            {
-                foreach (var gun in playerPawn.WeaponServices!.MyWeapons)
-                {
-                    var weapon = gun.Value;
-                    if (weapon != null)
-                    {
-                        weapon.Render = Color.FromArgb(255, 255, 255, 255);
-                        weapon.ShadowStrength = 0.0f;
-                        Utilities.SetStateChanged(weapon, "CBaseModelEntity", "m_clrRender");
-                    }
-                }
-            }
         }
     }
 }
