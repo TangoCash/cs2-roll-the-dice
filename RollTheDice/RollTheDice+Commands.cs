@@ -21,13 +21,13 @@ namespace RollTheDice
             }
             if (player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || playerPawn.LifeState != (byte)LifeState_t.LIFE_ALIVE)
             {
-                if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.noactiveround"]);
+                if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.notalive"]);
                 command.ReplyToCommand(Localizer["command.rollthedice.notalive"]);
                 return;
             };
             if (_playersThatRolledTheDice.Contains(player))
             {
-                if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.noactiveround"]);
+                if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.alreadyrolled"]);
                 command.ReplyToCommand(Localizer["command.rollthedice.alreadyrolled"]);
                 return;
             }
