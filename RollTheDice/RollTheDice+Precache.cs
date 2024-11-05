@@ -16,6 +16,10 @@ namespace RollTheDice
             "models/hostage/hostage.vmdl",
             "models/ar_shoots/shoots_pottery_02.vmdl",
             "models/anubis/signs/anubis_info_panel_01.vmdl",
+            "models/cs_italy/seating/chair/wood_chair_1.vmdl",
+            "models/props_office/file_cabinet_03.vmdl",
+            "models/props_plants/plantairport01.vmdl",
+            "models/props_street/mail_dropbox.vmdl",
         };
 
         private void OnServerPrecacheResources(ResourceManifest manifest)

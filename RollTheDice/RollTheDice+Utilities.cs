@@ -23,10 +23,5 @@ namespace RollTheDice
                 else AddTimer(delay, () => player.PrintToCenterHtml(message));
             }
         }
-
-        private static string GetPlayerModel(CCSPlayerPawn playerPawn)
-        {
-            return playerPawn.CBodyComponent?.SceneNode?.GetSkeletonInstance().ModelState.ModelName ?? string.Empty;
-        }
     }
 }

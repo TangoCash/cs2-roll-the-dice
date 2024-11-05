@@ -42,6 +42,9 @@ namespace RollTheDice
         {
             // reset dice rolls on unload
             ResetDices();
+            // unregister listeners
+            RemoveListener<Listeners.OnServerPrecacheResources>(OnServerPrecacheResources);
+            RemoveDicePlayerDisguiseAsPlantListener();
             Console.WriteLine(Localizer["core.unload"]);
         }
 
