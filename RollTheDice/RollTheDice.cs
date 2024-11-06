@@ -110,24 +110,24 @@ namespace RollTheDice
             // create dynamic list containing functions to execute for each dice
             _dices = new List<Func<CCSPlayerController, CCSPlayerPawn, string>>
             {
-                // DiceIncreaseHealth,
-                // DiceDecreaseHealth,
-                // DiceIncreaseSpeed,
-                // DiceChangeName,
-                // DicePlayerInvisible,
-                // DicePlayerSuicide,
-                // DicePlayerRespawn,
-                // DiceStripWeapons,
-                // DiceChickenLeader,
-                // DiceFastBombAction,
-                // DicePlayerVampire,
-                // DicePlayerLowGravity,
-                // DicePlayerHighGravity,
-                // DicePlayerOneHP,
-                // DicePlayerDisguiseAsPlant,
+                DiceIncreaseHealth,
+                DiceDecreaseHealth,
+                DiceIncreaseSpeed,
+                DiceChangeName,
+                DicePlayerInvisible,
+                DicePlayerSuicide,
+                DicePlayerRespawn,
+                DiceStripWeapons,
+                DiceChickenLeader,
+                DiceFastBombAction,
+                DicePlayerVampire,
+                DicePlayerLowGravity,
+                DicePlayerHighGravity,
+                DicePlayerOneHP,
+                DicePlayerDisguiseAsPlant,
                 DicePlayerAsChicken,
-                // DicePlayerMakeHostageSounds,
-                // DicePlayerMakeFakeGunSounds
+                DicePlayerMakeHostageSounds,
+                DicePlayerMakeFakeGunSounds
             };
         }
 
