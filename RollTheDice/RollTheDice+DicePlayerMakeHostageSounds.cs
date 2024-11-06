@@ -38,19 +38,24 @@ namespace RollTheDice
         private void EventDicePlayerMakeHostageSoundsOnTick()
         {
             Dictionary<CCSPlayerController, int> _playersWithHostageSoundsCopy = new(_playersWithHostageSounds);
-            foreach (var (player, last_sound) in _playersWithHostageSoundsCopy)
+            foreach (var (player, playerStatus) in _playersWithHostageSoundsCopy)
             {
                 try
                 {
                     // sanity checks
                     if (player == null
                     || player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null
-                    || last_sound > (int)Server.CurrentTime
                     || player.PlayerPawn.Value.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
-                    // emit sound
-                    EmitSound(player, _hostageSounds[_random.Next(_hostageSounds.Count)]);
-                    // reset timer
-                    _playersWithHostageSounds[player] = (int)Server.CurrentTime + _random.Next(3, 11);
+                    if (player.Buttons == 0 && playerStatus == 0)
+                    {
+                        // emit sound
+                        EmitSound(player, _hostageSounds[_random.Next(_hostageSounds.Count)]);
+                        _playersWithHostageSounds[player] = (int)Server.CurrentTime + 5;
+                    }
+                    else if (player.Buttons != 0 && playerStatus <= (int)Server.CurrentTime)
+                    {
+                        _playersWithHostageSounds[player] = 0;
+                    }
                 }
                 catch (Exception e)
                 {
