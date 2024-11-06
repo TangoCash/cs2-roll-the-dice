@@ -7,6 +7,11 @@ namespace RollTheDice
     {
         private Dictionary<CCSPlayerController, Dictionary<string, string>> _playersAsChicken = new();
         private readonly string _playersAsChickenModel = "models/chicken/chicken.vmdl";
+        private readonly List<string> _chickenSounds = new List<string>
+        {
+            "Chicken.Idle",
+            "Chicken.Panic",
+        };
 
         private string DicePlayerAsChicken(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
@@ -20,6 +25,7 @@ namespace RollTheDice
             // add player to list
             _playersAsChicken.Add(player, new Dictionary<string, string>());
             _playersAsChicken[player]["old_model"] = GetPlayerModel(playerPawn);
+            _playersAsChicken[player]["next_sound"] = $"{(int)Server.CurrentTime + 2}";
             _playersAsChicken[player]["prop"] = SpawnProp(player, _playersAsChickenModel, 5.2f).ToString();
             MakePlayerInvisible(player);
             return Localizer["DicePlayerAsChicken"].Value
@@ -69,10 +75,17 @@ namespace RollTheDice
                     || player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null
                     || player.PlayerPawn.Value.LifeState != (byte)LifeState_t.LIFE_ALIVE
                     || !playerData.ContainsKey("prop")) continue;
+                    // update prop every tick to ensure synchroneity
                     UpdateProp(
                         player,
                         int.Parse(playerData["prop"])
                     );
+                    // make sound if time
+                    if (int.Parse(_playersAsChicken[player]["next_sound"]) <= (int)Server.CurrentTime)
+                    {
+                        EmitSound(player, _chickenSounds[Random.Shared.Next(_chickenSounds.Count)]);
+                        _playersAsChicken[player]["next_sound"] = $"{(int)Server.CurrentTime + Random.Shared.Next(2, 5)}";
+                    }
                 }
                 catch (Exception e)
                 {
