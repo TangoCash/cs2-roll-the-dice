@@ -6,13 +6,13 @@ namespace RollTheDice
     public partial class RollTheDice : BasePlugin
     {
         private readonly Dictionary<CCSPlayerController, int> _playersWithFakeGunSounds = new();
-        private readonly List<(string, int, float)> _fakeGunSounds = new()
+        private readonly List<(string, string, int, float)> _fakeGunSounds = new()
         {
-            ("Weapon_DEagle.Single", 5, 2.0f),
-            ("Weapon_M249.Single", 15, 1.5f),
-            ("Weapon_AWP.Single", 1, 1f),
-            ("Weapon_bizon.Single", 10, 1.5f),
-            ("Weapon_P90.Single", 15, 1.5f),
+            ("Deagle", "Weapon_DEagle.Single", 5, 2.0f),
+            ("M249", "Weapon_M249.Single", 15, 1.5f),
+            ("AWP", "Weapon_AWP.Single", 1, 1f),
+            ("Bizon", "Weapon_bizon.Single", 10, 1.5f),
+            ("P90", "Weapon_P90.Single", 15, 1.5f),
         };
 
         private string DicePlayerMakeFakeGunSounds(CCSPlayerController player, CCSPlayerPawn playerPawn)
@@ -56,8 +56,12 @@ namespace RollTheDice
                     || player.Buttons != 0
                     || player.PlayerPawn.Value.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
                     // get random gun sound entry
-                    var (soundName, playTotal, soundLength) = _fakeGunSounds[Random.Shared.Next(_fakeGunSounds.Count)];
+                    var (weaponName, soundName, playTotal, soundLength) = _fakeGunSounds[Random.Shared.Next(_fakeGunSounds.Count)];
                     EmitFakeGunSounds(player.Handle, soundName, soundLength, playTotal);
+                    // let everyone know
+                    SendGlobalChatMessage(Localizer["DicePlayerMakeFakeGunSoundsWeapon"].Value
+                        .Replace("{playerName}", player.PlayerName)
+                        .Replace("{weapon}", weaponName));
                     // reset timer
                     _playersWithFakeGunSounds[player] = (int)Server.CurrentTime + Random.Shared.Next(playTotal * (int)soundLength + 5, (playTotal * (int)soundLength) + 10);
                 }
