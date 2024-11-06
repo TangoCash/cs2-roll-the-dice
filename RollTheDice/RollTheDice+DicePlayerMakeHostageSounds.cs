@@ -15,6 +15,9 @@ namespace RollTheDice
 
         private string DicePlayerMakeHostageSounds(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
+            // create listener if not exists
+            if (_playersWithHostageSounds.Count() == 0) RegisterListener<Listeners.OnTick>(EventDicePlayerMakeHostageSoundsOnTick);
+            // add player to list
             _playersWithHostageSounds.Add(player, 0);
             return Localizer["DicePlayerMakeHostageSounds"].Value
                 .Replace("{playerName}", player.PlayerName);
@@ -25,11 +28,6 @@ namespace RollTheDice
             _playersWithHostageSounds.Clear();
         }
 
-        private void CreateDicePlayerMakeHostageSoundsListener()
-        {
-            RegisterListener<Listeners.OnTick>(EventDicePlayerMakeHostageSoundsOnTick);
-        }
-
         private void RemoveDicePlayerMakeHostageSoundsListener()
         {
             RemoveListener<Listeners.OnTick>(EventDicePlayerMakeHostageSoundsOnTick);
@@ -37,6 +35,13 @@ namespace RollTheDice
 
         private void EventDicePlayerMakeHostageSoundsOnTick()
         {
+            // remove listener if no players to save resources
+            if (_playersWithHostageSounds.Count() == 0)
+            {
+                RemoveListener<Listeners.OnTick>(EventDicePlayerMakeHostageSoundsOnTick);
+                return;
+            }
+            // worker
             Dictionary<CCSPlayerController, int> _playersWithHostageSoundsCopy = new(_playersWithHostageSounds);
             foreach (var (player, playerStatus) in _playersWithHostageSoundsCopy)
             {

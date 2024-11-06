@@ -37,7 +37,7 @@ namespace RollTheDice
             _playersCanInstantPlant.Clear();
         }
 
-        private void CreateDiceFastBombActionListener()
+        private void CreateDiceFastBombActionEventHandlers()
         {
             DiceFastBombActionEventBeginDefuse();
             DiceFastBombActionEventBeginPlant();

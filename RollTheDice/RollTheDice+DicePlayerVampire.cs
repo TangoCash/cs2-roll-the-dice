@@ -19,7 +19,7 @@ namespace RollTheDice
             _playerVampires.Clear();
         }
 
-        private void CreateDicePlayerVampireListener()
+        private void CreateDicePlayerVampireEventHandler()
         {
             RegisterEventHandler<EventPlayerHurt>((@event, _) =>
             {

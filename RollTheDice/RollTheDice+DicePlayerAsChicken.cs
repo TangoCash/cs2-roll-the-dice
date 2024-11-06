@@ -11,6 +11,13 @@ namespace RollTheDice
         private string DicePlayerAsChicken(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             if (_playersAsChicken.ContainsKey(player)) return Localizer["command.rollthedice.error"].Value.Replace("{playerName}", player.PlayerName);
+            // create listener if not exists
+            if (_playersAsChicken.Count() == 0)
+            {
+                RegisterListener<Listeners.OnTick>(EventDicePlayerAsChickenOnTick);
+                RegisterListener<Listeners.CheckTransmit>(EventDicePlayerAsChickenCheckTransmit);
+            }
+            // add player to list
             _playersAsChicken.Add(player, new Dictionary<string, string>());
             _playersAsChicken[player]["old_model"] = GetPlayerModel(playerPawn);
             _playersAsChicken[player]["prop"] = SpawnProp(player, _playersAsChickenModel, 5.2f).ToString();
@@ -30,14 +37,12 @@ namespace RollTheDice
             _playersAsChicken.Clear();
         }
 
-        private void CreateDicePlayerAsChickenListener()
+        private void CreateDicePlayerAsChickenEventHandler()
         {
-            RegisterListener<Listeners.OnTick>(EventDicePlayerAsChickenOnTick);
-            RegisterListener<Listeners.CheckTransmit>(EventDicePlayerAsChickenCheckTransmit);
             RegisterEventHandler<EventPlayerDeath>(EventDicePlayerAsChickenOnPlayerDeath);
         }
 
-        private void RemoveDicePlayerAsChickenListener()
+        private void RemoveDicePlayerAsChickenListeners()
         {
             RemoveListener<Listeners.OnTick>(EventDicePlayerAsChickenOnTick);
             RemoveListener<Listeners.CheckTransmit>(EventDicePlayerAsChickenCheckTransmit);
@@ -45,6 +50,13 @@ namespace RollTheDice
 
         private void EventDicePlayerAsChickenOnTick()
         {
+            // remove listener if no players to save resources
+            if (_playersAsChicken.Count() == 0)
+            {
+                RemoveListener<Listeners.OnTick>(EventDicePlayerAsChickenOnTick);
+                return;
+            }
+            // worker
             Dictionary<CCSPlayerController, Dictionary<string, string>> _playersAsChickenCopy = new(_playersAsChicken);
             foreach (var (player, playerData) in _playersAsChickenCopy)
             {
@@ -74,6 +86,13 @@ namespace RollTheDice
 
         private void EventDicePlayerAsChickenCheckTransmit(CCheckTransmitInfoList infoList)
         {
+            // remove listener if no players to save resources
+            if (_playersAsChicken.Count() == 0)
+            {
+                RemoveListener<Listeners.CheckTransmit>(EventDicePlayerAsChickenCheckTransmit);
+                return;
+            }
+            // worker
             foreach ((CCheckTransmitInfo info, CCSPlayerController? player) in infoList)
             {
                 if (player == null) continue;

@@ -23,6 +23,9 @@ namespace RollTheDice
         private string DicePlayerDisguiseAsPlant(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             if (_playersDisguisedAsPlants.ContainsKey(player)) return Localizer["command.rollthedice.error"].Value.Replace("{playerName}", player.PlayerName);
+            // create listener if not exists
+            if (_playersDisguisedAsPlants.Count == 0) RegisterListener<Listeners.OnTick>(EventDicePlayerDisguiseAsPlantOnTick);
+            // add player to list
             _playersDisguisedAsPlants.Add(player, new Dictionary<string, string>());
             _playersDisguisedAsPlants[player]["status"] = "player";
             var randomKey = _playersDisguisedAsPlantsModels.Keys.ElementAt(Random.Shared.Next(0, _playersDisguisedAsPlantsModels.Count));
@@ -48,9 +51,8 @@ namespace RollTheDice
             _playersDisguisedAsPlants.Clear();
         }
 
-        private void CreateDicePlayerDisguiseAsPlantListener()
+        private void CreateDicePlayerDisguiseAsPlantEventHandler()
         {
-            RegisterListener<Listeners.OnTick>(EventDicePlayerDisguiseAsPlantOnTick);
             RegisterEventHandler<EventPlayerDeath>(EventDicePlayerDisguiseAsPlantOnPlayerDeath);
         }
 
@@ -61,6 +63,13 @@ namespace RollTheDice
 
         private void EventDicePlayerDisguiseAsPlantOnTick()
         {
+            // remove listener if no players to save resources
+            if (_playersDisguisedAsPlants.Count == 0)
+            {
+                RemoveListener<Listeners.OnTick>(EventDicePlayerDisguiseAsPlantOnTick);
+                return;
+            }
+            // worker
             Dictionary<CCSPlayerController, Dictionary<string, string>> _playersDisguisedAsPlantsCopy = new(_playersDisguisedAsPlants);
             foreach (var (player, playerData) in _playersDisguisedAsPlantsCopy)
             {

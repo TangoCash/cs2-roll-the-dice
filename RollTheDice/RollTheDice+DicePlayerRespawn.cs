@@ -9,6 +9,9 @@ namespace RollTheDice
 
         private string DicePlayerRespawn(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
+            // create listener if not exists
+            if (_playersWithRespawnAbility.Count() == 0) RegisterListener<Listeners.OnTick>(EventDicePlayerRespawnOnTick);
+            // add player to list
             _playersWithRespawnAbility.Add(player, new Dictionary<string, string>());
             return Localizer["DicePlayerRespawn"].Value
                 .Replace("{playerName}", player.PlayerName);
@@ -19,9 +22,8 @@ namespace RollTheDice
             _playersWithRespawnAbility.Clear();
         }
 
-        private void CreateDicePlayerRespawnListener()
+        private void CreateDicePlayerRespawnEventHandler()
         {
-            RegisterListener<Listeners.OnTick>(EventDicePlayerRespawnOnTick);
             RegisterEventHandler<EventPlayerDeath>(EventDicePlayerRespawnOnPlayerDeath);
         }
 
@@ -32,6 +34,13 @@ namespace RollTheDice
 
         private void EventDicePlayerRespawnOnTick()
         {
+            // remove listener if no players to save resources
+            if (_playersWithRespawnAbility.Count() == 0)
+            {
+                RemoveListener<Listeners.OnTick>(EventDicePlayerRespawnOnTick);
+                return;
+            }
+            // worker
             Dictionary<CCSPlayerController, Dictionary<string, string>> _playersWithRespawnAbilityCopy = new(_playersWithRespawnAbility);
             foreach (var (player, playerData) in _playersWithRespawnAbilityCopy)
             {

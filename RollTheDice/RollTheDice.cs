@@ -30,13 +30,11 @@ namespace RollTheDice
             RegisterListener<Listeners.OnMapStart>(OnMapStart);
             RegisterListener<Listeners.OnMapEnd>(OnMapEnd);
             RegisterListener<Listeners.OnServerPrecacheResources>(OnServerPrecacheResources);
-            CreateDiceFastBombActionListener();
-            CreateDicePlayerVampireListener();
-            CreateDicePlayerDisguiseAsPlantListener();
-            CreateDicePlayerRespawnListener();
-            CreateDicePlayerAsChickenListener();
-            CreateDicePlayerMakeHostageSoundsListener();
-            CreateDicePlayerMakeFakeGunSoundsListener();
+            CreateDiceFastBombActionEventHandlers();
+            CreateDicePlayerVampireEventHandler();
+            CreateDicePlayerDisguiseAsPlantEventHandler();
+            CreateDicePlayerRespawnEventHandler();
+            CreateDicePlayerAsChickenEventHandler();
             // print message if hot reload
             if (hotReload)
             {
@@ -59,7 +57,7 @@ namespace RollTheDice
             RemoveListener<Listeners.OnServerPrecacheResources>(OnServerPrecacheResources);
             RemoveDicePlayerDisguiseAsPlantListener();
             RemoveDicePlayerRespawnListener();
-            RemoveDicePlayerAsChickenListener();
+            RemoveDicePlayerAsChickenListeners();
             RemoveDicePlayerMakeHostageSoundsListener();
             RemoveDicePlayerMakeFakeGunSoundsListener();
             Console.WriteLine(Localizer["core.unload"]);
@@ -112,24 +110,24 @@ namespace RollTheDice
             // create dynamic list containing functions to execute for each dice
             _dices = new List<Func<CCSPlayerController, CCSPlayerPawn, string>>
             {
-                DiceIncreaseHealth,
-                DiceDecreaseHealth,
-                DiceIncreaseSpeed,
-                DiceChangeName,
-                DicePlayerInvisible,
-                DicePlayerSuicide,
-                DicePlayerRespawn,
-                DiceStripWeapons,
-                DiceChickenLeader,
-                DiceFastBombAction,
-                DicePlayerVampire,
-                DicePlayerLowGravity,
-                DicePlayerHighGravity,
-                DicePlayerOneHP,
-                DicePlayerDisguiseAsPlant,
+                // DiceIncreaseHealth,
+                // DiceDecreaseHealth,
+                // DiceIncreaseSpeed,
+                // DiceChangeName,
+                // DicePlayerInvisible,
+                // DicePlayerSuicide,
+                // DicePlayerRespawn,
+                // DiceStripWeapons,
+                // DiceChickenLeader,
+                // DiceFastBombAction,
+                // DicePlayerVampire,
+                // DicePlayerLowGravity,
+                // DicePlayerHighGravity,
+                // DicePlayerOneHP,
+                // DicePlayerDisguiseAsPlant,
                 DicePlayerAsChicken,
-                DicePlayerMakeHostageSounds,
-                DicePlayerMakeFakeGunSounds
+                // DicePlayerMakeHostageSounds,
+                // DicePlayerMakeFakeGunSounds
             };
         }
 
