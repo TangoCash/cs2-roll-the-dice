@@ -20,7 +20,7 @@ namespace RollTheDice
             // create listener if not exists
             if (_playersWithFakeGunSounds.Count() == 0) RegisterListener<Listeners.OnTick>(EventDicePlayerMakeFakeGunSoundsOnTick);
             // add player to list
-            _playersWithFakeGunSounds.Add(player, 0);
+            _playersWithFakeGunSounds.Add(player, (int)Server.CurrentTime + Random.Shared.Next(3, 10));
             return Localizer["DicePlayerMakeFakeGunSounds"].Value
                 .Replace("{playerName}", player.PlayerName);
         }
