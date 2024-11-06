@@ -9,10 +9,15 @@ namespace RollTheDice
         private readonly List<(string, string, int, float)> _fakeGunSounds = new()
         {
             ("Deagle", "Weapon_DEagle.Single", 5, 2.0f),
-            ("M249", "Weapon_M249.Single", 15, 1.5f),
+            ("M249", "Weapon_M249.Single", 15, 0.7f),
             ("AWP", "Weapon_AWP.Single", 1, 1f),
             ("Bizon", "Weapon_bizon.Single", 10, 1.5f),
-            ("P90", "Weapon_P90.Single", 15, 1.5f),
+            ("P90", "Weapon_P90.Single", 15, 1.1f),
+            ("G3SG1", "Weapon_G3SG1.Single", 11, 1.1f),
+            ("Negev", "Weapon_Negev.Single", 50, 0.7f),
+            ("Nova", "Weapon_Nova.Single", 3, 2.5f),
+            ("AUG", "Weapon_AUG.Single", 30, 1.1f),
+            ("M4A1", "Weapon_M4A1.Single", 25, 0.9f)
         };
 
         private string DicePlayerMakeFakeGunSounds(CCSPlayerController player, CCSPlayerPawn playerPawn)
@@ -79,7 +84,9 @@ namespace RollTheDice
         {
             playCount += 1;
             CCSPlayerController? player = new CCSPlayerController(playerHandle);
-            if (player == null) return;
+            if (player == null
+                || player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null
+                || player.PlayerPawn.Value.LifeState != (byte)LifeState_t.LIFE_ALIVE) return;
             EmitSound(player, soundName);
             if (playCount >= playTotal) return;
             AddTimer(soundLength, () =>
