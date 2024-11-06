@@ -7,7 +7,7 @@ namespace RollTheDice
     {
         private string DiceDecreaseHealth(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
-            var healthDecrease = _random.Next(10, 30);
+            var healthDecrease = Random.Shared.Next(10, 30);
             playerPawn.Health -= healthDecrease;
             Utilities.SetStateChanged(playerPawn, "CBaseEntity", "m_iHealth");
             return Localizer["DiceDecreaseHealth"].Value

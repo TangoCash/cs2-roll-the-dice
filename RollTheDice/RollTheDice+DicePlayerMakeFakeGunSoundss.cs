@@ -51,10 +51,10 @@ namespace RollTheDice
                     || player.Buttons != 0
                     || player.PlayerPawn.Value.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
                     // get random gun sound entry
-                    var (soundName, playTotal, soundLength) = _fakeGunSounds[_random.Next(_fakeGunSounds.Count)];
+                    var (soundName, playTotal, soundLength) = _fakeGunSounds[Random.Shared.Next(_fakeGunSounds.Count)];
                     EmitFakeGunSounds(player.Handle, soundName, soundLength, playTotal);
                     // reset timer
-                    _playersWithFakeGunSounds[player] = (int)Server.CurrentTime + _random.Next(playTotal * (int)soundLength + 5, (playTotal * (int)soundLength) + 10);
+                    _playersWithFakeGunSounds[player] = (int)Server.CurrentTime + Random.Shared.Next(playTotal * (int)soundLength + 5, (playTotal * (int)soundLength) + 10);
                 }
                 catch (Exception e)
                 {
@@ -75,7 +75,7 @@ namespace RollTheDice
             if (playCount >= playTotal) return;
             AddTimer(soundLength, () =>
             {
-                float randomDelay = (float)(_random.NextDouble() * (soundLength / 4)) + (soundLength / 3);
+                float randomDelay = (float)(Random.Shared.NextDouble() * (soundLength / 4)) + (soundLength / 3);
                 EmitFakeGunSounds(playerHandle, soundName, randomDelay, playTotal, playCount);
             });
         }

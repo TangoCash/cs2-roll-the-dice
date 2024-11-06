@@ -10,7 +10,7 @@ namespace RollTheDice
         private string DiceIncreaseSpeed(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             _playersWithIncreasedSpeed.Add(player);
-            var speedIncrease = _random.NextDouble() * (2.0 - 1.5) + 1.5;
+            var speedIncrease = Random.Shared.NextDouble() * (2.0 - 1.5) + 1.5;
             playerPawn.VelocityModifier *= (float)speedIncrease;
             Utilities.SetStateChanged(playerPawn, "CCSPlayerPawn", "m_flVelocityModifier");
             var percentageIncrease = (speedIncrease - 1.0) * 100;

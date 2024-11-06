@@ -24,7 +24,7 @@ namespace RollTheDice
                 "Jochen Jaguar", "Knut Känguru", "Lothar Löwe", "Martin Marder", "Norbert Nashorn",
                 "Egon Kowalski", "Fritz Fink", "Heinz Hering"
             };
-            var randomName = names[_random.Next(names.Count)];
+            var randomName = names[Random.Shared.Next(names.Count)];
             _playersWithChangedNames.Add(player);
             _playersWithChangedNamesOldNames[player] = player.PlayerName;
             player.PlayerName = randomName;
