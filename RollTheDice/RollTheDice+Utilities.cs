@@ -76,6 +76,7 @@ namespace RollTheDice
             prop.DispatchSpawn();
             prop.SetModel(model);
             prop.Teleport(new Vector(-999, -999, -999));
+            prop.AnimGraphUpdateEnabled = false;
             prop.CBodyComponent!.SceneNode!.Scale = scale;
             return (int)prop.Index;
         }

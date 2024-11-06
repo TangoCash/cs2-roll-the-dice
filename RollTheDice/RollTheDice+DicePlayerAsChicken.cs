@@ -1,3 +1,4 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 
 namespace RollTheDice
@@ -12,7 +13,7 @@ namespace RollTheDice
             if (_playersAsChicken.ContainsKey(player)) return Localizer["command.rollthedice.error"].Value.Replace("{playerName}", player.PlayerName);
             _playersAsChicken.Add(player, new Dictionary<string, string>());
             _playersAsChicken[player]["old_model"] = GetPlayerModel(playerPawn);
-            _playersAsChicken[player]["prop"] = SpawnProp(player, _playersAsChickenModel, 5.0f).ToString();
+            _playersAsChicken[player]["prop"] = SpawnProp(player, _playersAsChickenModel, 5.2f).ToString();
             MakePlayerInvisible(player);
             return Localizer["DicePlayerAsChicken"].Value
                 .Replace("{playerName}", player.PlayerName);
@@ -32,12 +33,14 @@ namespace RollTheDice
         private void CreateDicePlayerAsChickenListener()
         {
             RegisterListener<Listeners.OnTick>(EventDicePlayerAsChickenOnTick);
+            RegisterListener<Listeners.CheckTransmit>(EventDicePlayerAsChickenCheckTransmit);
             RegisterEventHandler<EventPlayerDeath>(EventDicePlayerAsChickenOnPlayerDeath);
         }
 
         private void RemoveDicePlayerAsChickenListener()
         {
             RemoveListener<Listeners.OnTick>(EventDicePlayerAsChickenOnTick);
+            RemoveListener<Listeners.CheckTransmit>(EventDicePlayerAsChickenCheckTransmit);
         }
 
         private void EventDicePlayerAsChickenOnTick()
@@ -66,6 +69,18 @@ namespace RollTheDice
                     // log error
                     Console.WriteLine(Localizer["core.error"].Value.Replace("{error}", e.Message));
                 }
+            }
+        }
+
+        private void EventDicePlayerAsChickenCheckTransmit(CCheckTransmitInfoList infoList)
+        {
+            foreach ((CCheckTransmitInfo info, CCSPlayerController? player) in infoList)
+            {
+                if (player == null) continue;
+                if (!_playersAsChicken.ContainsKey(player)) continue;
+                var prop = Utilities.GetEntityFromIndex<CDynamicProp>(int.Parse(_playersAsChicken[player]["prop"]));
+                if (prop == null) continue;
+                info.TransmitEntities.Remove(prop);
             }
         }
 
