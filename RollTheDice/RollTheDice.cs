@@ -23,6 +23,8 @@ namespace RollTheDice
             LoadConfig();
             UpdateConfig();
             SaveConfig();
+            // initialize sounds
+            InitializeEmitSound();
             // register listeners
             RegisterEventHandler<EventRoundStart>(OnRoundStart);
             RegisterEventHandler<EventRoundEnd>(OnRoundEnd);
@@ -34,6 +36,7 @@ namespace RollTheDice
             CreateDicePlayerDisguiseAsPlantListener();
             CreateDicePlayerRespawnListener();
             CreateDicePlayerAsChickenListener();
+            CreateDicePlayerMakeHostageSoundsListener();
             // print message if hot reload
             if (hotReload)
             {
@@ -57,6 +60,7 @@ namespace RollTheDice
             RemoveDicePlayerDisguiseAsPlantListener();
             RemoveDicePlayerRespawnListener();
             RemoveDicePlayerAsChickenListener();
+            RemoveDicePlayerMakeHostageSoundsListener();
             Console.WriteLine(Localizer["core.unload"]);
         }
 
@@ -122,7 +126,8 @@ namespace RollTheDice
                 DicePlayerHighGravity,
                 DicePlayerOneHP,
                 DicePlayerDisguiseAsPlant,
-                DicePlayerAsChicken
+                DicePlayerAsChicken,
+                DicePlayerMakeHostageSounds
             };
         }
 
@@ -136,6 +141,7 @@ namespace RollTheDice
             ResetDicePlayerDisguiseAsPlant();
             ResetDicePlayerRespawn();
             ResetDicePlayerAsChicken();
+            ResetDicePlayerMakeHostageSounds();
         }
 
         private int GetRandomDice()

@@ -29,5 +29,6 @@
     "DicePlayerVampire": "{purple}[WürfelSpiel] {green}{playerName} {default}ist ein Vampir geworden!",
     "DiceStripWeapons": "{purple}[WürfelSpiel] {green}{playerName} {default}hat alle Waffen verloren!",
     "DicePlayerDisguiseAsPlant": "{purple}[WürfelSpiel] {green}{playerName} {default}ist ein {green}{model} {default}wenn er still steht!",
-    "DicePlayerAsChicken": "{purple}[WürfelSpiel] {green}{playerName} {default}ist ein großes Huhn!"
+    "DicePlayerAsChicken": "{purple}[WürfelSpiel] {green}{playerName} {default}ist ein großes Huhn!",
+    "DicePlayerMakeHostageSounds": "{purple}[WürfelSpiel] {green}{playerName} {default}ist eine maulige Geisel!"
 }
