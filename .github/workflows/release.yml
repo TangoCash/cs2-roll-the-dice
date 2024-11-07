@@ -62,7 +62,7 @@ jobs:
 
     - name: Zip release
       if: env.new_version == 'true'
-      run: cd /home/runner/work/${{ env.REPOSITORY_NAME }}/${{ env.REPOSITORY_NAME }}/${{ env.REPOSITORY_FOLDER }}/bin/Release/net8.0 && zip -r /home/runner/work/${{ github.repository }}-${{ env.version }}.zip ${{ env.REPOSITORY_FOLDER }}
+      run: cd /home/runner/work/${{ env.REPOSITORY_NAME }}/${{ env.REPOSITORY_NAME }}/${{ env.REPOSITORY_FOLDER }}/bin/Release/net8.0 && zip -r /home/runner/work/${{ env.REPOSITORY_NAME }}-${{ env.version }}.zip ${{ env.REPOSITORY_FOLDER }}
 
     - name: Get release notes
       if: env.new_version == 'true'
@@ -91,6 +91,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.UPLOAD_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: /home/runner/work/{{ env.REPOSITORY_NAME }}-${{ env.version }}.zip
-        asset_name: ${{ github.repository }}-${{ env.version }}.zip
+        asset_path: /home/runner/work/${{ env.REPOSITORY_NAME }}-${{ env.version }}.zip
+        asset_name: ${{ env.REPOSITORY_NAME }}-${{ env.version }}.zip
         asset_content_type: application/zip
