@@ -38,7 +38,7 @@ namespace RollTheDice
                     int delay = Random.Shared.Next(3, 6);
                     AddTimer(delay, () =>
                     {
-                        if (particle == null) return;
+                        if (particle == null || !particle.IsValid) return;
                         particle.AcceptInput("Kill");
                         particle.Remove();
                     });
