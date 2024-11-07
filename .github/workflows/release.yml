@@ -58,7 +58,7 @@ jobs:
     - name: Rename release directory
       if: env.new_version == 'true'
       run: |
-        mv /home/runner/work/${{ env.REPOSITORY_NAME }}/${{ env.REPOSITORY_NAME }}/${{ env.REPOSITORY_FOLDER }}/bin/Release/net8.0/publish/ /home/runner/work/${{ github.repository }}/${{ github.repository }}/${{ env.REPOSITORY_FOLDER }}/bin/Release/net8.0/${{ env.REPOSITORY_FOLDER }}/
+        mv /home/runner/work/${{ env.REPOSITORY_NAME }}/${{ env.REPOSITORY_NAME }}/${{ env.REPOSITORY_FOLDER }}/bin/Release/net8.0/publish/ /home/runner/work/${{ env.REPOSITORY_NAME }}/${{ env.REPOSITORY_NAME }}/${{ env.REPOSITORY_FOLDER }}/bin/Release/net8.0/${{ env.REPOSITORY_FOLDER }}/
 
     - name: Zip release
       if: env.new_version == 'true'
