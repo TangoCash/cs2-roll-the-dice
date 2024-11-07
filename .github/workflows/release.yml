@@ -50,11 +50,11 @@ jobs:
     - name: Rename release directory
       if: env.new_version == 'true'
       run: |
-        mv /home/runner/work/cs2-map-modifiers/cs2-map-modifiers/RollTheDice/bin/Release/net8.0/publish/ /home/runner/work/cs2-map-modifiers/cs2-map-modifiers/RollTheDice/bin/Release/net8.0/RollTheDice/
+        mv /home/runner/work/cs2-roll-the-dice/cs2-roll-the-dice/RollTheDice/bin/Release/net8.0/publish/ /home/runner/work/cs2-roll-the-dice/cs2-roll-the-dice/RollTheDice/bin/Release/net8.0/RollTheDice/
 
     - name: Zip release
       if: env.new_version == 'true'
-      run: cd /home/runner/work/cs2-map-modifiers/cs2-map-modifiers/RollTheDice/bin/Release/net8.0 && zip -r /home/runner/work/cs2-roll-the-dice-${{ env.version }}.zip RollTheDice
+      run: cd /home/runner/work/cs2-roll-the-dice/cs2-roll-the-dice/RollTheDice/bin/Release/net8.0 && zip -r /home/runner/work/cs2-roll-the-dice-${{ env.version }}.zip RollTheDice
 
     - name: Get release notes
       if: env.new_version == 'true'
