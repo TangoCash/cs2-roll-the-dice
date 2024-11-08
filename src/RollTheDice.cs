@@ -7,7 +7,7 @@ namespace RollTheDice
     {
         public override string ModuleName => "Roll The Dice";
         public override string ModuleAuthor => "Jon-Mailes Graeffe <mail@jonni.it> / Kalle <kalle@kandru.de>";
-        public override string ModuleVersion => "1.0.3";
+        public override string ModuleVersion => "1.0.4";
 
         private string _currentMap = "";
         private List<CCSPlayerController> _playersThatRolledTheDice = new();

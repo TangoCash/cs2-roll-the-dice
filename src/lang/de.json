@@ -9,7 +9,7 @@
     "core.nodicesenabled": "{purple}[WürfelSpiel] {default}Keine Würfel aktiviert! Bitte aktiviere mindestens einen Würfel in der Konfiguration!",
     "core.disabled": "{purple}[WürfelSpiel] {default}Würfelspiel ist deaktiviert!",
     "command.rollthedice.noactiveround": "{purple}[WürfelSpiel] {default}Runde ist nicht gestartet!",
-    "command.rollthedice.notalive": "[WürfelSpiel] Du musst am Leben sein, um zu würfeln!",
+    "command.rollthedice.notalive": "{purple}[WürfelSpiel] {default}Du musst am Leben sein, um zu würfeln!",
     "command.rollthedice.alreadyrolled": "{purple}[WürfelSpiel] {default}Du hast in dieser Runde bereits gewürfelt!",
     "command.rollthedice.error": "{purple}[WürfelSpiel] {green}{playerName} {default}konnte nicht würfeln :(",
     "DiceChangeName": "{purple}[WürfelSpiel] {green}{playerName} {default}hat seinen Namen in {green}{randomName} {default}geändert!",
