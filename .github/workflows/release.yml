@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  REPOSITORY_FOLDER: "RollTheDice" # subfolder with source code
+  REPOSITORY_FOLDER: "src" # subfolder with source code
 
 jobs:
   create-release:
