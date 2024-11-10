@@ -16,6 +16,7 @@ namespace RollTheDice
                 if (weapon.Value == null || weapon.Value != null && weapon.Value.DesignerName == null) continue;
                 // ignore knife and C4
                 if (weapon.Value!.DesignerName == $"weapon_{CsItem.C4.ToString().ToLower()}"
+                    || weapon.Value!.DesignerName == $"weapon_{CsItem.Bomb.ToString().ToLower()}"
                     || weapon.Value!.DesignerName == "weapon_knife" // necessary because CsItem.Knife is not always this value
                     || weapon.Value!.DesignerName == $"weapon_{CsItem.Knife.ToString().ToLower()}"
                     || weapon.Value!.DesignerName == $"weapon_{CsItem.KnifeCT.ToString().ToLower()}"
