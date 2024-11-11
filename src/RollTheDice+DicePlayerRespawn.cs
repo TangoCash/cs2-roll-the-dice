@@ -1,5 +1,6 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace RollTheDice
 {
@@ -25,6 +26,7 @@ namespace RollTheDice
         private void CreateDicePlayerRespawnEventHandler()
         {
             RegisterEventHandler<EventPlayerDeath>(EventDicePlayerRespawnOnPlayerDeath);
+            RegisterEventHandler<EventPlayerTeam>(EventDicePlayerRespawnOnPlayerTeam);
         }
 
         private void RemoveDicePlayerRespawnListener()
@@ -112,6 +114,16 @@ namespace RollTheDice
             }
             // save weapons to string separated by comma for respawn
             _playersWithRespawnAbility[player]["weapons"] = string.Join(",", tmpWeaponList);
+            return HookResult.Continue;
+        }
+
+        private HookResult EventDicePlayerRespawnOnPlayerTeam(EventPlayerTeam @event, GameEventInfo info)
+        {
+            if (@event.Team != (byte)CsTeam.Spectator && @event.Team != (byte)CsTeam.None) return HookResult.Continue;
+            var player = @event.Userid;
+            if (player == null) return HookResult.Continue;
+            if (!_playersWithRespawnAbility.ContainsKey(player)) return HookResult.Continue;
+            _playersWithRespawnAbility.Remove(player);
             return HookResult.Continue;
         }
     }
