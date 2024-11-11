@@ -46,7 +46,7 @@ namespace RollTheDice
             }
         }
 
-        public override void Unload()
+        public override void Unload(bool hotReload)
         {
             // reset dice rolls on unload
             ResetDices();
