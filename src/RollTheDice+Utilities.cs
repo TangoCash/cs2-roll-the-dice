@@ -70,8 +70,10 @@ namespace RollTheDice
             CDynamicProp prop;
             prop = Utilities.CreateEntityByName<CDynamicProp>("prop_dynamic_override")!;
             // set attributes
+            prop.MoveType = MoveType_t.MOVETYPE_NOCLIP;
             prop.Collision.SolidType = SolidType_t.SOLID_NONE;
             prop.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_NONE;
+            prop.Collision.CollisionAttribute.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_NONE;
             // spawn it
             prop.DispatchSpawn();
             prop.SetModel(model);
