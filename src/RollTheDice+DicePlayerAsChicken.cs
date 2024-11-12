@@ -83,8 +83,8 @@ namespace RollTheDice
                     // make sound if time
                     if (int.Parse(_playersAsChicken[player]["next_sound"]) <= (int)Server.CurrentTime)
                     {
-                        EmitSound(player, _chickenSounds[Random.Shared.Next(_chickenSounds.Count)]);
-                        _playersAsChicken[player]["next_sound"] = $"{(int)Server.CurrentTime + Random.Shared.Next(2, 5)}";
+                        EmitSound(player, _chickenSounds[_random.Next(_chickenSounds.Count)]);
+                        _playersAsChicken[player]["next_sound"] = $"{(int)Server.CurrentTime + _random.Next(2, 5)}";
                     }
                 }
                 catch (Exception e)

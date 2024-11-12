@@ -12,6 +12,7 @@ namespace RollTheDice
         private List<CCSPlayerController> _playersThatRolledTheDice = new();
         private List<Func<CCSPlayerController, CCSPlayerPawn, string>> _dices = new();
         private bool _isDuringRound = false;
+        Random _random = new Random(Guid.NewGuid().GetHashCode());
 
         public override void Load(bool hotReload)
         {
@@ -169,7 +170,7 @@ namespace RollTheDice
                 .ToList();
             if (enabledDiceIndices.Count == 0) return -1;
             // Get random dice from enabled dices
-            return enabledDiceIndices[Random.Shared.Next(enabledDiceIndices.Count)];
+            return enabledDiceIndices[_random.Next(enabledDiceIndices.Count)];
         }
     }
 }

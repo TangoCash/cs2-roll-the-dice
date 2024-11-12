@@ -7,7 +7,7 @@ namespace RollTheDice
     {
         private string DiceIncreaseHealth(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
-            var healthIncrease = Random.Shared.Next(10, 30);
+            var healthIncrease = _random.Next(10, 30);
             if (playerPawn.Health + healthIncrease > playerPawn.MaxHealth)
             {
                 playerPawn.MaxHealth = playerPawn.Health + healthIncrease;

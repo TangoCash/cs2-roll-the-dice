@@ -35,7 +35,7 @@ namespace RollTheDice
                         particle.AcceptInput("Start");
                     });
                     // remove fire after some seconds
-                    int delay = Random.Shared.Next(3, 6);
+                    int delay = _random.Next(3, 6);
                     AddTimer(delay, () =>
                     {
                         if (particle == null || !particle.IsValid) return;

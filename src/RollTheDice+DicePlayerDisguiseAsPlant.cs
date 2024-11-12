@@ -28,7 +28,7 @@ namespace RollTheDice
             // add player to list
             _playersDisguisedAsPlants.Add(player, new Dictionary<string, string>());
             _playersDisguisedAsPlants[player]["status"] = "player";
-            var randomKey = _playersDisguisedAsPlantsModels.Keys.ElementAt(Random.Shared.Next(0, _playersDisguisedAsPlantsModels.Count));
+            var randomKey = _playersDisguisedAsPlantsModels.Keys.ElementAt(_random.Next(0, _playersDisguisedAsPlantsModels.Count));
             _playersDisguisedAsPlants[player]["prop"] = SpawnProp(
                 player,
                 _playersDisguisedAsPlantsModels[randomKey]["model"].ToString()!

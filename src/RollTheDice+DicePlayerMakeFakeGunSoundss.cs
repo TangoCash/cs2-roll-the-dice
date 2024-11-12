@@ -25,7 +25,7 @@ namespace RollTheDice
             // create listener if not exists
             if (_playersWithFakeGunSounds.Count() == 0) RegisterListener<Listeners.OnTick>(EventDicePlayerMakeFakeGunSoundsOnTick);
             // add player to list
-            _playersWithFakeGunSounds.Add(player, (int)Server.CurrentTime + Random.Shared.Next(3, 10));
+            _playersWithFakeGunSounds.Add(player, (int)Server.CurrentTime + _random.Next(3, 10));
             return Localizer["DicePlayerMakeFakeGunSounds"].Value
                 .Replace("{playerName}", player.PlayerName);
         }
@@ -61,14 +61,14 @@ namespace RollTheDice
                     || player.Buttons != 0
                     || player.PlayerPawn.Value.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
                     // get random gun sound entry
-                    var (weaponName, soundName, playTotal, soundLength) = _fakeGunSounds[Random.Shared.Next(_fakeGunSounds.Count)];
+                    var (weaponName, soundName, playTotal, soundLength) = _fakeGunSounds[_random.Next(_fakeGunSounds.Count)];
                     EmitFakeGunSounds(player.Handle, soundName, soundLength, playTotal);
                     // let everyone know
                     SendGlobalChatMessage(Localizer["DicePlayerMakeFakeGunSoundsWeapon"].Value
                         .Replace("{playerName}", player.PlayerName)
                         .Replace("{weapon}", weaponName));
                     // reset timer
-                    _playersWithFakeGunSounds[player] = (int)Server.CurrentTime + Random.Shared.Next(playTotal * (int)soundLength + 5, (playTotal * (int)soundLength) + 10);
+                    _playersWithFakeGunSounds[player] = (int)Server.CurrentTime + _random.Next(playTotal * (int)soundLength + 5, (playTotal * (int)soundLength) + 10);
                 }
                 catch (Exception e)
                 {
@@ -91,7 +91,7 @@ namespace RollTheDice
             if (playCount >= playTotal) return;
             AddTimer(soundLength, () =>
             {
-                float randomDelay = (float)(Random.Shared.NextDouble() * (soundLength / 4)) + (soundLength / 3);
+                float randomDelay = (float)(_random.NextDouble() * (soundLength / 4)) + (soundLength / 3);
                 EmitFakeGunSounds(playerHandle, soundName, randomDelay, playTotal, playCount);
             });
         }
