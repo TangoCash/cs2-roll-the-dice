@@ -1,5 +1,5 @@
 {
-    "core.hotreload": "[RollTheDice] Hot-Reloaded RollTheDice Plugin! Rolling from next round!",
+    "core.hotreload": "{purple}[RollTheDice] {default}Hot-Reloaded RollTheDice Plugin! Rolling from next round!",
     "core.unload": "[RollTheDice] Unloaded RollTheDice Plugin!",
     "core.defaultconfig": "[RollTheDice] Found no map-specific configuration for {mapName}, using default one!",
     "core.noconfig": "[RollTheDice] No map-specific configuration for {mapName} or default one found. Skipping!",
@@ -30,7 +30,7 @@
     "DiceStripWeapons": "{purple}[RollTheDice] {green}{playerName} {default}lost all weapons!",
     "DicePlayerDisguiseAsPlant": "{purple}[RollTheDice] {green}{playerName} {default}becomes a {green}{model} {default}if he does not move!",
     "DicePlayerAsChicken": "{purple}[RollTheDice] {green}{playerName} {default}becomes a big chicken!",
-    "DicePlayerMakeHostageSounds": "{purple[RollTheDice] {green}{playerName} {default}becomes a grumpy hostage!",
-    "DicePlayerMakeFakeGunSounds": "{purple[RollTheDice] {green}{playerName} {default}is on a shooting range!",
+    "DicePlayerMakeHostageSounds": "{purple}[RollTheDice] {green}{playerName} {default}becomes a grumpy hostage!",
+    "DicePlayerMakeFakeGunSounds": "{purple}[RollTheDice] {green}{playerName} {default}is on a shooting range!",
     "DicePlayerMakeFakeGunSoundsWeapon": "{purple}[RollTheDice] {green}{playerName} {default}is trying the {green}{weapon}{default}!"
 }
