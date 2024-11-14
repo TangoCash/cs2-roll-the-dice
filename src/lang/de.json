@@ -8,6 +8,7 @@
     "core.error": "{purple}[WürfelSpiel] {default}Fehler: {error}",
     "core.nodicesenabled": "{purple}[WürfelSpiel] {default}Keine Würfel aktiviert! Bitte aktiviere mindestens einen Würfel in der Konfiguration!",
     "core.disabled": "{purple}[WürfelSpiel] {default}Würfelspiel ist deaktiviert!",
+    "command.rollthedice.iswarmup": "{purple}[WürfelSpiel] {default}Im Warm-Up deaktiviert!",
     "command.rollthedice.noactiveround": "{purple}[WürfelSpiel] {default}Runde ist nicht gestartet!",
     "command.rollthedice.notalive": "{purple}[WürfelSpiel] {default}Du musst am Leben sein, um zu würfeln!",
     "command.rollthedice.alreadyrolled": "{purple}[WürfelSpiel] {default}Du hast in dieser Runde bereits gewürfelt!",

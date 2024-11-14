@@ -20,7 +20,13 @@ namespace RollTheDice
                 command.ReplyToCommand(Localizer["core.disabled"]);
                 return;
             }
-            if (!_isDuringRound || (bool)GetGameRule("WarmupPeriod")!)
+            if ((bool)GetGameRule("WarmupPeriod")!)
+            {
+                if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.iswarmup"]);
+                command.ReplyToCommand(Localizer["command.rollthedice.iswarmup"]);
+                return;
+            }
+            if (!_isDuringRound)
             {
                 if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.noactiveround"]);
                 command.ReplyToCommand(Localizer["command.rollthedice.noactiveround"]);
