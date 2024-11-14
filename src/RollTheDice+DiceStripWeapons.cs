@@ -13,7 +13,6 @@ namespace RollTheDice
             {
                 // ignore unknown weapons
                 if (weapon.Value == null || weapon.Value != null && weapon.Value.DesignerName == null) continue;
-                Console.WriteLine(weapon.Value!.DesignerName);
                 if (weapon.Value!.DesignerName == $"weapon_{CsItem.C4.ToString().ToLower()}"
                     || weapon.Value!.DesignerName == $"weapon_{CsItem.Bomb.ToString().ToLower()}")
                 {
@@ -23,8 +22,13 @@ namespace RollTheDice
                     player.DropActiveWeapon();
                 }
             }
-            player.RemoveWeapons();
-            player.GiveNamedItem("weapon_knife");
+            AddTimer(0.1f, () =>
+            {
+                if (player == null || !player.IsValid) return;
+                player.RemoveWeapons();
+                player.GiveNamedItem("weapon_knife");
+            });
+
             return Localizer["DiceStripWeapons"].Value
                 .Replace("{playerName}", player.PlayerName);
         }
