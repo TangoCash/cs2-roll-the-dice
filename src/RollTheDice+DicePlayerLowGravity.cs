@@ -8,7 +8,7 @@ namespace RollTheDice
 
         private string DicePlayerLowGravity(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
-            playerPawn.GravityScale = 0.5f;
+            playerPawn.GravityScale = 0.4f;
             return Localizer["DicePlayerLowGravity"].Value
                 .Replace("{playerName}", player.PlayerName);
         }
