@@ -58,6 +58,7 @@ namespace RollTheDice
 
         private void RemoveDicePlayerDisguiseAsPlantListener()
         {
+            DeregisterEventHandler<EventPlayerDeath>(EventDicePlayerDisguiseAsPlantOnPlayerDeath);
             RemoveListener<Listeners.OnTick>(EventDicePlayerDisguiseAsPlantOnTick);
         }
 

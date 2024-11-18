@@ -53,9 +53,13 @@ namespace RollTheDice
             // reset dice rolls on unload
             ResetDices();
             // unregister listeners
+            DeregisterEventHandler<EventRoundStart>(OnRoundStart);
+            DeregisterEventHandler<EventRoundEnd>(OnRoundEnd);
             RemoveListener<Listeners.OnMapStart>(OnMapStart);
             RemoveListener<Listeners.OnMapEnd>(OnMapEnd);
             RemoveListener<Listeners.OnServerPrecacheResources>(OnServerPrecacheResources);
+            RemoveDiceFastBombActionEventHandlers();
+            RemoveDicePlayerVampireEventHandler();
             RemoveDicePlayerDisguiseAsPlantListener();
             RemoveDicePlayerRespawnListener();
             RemoveDicePlayerAsChickenListeners();

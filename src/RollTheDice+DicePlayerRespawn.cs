@@ -31,6 +31,8 @@ namespace RollTheDice
 
         private void RemoveDicePlayerRespawnListener()
         {
+            DeregisterEventHandler<EventPlayerDeath>(EventDicePlayerRespawnOnPlayerDeath);
+            DeregisterEventHandler<EventPlayerTeam>(EventDicePlayerRespawnOnPlayerTeam);
             RemoveListener<Listeners.OnTick>(EventDicePlayerRespawnOnTick);
         }
 
