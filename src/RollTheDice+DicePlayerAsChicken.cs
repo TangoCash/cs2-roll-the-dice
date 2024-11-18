@@ -78,7 +78,8 @@ namespace RollTheDice
                     // update prop every tick to ensure synchroneity
                     UpdateProp(
                         player,
-                        int.Parse(playerData["prop"])
+                        int.Parse(playerData["prop"]),
+                        (player.Buttons & PlayerButtons.Duck) != 0 ? -18 : 0
                     );
                     // make sound if time
                     if (int.Parse(_playersAsChicken[player]["next_sound"]) <= (int)Server.CurrentTime)
