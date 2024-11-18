@@ -35,6 +35,7 @@ namespace RollTheDice
             CreateDicePlayerDisguiseAsPlantEventHandler();
             CreateDicePlayerRespawnEventHandler();
             CreateDicePlayerAsChickenEventHandler();
+            CreateDiceBigTaserBatteryEventHandler();
             // print message if hot reload
             if (hotReload)
             {
@@ -60,6 +61,7 @@ namespace RollTheDice
             RemoveDicePlayerAsChickenListeners();
             RemoveDicePlayerMakeHostageSoundsListener();
             RemoveDicePlayerMakeFakeGunSoundsListener();
+            RemoveDiceBigTaserBatteryListeners();
             Console.WriteLine(Localizer["core.unload"]);
         }
 
@@ -127,7 +129,8 @@ namespace RollTheDice
                 DicePlayerDisguiseAsPlant,
                 DicePlayerAsChicken,
                 DicePlayerMakeHostageSounds,
-                DicePlayerMakeFakeGunSounds
+                DicePlayerMakeFakeGunSounds,
+                DiceBigTaserBattery
             };
         }
 
@@ -143,6 +146,7 @@ namespace RollTheDice
             ResetDicePlayerAsChicken();
             ResetDicePlayerMakeHostageSounds();
             ResetDicePlayerMakeFakeGunSounds();
+            ResetDiceBigTaserBattery();
         }
 
         private int GetRandomDice()
