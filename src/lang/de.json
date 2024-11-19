@@ -36,5 +36,6 @@
     "DicePlayerMakeFakeGunSoundsWeapon": "{purple}[WürfelSpiel] {green}{playerName} {default}probiert die {green}{weapon}{default}!",
     "DiceBigTaserBattery": "{purple}[WürfelSpiel] {green}{playerName} {default}hat {green}{batterySize} {default}Taser-Schüsse!",
     "DicePlayerCloak": "{purple}[WürfelSpiel] {green}{playerName} {default}hat einen Tarnmantel!",
-    "DiceGiveHealthShot": "{purple}[WürfelSpiel] {green}{playerName} {default}hat {amount}x Gesundheitsspritze(n) erhalten!"
+    "DiceGiveHealthShot": "{purple}[WürfelSpiel] {green}{playerName} {default}hat {amount}x Gesundheitsspritze(n) erhalten!",
+    "DiceNoExplosives": "{purple}[WürfelSpiel] {green}{playerName} {default}kann keine Granaten benutzen!"
 }
