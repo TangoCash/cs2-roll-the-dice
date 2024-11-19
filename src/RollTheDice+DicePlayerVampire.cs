@@ -32,7 +32,8 @@ namespace RollTheDice
         private HookResult EventDicePlayerVampireOnPlayerHurt(EventPlayerHurt @event, GameEventInfo info)
         {
             var attacker = @event.Attacker;
-            if (attacker == null) return HookResult.Continue;
+            var victim = @event.Userid;
+            if (attacker == null || victim == null) return HookResult.Continue;
             var playerPawn = attacker.PlayerPawn.Value;
             if (playerPawn == null) return HookResult.Continue;
             if (!_playerVampires.Contains(attacker)) return HookResult.Continue;
