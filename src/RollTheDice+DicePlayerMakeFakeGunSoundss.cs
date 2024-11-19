@@ -14,7 +14,7 @@ namespace RollTheDice
             ("Bizon", "Weapon_bizon.Single", 10, 1.5f),
             ("P90", "Weapon_P90.Single", 15, 1.1f),
             ("G3SG1", "Weapon_G3SG1.Single", 11, 1.1f),
-            ("Negev", "Weapon_Negev.Single", 50, 0.7f),
+            ("Negev", "Weapon_Negev.Single", 35, 0.7f),
             ("Nova", "Weapon_Nova.Single", 3, 2.5f),
             ("AUG", "Weapon_AUG.Single", 30, 1.1f),
             ("M4A1", "Weapon_M4A1.Single", 25, 0.9f)
@@ -68,7 +68,7 @@ namespace RollTheDice
                         .Replace("{playerName}", player.PlayerName)
                         .Replace("{weapon}", weaponName));
                     // reset timer
-                    _playersWithFakeGunSounds[player] = (int)Server.CurrentTime + _random.Next(playTotal * (int)soundLength + 5, (playTotal * (int)soundLength) + 10);
+                    _playersWithFakeGunSounds[player] = (int)Server.CurrentTime + _random.Next(playTotal * (int)soundLength + 2, (playTotal * (int)soundLength));
                 }
                 catch (Exception e)
                 {
