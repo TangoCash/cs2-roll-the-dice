@@ -10,6 +10,7 @@ namespace RollTheDice
         {
             int battery = _random.Next(2, 10);
             _playersWithBigTaserBattery.Add(player, battery);
+            player.GiveNamedItem("weapon_taser");
             return Localizer["DiceBigTaserBattery"].Value
                 .Replace("{playerName}", player.PlayerName)
                 .Replace("{batterySize}", battery.ToString());
