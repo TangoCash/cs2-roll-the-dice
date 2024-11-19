@@ -136,7 +136,8 @@ namespace RollTheDice
                 DicePlayerMakeHostageSounds,
                 DicePlayerMakeFakeGunSounds,
                 DiceBigTaserBattery,
-                DicePlayerCloak
+                DicePlayerCloak,
+                DiceGiveHealthShot
             };
         }
 
