@@ -66,6 +66,7 @@ namespace RollTheDice
             RemoveDicePlayerMakeHostageSoundsListener();
             RemoveDicePlayerMakeFakeGunSoundsListener();
             RemoveDiceBigTaserBatteryListeners();
+            RemoveDicePlayerCloakListeners();
             Console.WriteLine(Localizer["core.unload"]);
         }
 
@@ -134,7 +135,8 @@ namespace RollTheDice
                 DicePlayerAsChicken,
                 DicePlayerMakeHostageSounds,
                 DicePlayerMakeFakeGunSounds,
-                DiceBigTaserBattery
+                DiceBigTaserBattery,
+                DicePlayerCloak
             };
         }
 
@@ -151,6 +153,7 @@ namespace RollTheDice
             ResetDicePlayerMakeHostageSounds();
             ResetDicePlayerMakeFakeGunSounds();
             ResetDiceBigTaserBattery();
+            ResetDicePlayerCloak();
         }
 
         private int GetRandomDice()

@@ -34,5 +34,6 @@
     "DicePlayerMakeHostageSounds": "{purple}[WürfelSpiel] {green}{playerName} {default}ist eine maulige Geisel!",
     "DicePlayerMakeFakeGunSounds": "{purple}[WürfelSpiel] {green}{playerName} {default}ist auf dem Schießstand!",
     "DicePlayerMakeFakeGunSoundsWeapon": "{purple}[WürfelSpiel] {green}{playerName} {default}probiert die {green}{weapon}{default}!",
-    "DiceBigTaserBattery": "{purple}[WürfelSpiel] {green}{playerName} {default}hat {green}{batterySize} {default}Taser-Schüsse!"
+    "DiceBigTaserBattery": "{purple}[WürfelSpiel] {green}{playerName} {default}hat {green}{batterySize} {default}Taser-Schüsse!",
+    "DicePlayerCloak": "{purple}[WürfelSpiel] {green}{playerName} {default}hat einen Tarnmantel!"
 }

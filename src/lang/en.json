@@ -34,5 +34,6 @@
     "DicePlayerMakeHostageSounds": "{purple}[RollTheDice] {green}{playerName} {default}becomes a grumpy hostage!",
     "DicePlayerMakeFakeGunSounds": "{purple}[RollTheDice] {green}{playerName} {default}is on a shooting range!",
     "DicePlayerMakeFakeGunSoundsWeapon": "{purple}[RollTheDice] {green}{playerName} {default}is trying the {green}{weapon}{default}!",
-    "DiceBigTaserBattery": "{purple}[RollTheDice] {green}{playerName} {default}has {green}{batterySize}{default} taser shots!"
+    "DiceBigTaserBattery": "{purple}[RollTheDice] {green}{playerName} {default}has {green}{batterySize}{default} taser shots!",
+    "DicePlayerCloak": "{purple}[RollTheDice] {green}{playerName} {default}got a cloak!"
 }
