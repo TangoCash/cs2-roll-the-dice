@@ -40,7 +40,6 @@ namespace RollTheDice
 
         private void DiceNoExplosivesOnEntitySpawned(CEntityInstance entity)
         {
-            if (entity.DesignerName != null) Console.WriteLine(entity.DesignerName);
             // remove listener if no players to save resources
             if (_playersWithoutExplosives.Count == 0)
             {
