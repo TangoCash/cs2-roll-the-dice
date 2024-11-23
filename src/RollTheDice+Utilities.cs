@@ -8,22 +8,22 @@ namespace RollTheDice
 {
     public partial class RollTheDice : BasePlugin
     {
-        public void SendGlobalChatMessage(string message, float delay = 0)
+        public void SendGlobalChatMessage(string message, float delay = 0, CCSPlayerController? player = null)
         {
-            foreach (CCSPlayerController player in Utilities.GetPlayers())
+            foreach (CCSPlayerController entry in Utilities.GetPlayers())
             {
-                if (player.IsBot) continue;
-                AddTimer(delay, () => player.PrintToChat(message));
+                if (entry.IsBot || entry == player) continue;
+                AddTimer(delay, () => entry.PrintToChat(message));
             }
         }
 
-        public void SendGlobalCenterMessage(string message, float delay = 0, bool alert = false)
+        public void SendGlobalCenterMessage(string message, float delay = 0, bool alert = false, CCSPlayerController? player = null)
         {
-            foreach (CCSPlayerController player in Utilities.GetPlayers())
+            foreach (CCSPlayerController entry in Utilities.GetPlayers())
             {
-                if (player.IsBot) continue;
-                if (alert) AddTimer(delay, () => player.PrintToCenterAlert(message));
-                else AddTimer(delay, () => player.PrintToCenterHtml(message));
+                if (entry.IsBot || entry == player) continue;
+                if (alert) AddTimer(delay, () => entry.PrintToCenterAlert(message));
+                else AddTimer(delay, () => entry.PrintToCenterHtml(message));
             }
         }
 

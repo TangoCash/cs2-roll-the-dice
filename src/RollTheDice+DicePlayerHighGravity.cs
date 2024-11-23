@@ -9,7 +9,8 @@ namespace RollTheDice
             playerPawn.GravityScale = 4f;
             return new Dictionary<string, string>
             {
-                {"_translation", "DicePlayerHighGravity"},
+                {"_translation_player", "DicePlayerHighGravityPlayer"},
+                {"_translation_other", "DicePlayerHighGravity"},
                 { "playerName", player.PlayerName }
             };
         }

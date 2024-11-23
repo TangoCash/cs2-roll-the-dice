@@ -16,7 +16,8 @@ namespace RollTheDice
                 _playersCanInstantPlant.Add(player);
                 return new Dictionary<string, string>
                 {
-                    {"_translation", "DiceFastBombActionT"},
+                    {"_translation_player", "DiceFastBombActionTPlayer"},
+                    {"_translation_other", "DiceFastBombActionT"},
                     { "playerName", player.PlayerName }
                 };
             }
@@ -25,7 +26,8 @@ namespace RollTheDice
                 _playersCanInstantDefuse.Add(player);
                 return new Dictionary<string, string>
                 {
-                    {"_translation", "DiceFastBombActionCT"},
+                    {"_translation_player", "DiceFastBombActionCTPlayer"},
+                    {"_translation_other", "DiceFastBombActionCT"},
                     { "playerName", player.PlayerName }
                 };
             }
@@ -33,7 +35,7 @@ namespace RollTheDice
             {
                 return new Dictionary<string, string>
                 {
-                    {"_translation", "command.rollthedice.error"},
+                    {"_translation_player", "command.rollthedice.error"},
                     { "playerName", player.PlayerName }
                 };
             }

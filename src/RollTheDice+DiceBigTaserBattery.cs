@@ -13,7 +13,8 @@ namespace RollTheDice
             player.GiveNamedItem("weapon_taser");
             return new Dictionary<string, string>
             {
-                {"_translation", "DiceBigTaserBattery"},
+                {"_translation_player", "DiceBigTaserBatteryPlayer"},
+                {"_translation_other", "DiceBigTaserBattery"},
                 { "playerName", player.PlayerName },
                 { "batterySize", battery.ToString() }
             };

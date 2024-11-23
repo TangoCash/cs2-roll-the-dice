@@ -30,7 +30,8 @@ namespace RollTheDice
             player.PlayerName = randomName;
             return new Dictionary<string, string>
             {
-                {"_translation", "DiceChangeName"},
+                {"_translation_player", "DiceChangeNamePlayer"},
+                {"_translation_other", "DiceChangeName"},
                 { "playerName", _playersWithChangedNamesOldNames[player] },
                 { "randomName", randomName }
             };

@@ -13,7 +13,7 @@ namespace RollTheDice
             if (_playersWithCloak.ContainsKey(player))
                 return new Dictionary<string, string>
                 {
-                    {"_translation", "command.rollthedice.error"},
+                    {"_translation_player", "command.rollthedice.error"},
                     { "playerName", player.PlayerName }
                 };
             // create listener if not exists
@@ -25,7 +25,8 @@ namespace RollTheDice
             _playersWithCloak.Add(player, 255);
             return new Dictionary<string, string>
             {
-                {"_translation", "DicePlayerCloak"},
+                {"_translation_player", "DicePlayerCloakPlayer"},
+                {"_translation_other", "DicePlayerCloak"},
                 { "playerName", player.PlayerName }
             };
         }

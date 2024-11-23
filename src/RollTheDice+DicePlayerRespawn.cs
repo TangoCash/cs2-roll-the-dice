@@ -16,7 +16,8 @@ namespace RollTheDice
             _playersWithRespawnAbility.Add(player, new Dictionary<string, string>());
             return new Dictionary<string, string>
             {
-                {"_translation", "DicePlayerRespawn"},
+                {"_translation_player", "DicePlayerRespawnPlayer"},
+                {"_translation_other", "DicePlayerRespawn"},
                 { "playerName", player.PlayerName }
             };
         }
@@ -72,7 +73,8 @@ namespace RollTheDice
                     player.PlayerPawn.Value.ArmorValue = 100;
                     _playersWithRespawnAbility.Remove(player);
                     SendGlobalChatMessage(Localizer["DicePlayerRespawnSuccess"].Value
-                        .Replace("{playerName}", player.PlayerName));
+                        .Replace("{playerName}", player.PlayerName),
+                        player: player);
                 }
                 catch (Exception e)
                 {

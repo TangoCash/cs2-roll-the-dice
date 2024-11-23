@@ -28,7 +28,8 @@ namespace RollTheDice
             _playersWithFakeGunSounds.Add(player, (int)Server.CurrentTime + _random.Next(3, 10));
             return new Dictionary<string, string>
             {
-                {"_translation", "DicePlayerMakeFakeGunSounds"},
+                {"_translation_player", "DicePlayerMakeFakeGunSoundsPlayer"},
+                {"_translation_other", "DicePlayerMakeFakeGunSounds"},
                 { "playerName", player.PlayerName }
             };
         }
@@ -66,10 +67,14 @@ namespace RollTheDice
                     // get random gun sound entry
                     var (weaponName, soundName, playTotal, soundLength) = _fakeGunSounds[_random.Next(_fakeGunSounds.Count)];
                     EmitFakeGunSounds(player.Handle, soundName, soundLength, playTotal);
-                    // let everyone know
+                    // let the player know
+                    player.PrintToCenter(Localizer["DicePlayerMakeFakeGunSoundsWeaponPlayer"].Value
+                        .Replace("{weapon}", weaponName));
+                    // let everyone else know
                     SendGlobalChatMessage(Localizer["DicePlayerMakeFakeGunSoundsWeapon"].Value
                         .Replace("{playerName}", player.PlayerName)
-                        .Replace("{weapon}", weaponName));
+                        .Replace("{weapon}", weaponName),
+                        player: player);
                     // reset timer
                     _playersWithFakeGunSounds[player] = (int)Server.CurrentTime + _random.Next(playTotal * (int)soundLength + 2, (playTotal * (int)soundLength));
                 }

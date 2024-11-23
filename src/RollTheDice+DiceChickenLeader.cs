@@ -46,7 +46,8 @@ namespace RollTheDice
             }
             return new Dictionary<string, string>
             {
-                {"_translation", "DiceChickenLeader"},
+                {"_translation_player", "DiceChickenLeaderPlayer"},
+                {"_translation_other", "DiceChickenLeader"},
                 { "playerName", player.PlayerName }
             };
         }

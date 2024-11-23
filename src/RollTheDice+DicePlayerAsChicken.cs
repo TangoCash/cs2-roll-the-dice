@@ -18,7 +18,7 @@ namespace RollTheDice
             if (_playersAsChicken.ContainsKey(player))
                 return new Dictionary<string, string>
                 {
-                    {"_translation", "command.rollthedice.error"},
+                    {"_translation_player", "command.rollthedice.error"},
                     { "playerName", player.PlayerName }
                 };
             // create listener if not exists
@@ -35,7 +35,8 @@ namespace RollTheDice
             MakePlayerInvisible(player);
             return new Dictionary<string, string>
             {
-                {"_translation", "DicePlayerAsChicken"},
+                {"_translation_player", "DicePlayerAsChickenPlayer"},
+                {"_translation_other", "DicePlayerAsChicken"},
                 { "playerName", player.PlayerName }
             };
         }

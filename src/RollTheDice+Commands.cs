@@ -57,13 +57,38 @@ namespace RollTheDice
             }
             // execute dice function
             Dictionary<string, string> data = _dices[dice](player, playerPawn);
-            // send message
-            string message = Localizer[data["_translation"]].Value;
-            foreach (var kvp in data)
+            // send message to all players
+            if (data.TryGetValue("_translation_all", out var translationAll))
             {
-                message = message.Replace($"{{{kvp.Key}}}", kvp.Value);
+                string message = Localizer[translationAll].Value;
+                foreach (var kvp in data)
+                {
+                    message = message.Replace($"{{{kvp.Key}}}", kvp.Value);
+                }
+                SendGlobalChatMessage(message);
             }
-            SendGlobalChatMessage(message);
+            // send message to other players (and maybe player)
+            else if (data.TryGetValue("_translation_other", out var translationOther))
+            {
+                // send message to others
+                string message = Localizer[translationOther].Value;
+                foreach (var kvp in data)
+                {
+                    message = message.Replace($"{{{kvp.Key}}}", kvp.Value);
+                }
+                SendGlobalChatMessage(message, player: player);
+            }
+            // if player should get a message
+            if (data.TryGetValue("_translation_player", out var translationPlayer))
+            {
+                string message = Localizer[translationPlayer].Value;
+                foreach (var kvp in data)
+                {
+                    message = message.Replace($"{{{kvp.Key}}}", kvp.Value);
+                }
+                player.PrintToCenter(message);
+            }
+            // play sound
             player.ExecuteClientCommand("play sounds/ui/coin_pickup_01.vsnd");
         }
     }

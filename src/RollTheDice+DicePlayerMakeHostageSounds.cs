@@ -21,7 +21,8 @@ namespace RollTheDice
             _playersWithHostageSounds.Add(player, 0);
             return new Dictionary<string, string>
             {
-                {"_translation", "DicePlayerMakeHostageSounds"},
+                {"_translation_player", "DicePlayerMakeHostageSoundsPlayer"},
+                {"_translation_other", "DicePlayerMakeHostageSounds"},
                 { "playerName", player.PlayerName }
             };
         }

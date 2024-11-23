@@ -22,7 +22,8 @@ namespace RollTheDice
             if (_playersWithoutExplosives.Contains(playerPawn))
                 return new Dictionary<string, string>
                 {
-                    {"_translation", "DiceNoExplosives"},
+                    {"_translation_player", "DiceNoExplosivesPlayer"},
+                    {"_translation_other", "DiceNoExplosives"},
                     { "playerName", player.PlayerName }
                 };
             // register listener
@@ -30,7 +31,8 @@ namespace RollTheDice
             _playersWithoutExplosives.Add(playerPawn);
             return new Dictionary<string, string>
             {
-                {"_translation", "DiceNoExplosives"},
+                {"_translation_player", "DiceNoExplosivesPlayer"},
+                {"_translation_other", "DiceNoExplosives"},
                 { "playerName", player.PlayerName }
             };
         }

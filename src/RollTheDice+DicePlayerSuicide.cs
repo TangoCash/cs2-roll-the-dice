@@ -9,7 +9,8 @@ namespace RollTheDice
             playerPawn.CommitSuicide(true, true);
             return new Dictionary<string, string>
             {
-                {"_translation", "DicePlayerSuicide"},
+                {"_translation_player", "DicePlayerSuicidePlayer"},
+                {"_translation_other", "DicePlayerSuicide"},
                 { "playerName", player.PlayerName }
             };
         }

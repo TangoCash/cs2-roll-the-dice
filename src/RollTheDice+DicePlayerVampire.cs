@@ -12,7 +12,8 @@ namespace RollTheDice
             _playerVampires.Add(player);
             return new Dictionary<string, string>
             {
-                {"_translation", "DicePlayerVampire"},
+                {"_translation_player", "DicePlayerVampirePlayer"},
+                {"_translation_other", "DicePlayerVampire"},
                 { "playerName", player.PlayerName }
             };
         }

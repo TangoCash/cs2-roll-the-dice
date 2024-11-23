@@ -25,7 +25,7 @@ namespace RollTheDice
             if (_playersDisguisedAsPlants.ContainsKey(player))
                 return new Dictionary<string, string>
                 {
-                    {"_translation", "command.rollthedice.error"},
+                    {"_translation_player", "command.rollthedice.error"},
                     { "playerName", player.PlayerName }
                 };
             // create listener if not exists
@@ -42,7 +42,8 @@ namespace RollTheDice
             _playersDisguisedAsPlants[player]["offset_angle"] = _playersDisguisedAsPlantsModels[randomKey].ContainsKey("offset_angle") ? (string)_playersDisguisedAsPlantsModels[randomKey]["offset_angle"] : "0";
             return new Dictionary<string, string>
             {
-                {"_translation", "DicePlayerDisguiseAsPlant"},
+                {"_translation_player", "DicePlayerDisguiseAsPlantPlayer"},
+                {"_translation_other", "DicePlayerDisguiseAsPlant"},
                 { "playerName", player.PlayerName },
                 { "model", randomKey }
             };

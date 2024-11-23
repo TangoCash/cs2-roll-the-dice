@@ -16,7 +16,8 @@ namespace RollTheDice
             var percentageIncrease = (speedIncrease - 1.0) * 100;
             return new Dictionary<string, string>
             {
-                {"_translation", "DiceIncreaseSpeed"},
+                {"_translation_player", "DiceIncreaseSpeedPlayer"},
+                {"_translation_other", "DiceIncreaseSpeed"},
                 { "playerName", player.PlayerName },
                 { "percentageIncrease", Math.Round(percentageIncrease, 2).ToString() }
             };
