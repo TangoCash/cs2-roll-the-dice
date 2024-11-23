@@ -87,6 +87,7 @@ namespace RollTheDice
                     message = message.Replace($"{{{kvp.Key}}}", kvp.Value);
                 }
                 player.PrintToCenter(message);
+                player.PrintToChat(message);
             }
             // play sound
             player.ExecuteClientCommand("play sounds/ui/coin_pickup_01.vsnd");
