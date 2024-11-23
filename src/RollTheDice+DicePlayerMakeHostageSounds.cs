@@ -59,7 +59,7 @@ namespace RollTheDice
                     {
                         // emit sound
                         EmitSound(player, _hostageSounds[_random.Next(_hostageSounds.Count)]);
-                        _playersWithHostageSounds[player] = (int)Server.CurrentTime + 5;
+                        _playersWithHostageSounds[player] = (int)Server.CurrentTime + 1;
                     }
                     else if (player.Buttons != 0 && playerStatus <= (int)Server.CurrentTime)
                     {
