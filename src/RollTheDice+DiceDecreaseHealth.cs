@@ -12,7 +12,7 @@ namespace RollTheDice
             Utilities.SetStateChanged(playerPawn, "CBaseEntity", "m_iHealth");
             return new Dictionary<string, string>
             {
-                {"_translation", "DiceBigTaserBattery"},
+                {"_translation", "DiceDecreaseHealth"},
                 { "playerName", player.PlayerName },
                 { "healthDecrease", healthDecrease.ToString() }
             };
