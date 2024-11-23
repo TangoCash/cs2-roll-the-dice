@@ -10,7 +10,7 @@ namespace RollTheDice
 
         private string _currentMap = "";
         private List<CCSPlayerController> _playersThatRolledTheDice = new();
-        private List<Func<CCSPlayerController, CCSPlayerPawn, string>> _dices = new();
+        private List<Func<CCSPlayerController, CCSPlayerPawn, Dictionary<string, string>>> _dices = new();
         private bool _isDuringRound = false;
         Random _random = new Random(Guid.NewGuid().GetHashCode());
 
@@ -116,7 +116,7 @@ namespace RollTheDice
         private void InitializeDices()
         {
             // create dynamic list containing functions to execute for each dice
-            _dices = new List<Func<CCSPlayerController, CCSPlayerPawn, string>>
+            _dices = new List<Func<CCSPlayerController, CCSPlayerPawn, Dictionary<string, string>>>
             {
                 DiceIncreaseHealth,
                 DiceDecreaseHealth,

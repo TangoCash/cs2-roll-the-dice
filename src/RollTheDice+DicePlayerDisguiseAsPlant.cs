@@ -20,9 +20,14 @@ namespace RollTheDice
             { "Airport/Plant", new Dictionary<string, object> { { "model", "models/props_plants/plantairport01.vmdl" } } },
             { "MailDropbox", new Dictionary<string, object> { { "model", "models/props_street/mail_dropbox.vmdl" } } },
         };
-        private string DicePlayerDisguiseAsPlant(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DicePlayerDisguiseAsPlant(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
-            if (_playersDisguisedAsPlants.ContainsKey(player)) return Localizer["command.rollthedice.error"].Value.Replace("{playerName}", player.PlayerName);
+            if (_playersDisguisedAsPlants.ContainsKey(player))
+                return new Dictionary<string, string>
+                {
+                    {"_translation", "command.rollthedice.error"},
+                    { "playerName", player.PlayerName }
+                };
             // create listener if not exists
             if (_playersDisguisedAsPlants.Count == 0) RegisterListener<Listeners.OnTick>(EventDicePlayerDisguiseAsPlantOnTick);
             // add player to list
@@ -35,9 +40,12 @@ namespace RollTheDice
             ).ToString();
             _playersDisguisedAsPlants[player]["offset_z"] = _playersDisguisedAsPlantsModels[randomKey].ContainsKey("offset_z") ? (string)_playersDisguisedAsPlantsModels[randomKey]["offset_z"] : "0";
             _playersDisguisedAsPlants[player]["offset_angle"] = _playersDisguisedAsPlantsModels[randomKey].ContainsKey("offset_angle") ? (string)_playersDisguisedAsPlantsModels[randomKey]["offset_angle"] : "0";
-            return Localizer["DicePlayerDisguiseAsPlant"].Value
-                .Replace("{playerName}", player.PlayerName)
-                .Replace("{model}", randomKey);
+            return new Dictionary<string, string>
+            {
+                {"_translation", "DicePlayerDisguiseAsPlant"},
+                { "playerName", player.PlayerName },
+                { "model", randomKey }
+            };
         }
 
         private void ResetDicePlayerDisguiseAsPlant()

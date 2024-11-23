@@ -9,25 +9,33 @@ namespace RollTheDice
         private List<CCSPlayerController> _playersCanInstantDefuse = new();
         private List<CCSPlayerController> _playersCanInstantPlant = new();
 
-        private string DiceFastBombAction(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DiceFastBombAction(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             if (playerPawn.TeamNum == (int)CsTeam.Terrorist)
             {
                 _playersCanInstantPlant.Add(player);
-                return Localizer["DiceFastBombActionT"].Value
-                    .Replace("{playerName}", player.PlayerName);
-
+                return new Dictionary<string, string>
+                {
+                    {"_translation", "DiceFastBombActionT"},
+                    { "playerName", player.PlayerName }
+                };
             }
             else if (playerPawn.TeamNum == (int)CsTeam.CounterTerrorist)
             {
                 _playersCanInstantDefuse.Add(player);
-                return Localizer["DiceFastBombActionCT"].Value
-                    .Replace("{playerName}", player.PlayerName);
+                return new Dictionary<string, string>
+                {
+                    {"_translation", "DiceFastBombActionCT"},
+                    { "playerName", player.PlayerName }
+                };
             }
             else
             {
-                return Localizer["command.rollthedice.error"].Value
-                    .Replace("{playerName}", player.PlayerName);
+                return new Dictionary<string, string>
+                {
+                    {"_translation", "command.rollthedice.error"},
+                    { "playerName", player.PlayerName }
+                };
             }
         }
 

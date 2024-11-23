@@ -6,7 +6,7 @@ namespace RollTheDice
 {
     public partial class RollTheDice : BasePlugin
     {
-        private string DiceChickenLeader(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DiceChickenLeader(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             var amountChickens = 16;
             // spawn chickens
@@ -44,8 +44,11 @@ namespace RollTheDice
                     });
                 }
             }
-            return Localizer["DiceChickenLeader"].Value
-                .Replace("{playerName}", player.PlayerName);
+            return new Dictionary<string, string>
+            {
+                {"_translation", "DiceBigTaserBattery"},
+                { "playerName", player.PlayerName }
+            };
         }
     }
 }

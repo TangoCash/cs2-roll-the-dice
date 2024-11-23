@@ -8,9 +8,14 @@ namespace RollTheDice
     {
         private Dictionary<CCSPlayerController, int> _playersWithCloak = new();
 
-        private string DicePlayerCloak(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DicePlayerCloak(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
-            if (_playersWithCloak.ContainsKey(player)) return Localizer["command.rollthedice.error"].Value.Replace("{playerName}", player.PlayerName);
+            if (_playersWithCloak.ContainsKey(player))
+                return new Dictionary<string, string>
+                {
+                    {"_translation", "command.rollthedice.error"},
+                    { "playerName", player.PlayerName }
+                };
             // create listener if not exists
             if (_playersWithCloak.Count() == 0)
             {
@@ -18,8 +23,11 @@ namespace RollTheDice
             }
             // add player to list
             _playersWithCloak.Add(player, 255);
-            return Localizer["DicePlayerCloak"].Value
-                .Replace("{playerName}", player.PlayerName);
+            return new Dictionary<string, string>
+            {
+                {"_translation", "DicePlayerCloak"},
+                { "playerName", player.PlayerName }
+            };
         }
 
         private void RemoveDicePlayerCloakListeners()

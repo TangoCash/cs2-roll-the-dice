@@ -6,14 +6,17 @@ namespace RollTheDice
     {
         private Dictionary<CCSPlayerController, int> _playersWithBigTaserBattery = new();
 
-        private string DiceBigTaserBattery(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DiceBigTaserBattery(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             int battery = _random.Next(2, 10);
             _playersWithBigTaserBattery.Add(player, battery);
             player.GiveNamedItem("weapon_taser");
-            return Localizer["DiceBigTaserBattery"].Value
-                .Replace("{playerName}", player.PlayerName)
-                .Replace("{batterySize}", battery.ToString());
+            return new Dictionary<string, string>
+            {
+                {"_translation", "DiceBigTaserBattery"},
+                { "playerName", player.PlayerName },
+                { "batterySize", battery.ToString() }
+            };
         }
 
         private void CreateDiceBigTaserBatteryEventHandler()

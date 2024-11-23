@@ -17,15 +17,22 @@ namespace RollTheDice
             ("models/food/vegetables/zucchini01a.vmdl", 1.0f),
         };
 
-        private string DiceNoExplosives(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DiceNoExplosives(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
-            if (_playersWithoutExplosives.Contains(playerPawn)) return Localizer["DiceNoExplosives"].Value
-                .Replace("{playerName}", player.PlayerName);
+            if (_playersWithoutExplosives.Contains(playerPawn))
+                return new Dictionary<string, string>
+                {
+                    {"_translation", "DiceNoExplosives"},
+                    { "playerName", player.PlayerName }
+                };
             // register listener
             if (_playersWithoutExplosives.Count == 0) RegisterListener<Listeners.OnEntitySpawned>(DiceNoExplosivesOnEntitySpawned);
             _playersWithoutExplosives.Add(playerPawn);
-            return Localizer["DiceNoExplosives"].Value
-                .Replace("{playerName}", player.PlayerName);
+            return new Dictionary<string, string>
+            {
+                {"_translation", "DiceNoExplosives"},
+                { "playerName", player.PlayerName }
+            };
         }
 
         private void ResetDiceNoExplosives()

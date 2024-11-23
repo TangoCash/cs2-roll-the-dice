@@ -13,9 +13,14 @@ namespace RollTheDice
             "Chicken.Panic",
         };
 
-        private string DicePlayerAsChicken(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DicePlayerAsChicken(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
-            if (_playersAsChicken.ContainsKey(player)) return Localizer["command.rollthedice.error"].Value.Replace("{playerName}", player.PlayerName);
+            if (_playersAsChicken.ContainsKey(player))
+                return new Dictionary<string, string>
+                {
+                    {"_translation", "command.rollthedice.error"},
+                    { "playerName", player.PlayerName }
+                };
             // create listener if not exists
             if (_playersAsChicken.Count() == 0)
             {
@@ -28,8 +33,11 @@ namespace RollTheDice
             _playersAsChicken[player]["next_sound"] = $"{(int)Server.CurrentTime + 2}";
             _playersAsChicken[player]["prop"] = SpawnProp(player, _playersAsChickenModel, 5.2f).ToString();
             MakePlayerInvisible(player);
-            return Localizer["DicePlayerAsChicken"].Value
-                .Replace("{playerName}", player.PlayerName);
+            return new Dictionary<string, string>
+            {
+                {"_translation", "DicePlayerAsChicken"},
+                { "playerName", player.PlayerName }
+            };
         }
 
         private void ResetDicePlayerAsChicken()

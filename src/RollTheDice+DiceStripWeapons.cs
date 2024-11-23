@@ -5,9 +5,14 @@ namespace RollTheDice
 {
     public partial class RollTheDice : BasePlugin
     {
-        private string DiceStripWeapons(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DiceStripWeapons(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
-            if (playerPawn.WeaponServices == null) return Localizer["command.rollthedice.error"].Value.Replace("{playerName}", player.PlayerName);
+            if (playerPawn.WeaponServices == null)
+                return new Dictionary<string, string>
+                {
+                    {"_translation", "command.rollthedice.error"},
+                    { "playerName", player.PlayerName }
+                };
             var playerWeapons = playerPawn.WeaponServices!;
             foreach (var weapon in playerWeapons.MyWeapons)
             {
@@ -29,8 +34,11 @@ namespace RollTheDice
                 player.GiveNamedItem("weapon_knife");
             });
 
-            return Localizer["DiceStripWeapons"].Value
-                .Replace("{playerName}", player.PlayerName);
+            return new Dictionary<string, string>
+            {
+                {"_translation", "DiceStripWeapons"},
+                { "playerName", player.PlayerName }
+            };
         }
     }
 }

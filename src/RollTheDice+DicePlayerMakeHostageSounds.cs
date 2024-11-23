@@ -13,14 +13,17 @@ namespace RollTheDice
             "Hostage.Pain"
         };
 
-        private string DicePlayerMakeHostageSounds(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DicePlayerMakeHostageSounds(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             // create listener if not exists
             if (_playersWithHostageSounds.Count() == 0) RegisterListener<Listeners.OnTick>(EventDicePlayerMakeHostageSoundsOnTick);
             // add player to list
             _playersWithHostageSounds.Add(player, 0);
-            return Localizer["DicePlayerMakeHostageSounds"].Value
-                .Replace("{playerName}", player.PlayerName);
+            return new Dictionary<string, string>
+            {
+                {"_translation", "DicePlayerMakeHostageSounds"},
+                { "playerName", player.PlayerName }
+            };
         }
 
         private void ResetDicePlayerMakeHostageSounds()

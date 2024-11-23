@@ -8,13 +8,16 @@ namespace RollTheDice
     {
         private List<CCSPlayerController> _playersThatAreInvisible = new();
 
-        private string DicePlayerInvisible(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DicePlayerInvisible(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             _playersThatAreInvisible.Add(player);
             playerPawn.Render = Color.FromArgb(125, 255, 255, 255);
             Utilities.SetStateChanged(playerPawn, "CBaseModelEntity", "m_clrRender");
-            return Localizer["DicePlayerInvisible"].Value
-                .Replace("{playerName}", player.PlayerName);
+            return new Dictionary<string, string>
+            {
+                {"_translation", "DicePlayerInvisible"},
+                { "playerName", player.PlayerName }
+            };
         }
 
         private void ResetDicePlayerInvisible()

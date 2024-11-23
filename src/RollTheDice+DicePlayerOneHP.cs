@@ -5,12 +5,15 @@ namespace RollTheDice
 {
     public partial class RollTheDice : BasePlugin
     {
-        private string DicePlayerOneHP(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DicePlayerOneHP(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             playerPawn.Health = 1;
             Utilities.SetStateChanged(playerPawn, "CBaseEntity", "m_iHealth");
-            return Localizer["DicePlayerOneHP"].Value
-                .Replace("{playerName}", player.PlayerName);
+            return new Dictionary<string, string>
+            {
+                {"_translation", "DicePlayerOneHP"},
+                { "playerName", player.PlayerName }
+            };
         }
     }
 }

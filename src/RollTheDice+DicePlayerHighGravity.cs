@@ -4,11 +4,14 @@ namespace RollTheDice
 {
     public partial class RollTheDice : BasePlugin
     {
-        private string DicePlayerHighGravity(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DicePlayerHighGravity(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             playerPawn.GravityScale = 4f;
-            return Localizer["DicePlayerHighGravity"].Value
-                .Replace("{playerName}", player.PlayerName);
+            return new Dictionary<string, string>
+            {
+                {"_translation", "DicePlayerHighGravity"},
+                { "playerName", player.PlayerName }
+            };
         }
     }
 }

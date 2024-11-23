@@ -8,14 +8,17 @@ namespace RollTheDice
     {
         private Dictionary<CCSPlayerController, Dictionary<string, string>> _playersWithRespawnAbility = new();
 
-        private string DicePlayerRespawn(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DicePlayerRespawn(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             // create listener if not exists
             if (_playersWithRespawnAbility.Count() == 0) RegisterListener<Listeners.OnTick>(EventDicePlayerRespawnOnTick);
             // add player to list
             _playersWithRespawnAbility.Add(player, new Dictionary<string, string>());
-            return Localizer["DicePlayerRespawn"].Value
-                .Replace("{playerName}", player.PlayerName);
+            return new Dictionary<string, string>
+            {
+                {"_translation", "DicePlayerRespawn"},
+                { "playerName", player.PlayerName }
+            };
         }
 
         private void ResetDicePlayerRespawn()

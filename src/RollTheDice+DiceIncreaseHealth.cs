@@ -5,7 +5,7 @@ namespace RollTheDice
 {
     public partial class RollTheDice : BasePlugin
     {
-        private string DiceIncreaseHealth(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DiceIncreaseHealth(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             var healthIncrease = _random.Next(10, 30);
             if (playerPawn.Health + healthIncrease > playerPawn.MaxHealth)
@@ -15,9 +15,12 @@ namespace RollTheDice
             playerPawn.Health += healthIncrease;
             Utilities.SetStateChanged(playerPawn, "CBaseEntity", "m_iHealth");
             Utilities.SetStateChanged(playerPawn, "CBaseEntity", "m_iMaxHealth");
-            return Localizer["DiceIncreaseHealth"].Value
-                .Replace("{playerName}", player.PlayerName)
-                .Replace("{healthIncrease}", healthIncrease.ToString());
+            return new Dictionary<string, string>
+            {
+                {"_translation", "DiceIncreaseHealth"},
+                { "playerName", player.PlayerName },
+                { "healthIncrease", healthIncrease.ToString() }
+            };
         }
     }
 }

@@ -7,16 +7,19 @@ namespace RollTheDice
     {
         private List<CCSPlayerController> _playersWithIncreasedSpeed = new();
 
-        private string DiceIncreaseSpeed(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DiceIncreaseSpeed(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             _playersWithIncreasedSpeed.Add(player);
             var speedIncrease = _random.NextDouble() * (2.0 - 1.5) + 1.5;
             playerPawn.VelocityModifier *= (float)speedIncrease;
             Utilities.SetStateChanged(playerPawn, "CCSPlayerPawn", "m_flVelocityModifier");
             var percentageIncrease = (speedIncrease - 1.0) * 100;
-            return Localizer["DiceIncreaseSpeed"].Value
-                .Replace("{playerName}", player.PlayerName)
-                .Replace("{percentageIncrease}", Math.Round(percentageIncrease, 2).ToString());
+            return new Dictionary<string, string>
+            {
+                {"_translation", "DiceIncreaseSpeed"},
+                { "playerName", player.PlayerName },
+                { "percentageIncrease", Math.Round(percentageIncrease, 2).ToString() }
+            };
         }
 
         private void ResetDiceIncreaseSpeed()

@@ -7,11 +7,14 @@ namespace RollTheDice
     {
         private List<CCSPlayerController> _playerVampires = new();
 
-        private string DicePlayerVampire(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DicePlayerVampire(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             _playerVampires.Add(player);
-            return Localizer["DicePlayerVampire"].Value
-                .Replace("{playerName}", player.PlayerName);
+            return new Dictionary<string, string>
+            {
+                {"_translation", "DicePlayerVampire"},
+                { "playerName", player.PlayerName }
+            };
         }
 
         private void ResetDicePlayerVampire()

@@ -56,7 +56,13 @@ namespace RollTheDice
                 return;
             }
             // execute dice function
-            var message = _dices[dice](player, playerPawn);
+            Dictionary<string, string> data = _dices[dice](player, playerPawn);
+            // send message
+            string message = Localizer[data["_translation"]].Value;
+            foreach (var kvp in data)
+            {
+                message = message.Replace($"{{{kvp.Key}}}", kvp.Value);
+            }
             SendGlobalChatMessage(message);
             player.ExecuteClientCommand("play sounds/ui/coin_pickup_01.vsnd");
         }

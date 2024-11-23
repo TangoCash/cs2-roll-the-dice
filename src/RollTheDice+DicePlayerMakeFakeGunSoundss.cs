@@ -20,14 +20,17 @@ namespace RollTheDice
             ("M4A1", "Weapon_M4A1.Single", 25, 0.9f)
         };
 
-        private string DicePlayerMakeFakeGunSounds(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DicePlayerMakeFakeGunSounds(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             // create listener if not exists
             if (_playersWithFakeGunSounds.Count() == 0) RegisterListener<Listeners.OnTick>(EventDicePlayerMakeFakeGunSoundsOnTick);
             // add player to list
             _playersWithFakeGunSounds.Add(player, (int)Server.CurrentTime + _random.Next(3, 10));
-            return Localizer["DicePlayerMakeFakeGunSounds"].Value
-                .Replace("{playerName}", player.PlayerName);
+            return new Dictionary<string, string>
+            {
+                {"_translation", "DicePlayerMakeFakeGunSounds"},
+                { "playerName", player.PlayerName }
+            };
         }
 
         private void ResetDicePlayerMakeFakeGunSounds()
