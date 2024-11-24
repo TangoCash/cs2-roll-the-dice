@@ -29,6 +29,9 @@ namespace RollTheDice
 
         private void ResetDicePlayerMakeHostageSounds()
         {
+            // remove listener
+            RemoveDicePlayerMakeHostageSoundsListener();
+            // clear list
             _playersWithHostageSounds.Clear();
         }
 

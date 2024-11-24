@@ -24,6 +24,7 @@ namespace RollTheDice
             // create listener if not exists
             if (_playersAsChicken.Count() == 0)
             {
+                RegisterEventHandler<EventPlayerDeath>(EventDicePlayerAsChickenOnPlayerDeath);
                 RegisterListener<Listeners.OnTick>(EventDicePlayerAsChickenOnTick);
                 RegisterListener<Listeners.CheckTransmit>(EventDicePlayerAsChickenCheckTransmit);
             }
@@ -43,6 +44,9 @@ namespace RollTheDice
 
         private void ResetDicePlayerAsChicken()
         {
+            // remove listener
+            RemoveDicePlayerAsChickenListeners();
+            // iterate through all players
             foreach (CCSPlayerController player in _playersAsChicken.Keys)
             {
                 if (player == null || player.Pawn == null || player.Pawn.Value == null) continue;
@@ -50,11 +54,6 @@ namespace RollTheDice
                 MakePlayerVisible(player);
             }
             _playersAsChicken.Clear();
-        }
-
-        private void CreateDicePlayerAsChickenEventHandler()
-        {
-            RegisterEventHandler<EventPlayerDeath>(EventDicePlayerAsChickenOnPlayerDeath);
         }
 
         private void RemoveDicePlayerAsChickenListeners()

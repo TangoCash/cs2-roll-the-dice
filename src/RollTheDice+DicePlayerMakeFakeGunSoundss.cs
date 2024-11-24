@@ -36,6 +36,9 @@ namespace RollTheDice
 
         private void ResetDicePlayerMakeFakeGunSounds()
         {
+            // remove listener
+            RemoveDicePlayerMakeFakeGunSoundsListener();
+            // clear list
             _playersWithFakeGunSounds.Clear();
         }
 

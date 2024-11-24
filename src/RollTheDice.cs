@@ -34,7 +34,6 @@ namespace RollTheDice
             CreateDicePlayerVampireEventHandler();
             CreateDicePlayerDisguiseAsPlantEventHandler();
             CreateDicePlayerRespawnEventHandler();
-            CreateDicePlayerAsChickenEventHandler();
             CreateDiceBigTaserBatteryEventHandler();
             // print message if hot reload
             if (hotReload)

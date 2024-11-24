@@ -38,6 +38,8 @@ namespace RollTheDice
 
         private void ResetDicePlayerCloak()
         {
+            // remove listeners
+            RemoveDicePlayerCloakListeners();
             // iterate through all players
             foreach (var (player, visibility) in _playersWithCloak)
             {
