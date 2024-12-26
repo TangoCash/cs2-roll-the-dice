@@ -18,8 +18,8 @@ namespace RollTheDice
             {
                 // ignore unknown weapons
                 if (weapon.Value == null || weapon.Value != null && weapon.Value.DesignerName == null) continue;
-                if (weapon.Value!.DesignerName == $"weapon_{CsItem.C4.ToString().ToLower()}"
-                    || weapon.Value!.DesignerName == $"weapon_{CsItem.Bomb.ToString().ToLower()}")
+                if (weapon.Value!.DesignerName == CsItem.C4.ToString().ToLower()
+                    || weapon.Value!.DesignerName == CsItem.Bomb.ToString().ToLower())
                 {
                     // change weapon to currently active weapon
                     playerPawn.WeaponServices.ActiveWeapon.Raw = weapon.Raw;
