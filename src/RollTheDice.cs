@@ -35,6 +35,7 @@ namespace RollTheDice
             CreateDicePlayerDisguiseAsPlantEventHandler();
             CreateDicePlayerRespawnEventHandler();
             CreateDiceBigTaserBatteryEventHandler();
+            CreateDiceIncreaseSpeedEventHandler();
             // print message if hot reload
             if (hotReload)
             {
@@ -67,6 +68,7 @@ namespace RollTheDice
             RemoveDiceBigTaserBatteryListeners();
             RemoveDicePlayerCloakListeners();
             RemoveDiceNoExplosivesEventHandler();
+            RemoveDDiceIncreaseSpeedEventHandler();
             Console.WriteLine(Localizer["core.unload"]);
         }
 
