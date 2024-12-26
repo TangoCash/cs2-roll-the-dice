@@ -15,14 +15,14 @@ namespace RollTheDice
                 // ignore unknown weapons
                 if (weapon.Value == null || weapon.Value != null && weapon.Value.DesignerName == null) continue;
                 // ignore knife and C4
-                if (weapon.Value!.DesignerName == $"weapon_{CsItem.C4.ToString().ToLower()}"
-                    || weapon.Value!.DesignerName == $"weapon_{CsItem.Bomb.ToString().ToLower()}"
+                if (weapon.Value!.DesignerName == CsItem.C4.ToString().ToLower()
+                    || weapon.Value!.DesignerName == CsItem.Bomb.ToString().ToLower()
                     || weapon.Value!.DesignerName == "weapon_knife" // necessary because CsItem.Knife is not always this value
                     || weapon.Value!.DesignerName == $"weapon_{CsItem.Knife.ToString().ToLower()}"
                     || weapon.Value!.DesignerName == $"weapon_{CsItem.KnifeCT.ToString().ToLower()}"
                     || weapon.Value!.DesignerName == $"weapon_{CsItem.KnifeT.ToString().ToLower()}"
-                    || weapon.Value!.DesignerName == $"weapon_{CsItem.DefaultKnifeCT.ToString().ToLower()}"
-                    || weapon.Value!.DesignerName == $"weapon_{CsItem.DefaultKnifeT.ToString().ToLower()}")
+                    || weapon.Value!.DesignerName == CsItem.DefaultKnifeCT.ToString().ToLower()
+                    || weapon.Value!.DesignerName == CsItem.DefaultKnifeT.ToString().ToLower())
                 {
                     // save weapon raw
                     weaponRaw = weapon.Raw;
