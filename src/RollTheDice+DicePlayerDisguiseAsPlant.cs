@@ -20,24 +20,33 @@ namespace RollTheDice
             { "Airport/Plant", new Dictionary<string, object> { { "model", "models/props_plants/plantairport01.vmdl" } } },
             { "MailDropbox", new Dictionary<string, object> { { "model", "models/props_street/mail_dropbox.vmdl" } } },
         };
-        private string DicePlayerDisguiseAsPlant(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DicePlayerDisguiseAsPlant(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
-            if (_playersDisguisedAsPlants.ContainsKey(player)) return Localizer["command.rollthedice.error"].Value.Replace("{playerName}", player.PlayerName);
+            if (_playersDisguisedAsPlants.ContainsKey(player))
+                return new Dictionary<string, string>
+                {
+                    {"_translation_player", "command.rollthedice.error"},
+                    { "playerName", player.PlayerName }
+                };
             // create listener if not exists
             if (_playersDisguisedAsPlants.Count == 0) RegisterListener<Listeners.OnTick>(EventDicePlayerDisguiseAsPlantOnTick);
             // add player to list
             _playersDisguisedAsPlants.Add(player, new Dictionary<string, string>());
             _playersDisguisedAsPlants[player]["status"] = "player";
-            var randomKey = _playersDisguisedAsPlantsModels.Keys.ElementAt(Random.Shared.Next(0, _playersDisguisedAsPlantsModels.Count));
+            var randomKey = _playersDisguisedAsPlantsModels.Keys.ElementAt(_random.Next(0, _playersDisguisedAsPlantsModels.Count));
             _playersDisguisedAsPlants[player]["prop"] = SpawnProp(
                 player,
                 _playersDisguisedAsPlantsModels[randomKey]["model"].ToString()!
             ).ToString();
             _playersDisguisedAsPlants[player]["offset_z"] = _playersDisguisedAsPlantsModels[randomKey].ContainsKey("offset_z") ? (string)_playersDisguisedAsPlantsModels[randomKey]["offset_z"] : "0";
             _playersDisguisedAsPlants[player]["offset_angle"] = _playersDisguisedAsPlantsModels[randomKey].ContainsKey("offset_angle") ? (string)_playersDisguisedAsPlantsModels[randomKey]["offset_angle"] : "0";
-            return Localizer["DicePlayerDisguiseAsPlant"].Value
-                .Replace("{playerName}", player.PlayerName)
-                .Replace("{model}", randomKey);
+            return new Dictionary<string, string>
+            {
+                {"_translation_player", "DicePlayerDisguiseAsPlantPlayer"},
+                {"_translation_other", "DicePlayerDisguiseAsPlant"},
+                { "playerName", player.PlayerName },
+                { "model", randomKey }
+            };
         }
 
         private void ResetDicePlayerDisguiseAsPlant()
@@ -58,6 +67,7 @@ namespace RollTheDice
 
         private void RemoveDicePlayerDisguiseAsPlantListener()
         {
+            DeregisterEventHandler<EventPlayerDeath>(EventDicePlayerDisguiseAsPlantOnPlayerDeath);
             RemoveListener<Listeners.OnTick>(EventDicePlayerDisguiseAsPlantOnTick);
         }
 

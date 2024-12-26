@@ -13,18 +13,25 @@ namespace RollTheDice
             "Hostage.Pain"
         };
 
-        private string DicePlayerMakeHostageSounds(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DicePlayerMakeHostageSounds(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             // create listener if not exists
             if (_playersWithHostageSounds.Count() == 0) RegisterListener<Listeners.OnTick>(EventDicePlayerMakeHostageSoundsOnTick);
             // add player to list
             _playersWithHostageSounds.Add(player, 0);
-            return Localizer["DicePlayerMakeHostageSounds"].Value
-                .Replace("{playerName}", player.PlayerName);
+            return new Dictionary<string, string>
+            {
+                {"_translation_player", "DicePlayerMakeHostageSoundsPlayer"},
+                {"_translation_other", "DicePlayerMakeHostageSounds"},
+                { "playerName", player.PlayerName }
+            };
         }
 
         private void ResetDicePlayerMakeHostageSounds()
         {
+            // remove listener
+            RemoveDicePlayerMakeHostageSoundsListener();
+            // clear list
             _playersWithHostageSounds.Clear();
         }
 
@@ -54,8 +61,8 @@ namespace RollTheDice
                     if (player.Buttons == 0 && playerStatus == 0)
                     {
                         // emit sound
-                        EmitSound(player, _hostageSounds[Random.Shared.Next(_hostageSounds.Count)]);
-                        _playersWithHostageSounds[player] = (int)Server.CurrentTime + 5;
+                        EmitSound(player, _hostageSounds[_random.Next(_hostageSounds.Count)]);
+                        _playersWithHostageSounds[player] = (int)Server.CurrentTime + 1;
                     }
                     else if (player.Buttons != 0 && playerStatus <= (int)Server.CurrentTime)
                     {

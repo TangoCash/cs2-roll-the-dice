@@ -10,8 +10,9 @@ namespace RollTheDice
 
         private string _currentMap = "";
         private List<CCSPlayerController> _playersThatRolledTheDice = new();
-        private List<Func<CCSPlayerController, CCSPlayerPawn, string>> _dices = new();
+        private List<Func<CCSPlayerController, CCSPlayerPawn, Dictionary<string, string>>> _dices = new();
         private bool _isDuringRound = false;
+        Random _random = new Random(Guid.NewGuid().GetHashCode());
 
         public override void Load(bool hotReload)
         {
@@ -33,7 +34,7 @@ namespace RollTheDice
             CreateDicePlayerVampireEventHandler();
             CreateDicePlayerDisguiseAsPlantEventHandler();
             CreateDicePlayerRespawnEventHandler();
-            CreateDicePlayerAsChickenEventHandler();
+            CreateDiceBigTaserBatteryEventHandler();
             // print message if hot reload
             if (hotReload)
             {
@@ -51,14 +52,21 @@ namespace RollTheDice
             // reset dice rolls on unload
             ResetDices();
             // unregister listeners
+            DeregisterEventHandler<EventRoundStart>(OnRoundStart);
+            DeregisterEventHandler<EventRoundEnd>(OnRoundEnd);
             RemoveListener<Listeners.OnMapStart>(OnMapStart);
             RemoveListener<Listeners.OnMapEnd>(OnMapEnd);
             RemoveListener<Listeners.OnServerPrecacheResources>(OnServerPrecacheResources);
+            RemoveDiceFastBombActionEventHandlers();
+            RemoveDicePlayerVampireEventHandler();
             RemoveDicePlayerDisguiseAsPlantListener();
             RemoveDicePlayerRespawnListener();
             RemoveDicePlayerAsChickenListeners();
             RemoveDicePlayerMakeHostageSoundsListener();
             RemoveDicePlayerMakeFakeGunSoundsListener();
+            RemoveDiceBigTaserBatteryListeners();
+            RemoveDicePlayerCloakListeners();
+            RemoveDiceNoExplosivesEventHandler();
             Console.WriteLine(Localizer["core.unload"]);
         }
 
@@ -107,7 +115,7 @@ namespace RollTheDice
         private void InitializeDices()
         {
             // create dynamic list containing functions to execute for each dice
-            _dices = new List<Func<CCSPlayerController, CCSPlayerPawn, string>>
+            _dices = new List<Func<CCSPlayerController, CCSPlayerPawn, Dictionary<string, string>>>
             {
                 DiceIncreaseHealth,
                 DiceDecreaseHealth,
@@ -126,7 +134,11 @@ namespace RollTheDice
                 DicePlayerDisguiseAsPlant,
                 DicePlayerAsChicken,
                 DicePlayerMakeHostageSounds,
-                DicePlayerMakeFakeGunSounds
+                DicePlayerMakeFakeGunSounds,
+                DiceBigTaserBattery,
+                DicePlayerCloak,
+                DiceGiveHealthShot,
+                DiceNoExplosives
             };
         }
 
@@ -142,6 +154,9 @@ namespace RollTheDice
             ResetDicePlayerAsChicken();
             ResetDicePlayerMakeHostageSounds();
             ResetDicePlayerMakeFakeGunSounds();
+            ResetDiceBigTaserBattery();
+            ResetDicePlayerCloak();
+            ResetDiceNoExplosives();
         }
 
         private int GetRandomDice()
@@ -169,7 +184,7 @@ namespace RollTheDice
                 .ToList();
             if (enabledDiceIndices.Count == 0) return -1;
             // Get random dice from enabled dices
-            return enabledDiceIndices[Random.Shared.Next(enabledDiceIndices.Count)];
+            return enabledDiceIndices[_random.Next(enabledDiceIndices.Count)];
         }
     }
 }

@@ -20,7 +20,13 @@ namespace RollTheDice
                 command.ReplyToCommand(Localizer["core.disabled"]);
                 return;
             }
-            if (!_isDuringRound || (bool)GetGameRule("WarmupPeriod")!)
+            if ((bool)GetGameRule("WarmupPeriod")!)
+            {
+                if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.iswarmup"]);
+                command.ReplyToCommand(Localizer["command.rollthedice.iswarmup"]);
+                return;
+            }
+            if (!_isDuringRound)
             {
                 if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.noactiveround"]);
                 command.ReplyToCommand(Localizer["command.rollthedice.noactiveround"]);
@@ -50,8 +56,40 @@ namespace RollTheDice
                 return;
             }
             // execute dice function
-            var message = _dices[dice](player, playerPawn);
-            SendGlobalChatMessage(message);
+            Dictionary<string, string> data = _dices[dice](player, playerPawn);
+            // send message to all players
+            if (data.TryGetValue("_translation_all", out var translationAll))
+            {
+                string message = Localizer[translationAll].Value;
+                foreach (var kvp in data)
+                {
+                    message = message.Replace($"{{{kvp.Key}}}", kvp.Value);
+                }
+                SendGlobalChatMessage(message);
+            }
+            // send message to other players (and maybe player)
+            else if (data.TryGetValue("_translation_other", out var translationOther))
+            {
+                // send message to others
+                string message = Localizer[translationOther].Value;
+                foreach (var kvp in data)
+                {
+                    message = message.Replace($"{{{kvp.Key}}}", kvp.Value);
+                }
+                SendGlobalChatMessage(message, player: player);
+            }
+            // if player should get a message
+            if (data.TryGetValue("_translation_player", out var translationPlayer))
+            {
+                string message = Localizer[translationPlayer].Value;
+                foreach (var kvp in data)
+                {
+                    message = message.Replace($"{{{kvp.Key}}}", kvp.Value);
+                }
+                player.PrintToCenter(message);
+                player.PrintToChat(message);
+            }
+            // play sound
             player.ExecuteClientCommand("play sounds/ui/coin_pickup_01.vsnd");
         }
     }

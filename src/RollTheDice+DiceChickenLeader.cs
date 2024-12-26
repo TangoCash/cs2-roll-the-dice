@@ -6,7 +6,7 @@ namespace RollTheDice
 {
     public partial class RollTheDice : BasePlugin
     {
-        private string DiceChickenLeader(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DiceChickenLeader(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             var amountChickens = 16;
             // spawn chickens
@@ -35,7 +35,7 @@ namespace RollTheDice
                         particle.AcceptInput("Start");
                     });
                     // remove fire after some seconds
-                    int delay = Random.Shared.Next(3, 6);
+                    int delay = _random.Next(3, 6);
                     AddTimer(delay, () =>
                     {
                         if (particle == null || !particle.IsValid) return;
@@ -44,8 +44,12 @@ namespace RollTheDice
                     });
                 }
             }
-            return Localizer["DiceChickenLeader"].Value
-                .Replace("{playerName}", player.PlayerName);
+            return new Dictionary<string, string>
+            {
+                {"_translation_player", "DiceChickenLeaderPlayer"},
+                {"_translation_other", "DiceChickenLeader"},
+                { "playerName", player.PlayerName }
+            };
         }
     }
 }

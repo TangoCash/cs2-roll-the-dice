@@ -1,5 +1,6 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace RollTheDice
 {
@@ -7,14 +8,18 @@ namespace RollTheDice
     {
         private Dictionary<CCSPlayerController, Dictionary<string, string>> _playersWithRespawnAbility = new();
 
-        private string DicePlayerRespawn(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DicePlayerRespawn(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             // create listener if not exists
             if (_playersWithRespawnAbility.Count() == 0) RegisterListener<Listeners.OnTick>(EventDicePlayerRespawnOnTick);
             // add player to list
             _playersWithRespawnAbility.Add(player, new Dictionary<string, string>());
-            return Localizer["DicePlayerRespawn"].Value
-                .Replace("{playerName}", player.PlayerName);
+            return new Dictionary<string, string>
+            {
+                {"_translation_player", "DicePlayerRespawnPlayer"},
+                {"_translation_other", "DicePlayerRespawn"},
+                { "playerName", player.PlayerName }
+            };
         }
 
         private void ResetDicePlayerRespawn()
@@ -25,10 +30,13 @@ namespace RollTheDice
         private void CreateDicePlayerRespawnEventHandler()
         {
             RegisterEventHandler<EventPlayerDeath>(EventDicePlayerRespawnOnPlayerDeath);
+            RegisterEventHandler<EventPlayerTeam>(EventDicePlayerRespawnOnPlayerTeam);
         }
 
         private void RemoveDicePlayerRespawnListener()
         {
+            DeregisterEventHandler<EventPlayerDeath>(EventDicePlayerRespawnOnPlayerDeath);
+            DeregisterEventHandler<EventPlayerTeam>(EventDicePlayerRespawnOnPlayerTeam);
             RemoveListener<Listeners.OnTick>(EventDicePlayerRespawnOnTick);
         }
 
@@ -65,7 +73,8 @@ namespace RollTheDice
                     player.PlayerPawn.Value.ArmorValue = 100;
                     _playersWithRespawnAbility.Remove(player);
                     SendGlobalChatMessage(Localizer["DicePlayerRespawnSuccess"].Value
-                        .Replace("{playerName}", player.PlayerName));
+                        .Replace("{playerName}", player.PlayerName),
+                        player: player);
                 }
                 catch (Exception e)
                 {
@@ -112,6 +121,16 @@ namespace RollTheDice
             }
             // save weapons to string separated by comma for respawn
             _playersWithRespawnAbility[player]["weapons"] = string.Join(",", tmpWeaponList);
+            return HookResult.Continue;
+        }
+
+        private HookResult EventDicePlayerRespawnOnPlayerTeam(EventPlayerTeam @event, GameEventInfo info)
+        {
+            if (@event.Team != (byte)CsTeam.Spectator && @event.Team != (byte)CsTeam.None) return HookResult.Continue;
+            var player = @event.Userid;
+            if (player == null) return HookResult.Continue;
+            if (!_playersWithRespawnAbility.ContainsKey(player)) return HookResult.Continue;
+            _playersWithRespawnAbility.Remove(player);
             return HookResult.Continue;
         }
     }

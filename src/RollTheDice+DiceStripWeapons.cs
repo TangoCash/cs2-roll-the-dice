@@ -5,40 +5,41 @@ namespace RollTheDice
 {
     public partial class RollTheDice : BasePlugin
     {
-        private string DiceStripWeapons(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DiceStripWeapons(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
-            if (playerPawn.WeaponServices == null) return Localizer["command.rollthedice.error"].Value.Replace("{playerName}", player.PlayerName);
+            if (playerPawn.WeaponServices == null)
+                return new Dictionary<string, string>
+                {
+                    {"_translation_player", "command.rollthedice.error"},
+                    { "playerName", player.PlayerName }
+                };
             var playerWeapons = playerPawn.WeaponServices!;
-            uint weaponRaw = 0;
             foreach (var weapon in playerWeapons.MyWeapons)
             {
                 // ignore unknown weapons
                 if (weapon.Value == null || weapon.Value != null && weapon.Value.DesignerName == null) continue;
-                // ignore knife and C4
-                if (weapon.Value!.DesignerName == CsItem.C4.ToString().ToLower()
-                    || weapon.Value!.DesignerName == CsItem.Bomb.ToString().ToLower()
-                    || weapon.Value!.DesignerName == "weapon_knife" // necessary because CsItem.Knife is not always this value
-                    || weapon.Value!.DesignerName == $"weapon_{CsItem.Knife.ToString().ToLower()}"
-                    || weapon.Value!.DesignerName == $"weapon_{CsItem.KnifeCT.ToString().ToLower()}"
-                    || weapon.Value!.DesignerName == $"weapon_{CsItem.KnifeT.ToString().ToLower()}"
-                    || weapon.Value!.DesignerName == CsItem.DefaultKnifeCT.ToString().ToLower()
-                    || weapon.Value!.DesignerName == CsItem.DefaultKnifeT.ToString().ToLower())
+                if (weapon.Value!.DesignerName == $"weapon_{CsItem.C4.ToString().ToLower()}"
+                    || weapon.Value!.DesignerName == $"weapon_{CsItem.Bomb.ToString().ToLower()}")
                 {
-                    // save weapon raw
-                    weaponRaw = weapon.Raw;
-                    continue;
+                    // change weapon to currently active weapon
+                    playerPawn.WeaponServices.ActiveWeapon.Raw = weapon.Raw;
+                    // drop active weapon
+                    player.DropActiveWeapon();
                 }
-                // change weapon to currently active weapon
-                playerPawn.WeaponServices.ActiveWeapon.Raw = weapon.Raw;
-                // drop active weapon
-                player.DropActiveWeapon();
-                // delete it
-                weapon.Value.Remove();
             }
-            // put knife in hand of player
-            playerPawn.WeaponServices.ActiveWeapon.Raw = weaponRaw;
-            return Localizer["DiceStripWeapons"].Value
-                .Replace("{playerName}", player.PlayerName);
+            AddTimer(0.1f, () =>
+            {
+                if (player == null || !player.IsValid) return;
+                player.RemoveWeapons();
+                player.GiveNamedItem("weapon_knife");
+            });
+
+            return new Dictionary<string, string>
+            {
+                {"_translation_player", "DiceStripWeaponsPlayer"},
+                {"_translation_other", "DiceStripWeapons"},
+                { "playerName", player.PlayerName }
+            };
         }
     }
 }

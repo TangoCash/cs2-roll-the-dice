@@ -13,12 +13,18 @@ namespace RollTheDice
             "Chicken.Panic",
         };
 
-        private string DicePlayerAsChicken(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DicePlayerAsChicken(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
-            if (_playersAsChicken.ContainsKey(player)) return Localizer["command.rollthedice.error"].Value.Replace("{playerName}", player.PlayerName);
+            if (_playersAsChicken.ContainsKey(player))
+                return new Dictionary<string, string>
+                {
+                    {"_translation_player", "command.rollthedice.error"},
+                    { "playerName", player.PlayerName }
+                };
             // create listener if not exists
             if (_playersAsChicken.Count() == 0)
             {
+                RegisterEventHandler<EventPlayerDeath>(EventDicePlayerAsChickenOnPlayerDeath);
                 RegisterListener<Listeners.OnTick>(EventDicePlayerAsChickenOnTick);
                 RegisterListener<Listeners.CheckTransmit>(EventDicePlayerAsChickenCheckTransmit);
             }
@@ -28,12 +34,19 @@ namespace RollTheDice
             _playersAsChicken[player]["next_sound"] = $"{(int)Server.CurrentTime + 2}";
             _playersAsChicken[player]["prop"] = SpawnProp(player, _playersAsChickenModel, 5.2f).ToString();
             MakePlayerInvisible(player);
-            return Localizer["DicePlayerAsChicken"].Value
-                .Replace("{playerName}", player.PlayerName);
+            return new Dictionary<string, string>
+            {
+                {"_translation_player", "DicePlayerAsChickenPlayer"},
+                {"_translation_other", "DicePlayerAsChicken"},
+                { "playerName", player.PlayerName }
+            };
         }
 
         private void ResetDicePlayerAsChicken()
         {
+            // remove listener
+            RemoveDicePlayerAsChickenListeners();
+            // iterate through all players
             foreach (CCSPlayerController player in _playersAsChicken.Keys)
             {
                 if (player == null || player.Pawn == null || player.Pawn.Value == null) continue;
@@ -43,13 +56,9 @@ namespace RollTheDice
             _playersAsChicken.Clear();
         }
 
-        private void CreateDicePlayerAsChickenEventHandler()
-        {
-            RegisterEventHandler<EventPlayerDeath>(EventDicePlayerAsChickenOnPlayerDeath);
-        }
-
         private void RemoveDicePlayerAsChickenListeners()
         {
+            DeregisterEventHandler<EventPlayerDeath>(EventDicePlayerAsChickenOnPlayerDeath);
             RemoveListener<Listeners.OnTick>(EventDicePlayerAsChickenOnTick);
             RemoveListener<Listeners.CheckTransmit>(EventDicePlayerAsChickenCheckTransmit);
         }
@@ -78,13 +87,14 @@ namespace RollTheDice
                     // update prop every tick to ensure synchroneity
                     UpdateProp(
                         player,
-                        int.Parse(playerData["prop"])
+                        int.Parse(playerData["prop"]),
+                        (player.Buttons & PlayerButtons.Duck) != 0 ? -18 : 0
                     );
                     // make sound if time
                     if (int.Parse(_playersAsChicken[player]["next_sound"]) <= (int)Server.CurrentTime)
                     {
-                        EmitSound(player, _chickenSounds[Random.Shared.Next(_chickenSounds.Count)]);
-                        _playersAsChicken[player]["next_sound"] = $"{(int)Server.CurrentTime + Random.Shared.Next(2, 5)}";
+                        EmitSound(player, _chickenSounds[_random.Next(_chickenSounds.Count)]);
+                        _playersAsChicken[player]["next_sound"] = $"{(int)Server.CurrentTime + _random.Next(2, 5)}";
                     }
                 }
                 catch (Exception e)

@@ -7,7 +7,7 @@ namespace RollTheDice
         private List<CCSPlayerController> _playersWithChangedNames = new();
         private Dictionary<CCSPlayerController, string> _playersWithChangedNamesOldNames = new();
 
-        private string DiceChangeName(CCSPlayerController player, CCSPlayerPawn playerPawn)
+        private Dictionary<string, string> DiceChangeName(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             // select random string from list
             var names = new List<string>
@@ -24,13 +24,17 @@ namespace RollTheDice
                 "Jochen Jaguar", "Knut Känguru", "Lothar Löwe", "Martin Marder", "Norbert Nashorn",
                 "Egon Kowalski", "Fritz Fink", "Heinz Hering"
             };
-            var randomName = names[Random.Shared.Next(names.Count)];
+            var randomName = names[_random.Next(names.Count)];
             _playersWithChangedNames.Add(player);
             _playersWithChangedNamesOldNames[player] = player.PlayerName;
             player.PlayerName = randomName;
-            return Localizer["DiceChangeName"].Value
-                .Replace("{playerName}", _playersWithChangedNamesOldNames[player])
-                .Replace("{randomName}", randomName);
+            return new Dictionary<string, string>
+            {
+                {"_translation_player", "DiceChangeNamePlayer"},
+                {"_translation_other", "DiceChangeName"},
+                { "playerName", _playersWithChangedNamesOldNames[player] },
+                { "randomName", randomName }
+            };
         }
 
         private void ResetDiceChangeName()
