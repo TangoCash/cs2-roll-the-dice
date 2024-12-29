@@ -93,6 +93,8 @@ namespace RollTheDice
                 }
                 player.PrintToCenter(message);
                 player.PrintToChat(message);
+                // change player message (if any)
+                _playersThatRolledTheDice[player] = message;
             }
             // play sound
             player.ExecuteClientCommand("play sounds/ui/coin_pickup_01.vsnd");
