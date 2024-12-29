@@ -56,6 +56,8 @@ namespace RollTheDice
         private HookResult EventDiceIncreaseSpeedOnPlayerHurt(EventPlayerHurt @event, GameEventInfo info)
         {
             var victim = @event.Userid;
+            // ignore if victim is null
+            if (victim == null) return HookResult.Continue;
             // ignore if player is not in the list
             if (!_playersWithIncreasedSpeed.Contains(victim)) return HookResult.Continue;
             // check if player is valid
