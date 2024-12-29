@@ -56,7 +56,6 @@ namespace RollTheDice
 
         private void DicePlayerDisguiseAsPlantUnload()
         {
-            DeregisterEventHandler<EventPlayerDeath>(EventDicePlayerDisguiseAsPlantOnPlayerDeath);
             DicePlayerDisguiseAsPlantReset();
         }
 

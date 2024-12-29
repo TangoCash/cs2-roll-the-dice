@@ -30,8 +30,6 @@ namespace RollTheDice
 
         private void DicePlayerRespawnUnload()
         {
-            DeregisterEventHandler<EventPlayerDeath>(EventDicePlayerRespawnOnPlayerDeath);
-            DeregisterEventHandler<EventPlayerTeam>(EventDicePlayerRespawnOnPlayerTeam);
             DicePlayerRespawnReset();
         }
 
@@ -90,15 +88,15 @@ namespace RollTheDice
         private HookResult EventDicePlayerRespawnOnPlayerDeath(EventPlayerDeath @event, GameEventInfo info)
         {
             var player = @event.Userid;
-            var attacker = @event.Attacker;
             if (player == null) return HookResult.Continue;
+            if (!_playersWithRespawnAbility.ContainsKey(player)) return HookResult.Continue;
             var playerPawn = player.PlayerPawn.Value;
             if (playerPawn == null) return HookResult.Continue;
             var weaponService = playerPawn.WeaponServices;
             if (weaponService == null) return HookResult.Continue;
-            if (!_playersWithRespawnAbility.ContainsKey(player)) return HookResult.Continue;
             // give weapons from attacker because player is dead and has no weapons in weaponsService (they are removed)
             var tmpWeaponList = new List<string>();
+            var attacker = @event.Attacker;
             if (attacker != null
                 && attacker.PlayerPawn != null
                 && attacker.PlayerPawn.Value != null

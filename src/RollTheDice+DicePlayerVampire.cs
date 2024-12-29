@@ -25,7 +25,7 @@ namespace RollTheDice
 
         private void DicePlayerVampireUnload()
         {
-            DeregisterEventHandler<EventPlayerHurt>(EventDicePlayerVampireOnPlayerHurt);
+            DicePlayerVampireReset();
         }
 
         private void DicePlayerVampireReset()

@@ -49,8 +49,6 @@ namespace RollTheDice
 
         private void DiceFastBombActionUnload()
         {
-            DeregisterEventHandler<EventBombBegindefuse>(DiceFastBombActionEventBeginDefuse);
-            DeregisterEventHandler<EventBombBeginplant>(DiceFastBombActionEventBeginPlant);
             DiceFastBombActionReset();
         }
 
@@ -64,9 +62,9 @@ namespace RollTheDice
         {
             var player = @event.Userid;
             if (player == null) return HookResult.Continue;
+            if (!_playersCanInstantDefuse.Contains(player)) return HookResult.Continue;
             var playerPawn = player.PlayerPawn.Value;
             if (playerPawn == null) return HookResult.Continue;
-            if (!_playersCanInstantDefuse.Contains(player)) return HookResult.Continue;
             var c4 = Utilities.FindAllEntitiesByDesignerName<CPlantedC4>("planted_c4").First();
             Server.NextFrame(() =>
             {
@@ -80,9 +78,9 @@ namespace RollTheDice
         {
             var player = @event.Userid;
             if (player == null) return HookResult.Continue;
+            if (!_playersCanInstantPlant.Contains(player)) return HookResult.Continue;
             var playerPawn = player.PlayerPawn.Value;
             if (playerPawn == null) return HookResult.Continue;
-            if (!_playersCanInstantPlant.Contains(player)) return HookResult.Continue;
             var weaponService = playerPawn.WeaponServices?.ActiveWeapon;
             if (weaponService == null) return HookResult.Continue;
             var activeWeapon = weaponService.Value;

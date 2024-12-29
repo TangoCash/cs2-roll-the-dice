@@ -50,7 +50,6 @@ namespace RollTheDice
         private void DicePlayerAsChickenReset()
         {
             // remove listeners
-            DeregisterEventHandler<EventPlayerDeath>(EventDicePlayerAsChickenOnPlayerDeath);
             RemoveListener<Listeners.OnTick>(EventDicePlayerAsChickenOnTick);
             RemoveListener<Listeners.CheckTransmit>(EventDicePlayerAsChickenCheckTransmit);
             // iterate through all players

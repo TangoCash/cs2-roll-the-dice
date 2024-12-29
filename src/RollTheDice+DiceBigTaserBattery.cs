@@ -27,7 +27,6 @@ namespace RollTheDice
 
         private void DiceBigTaserBatteryUnload()
         {
-            DeregisterEventHandler<EventWeaponFire>(EventDiceBigTaserBatteryOnWeaponFire);
             DiceBigTaserBatteryReset();
         }
 

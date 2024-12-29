@@ -32,7 +32,6 @@ namespace RollTheDice
 
         private void DiceIncreaseSpeedUnload()
         {
-            DeregisterEventHandler<EventPlayerHurt>(EventDiceIncreaseSpeedOnPlayerHurt);
             DiceIncreaseSpeedReset();
         }
 
@@ -56,13 +55,9 @@ namespace RollTheDice
         private HookResult EventDiceIncreaseSpeedOnPlayerHurt(EventPlayerHurt @event, GameEventInfo info)
         {
             var victim = @event.Userid;
-            // ignore if victim is null
             if (victim == null) return HookResult.Continue;
-            // ignore if player is not in the list
             if (!_playersWithIncreasedSpeed.Contains(victim)) return HookResult.Continue;
-            // check if player is valid
             if (victim == null || victim.PlayerPawn == null || !victim.PlayerPawn.IsValid || victim.PlayerPawn.Value == null || victim.LifeState != (byte)LifeState_t.LIFE_ALIVE) return HookResult.Continue;
-            // get player pawn
             var playerPawn = victim.PlayerPawn.Value!;
             AddTimer(0f, () =>
             {
