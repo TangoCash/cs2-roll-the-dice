@@ -39,14 +39,15 @@ namespace RollTheDice
                 command.ReplyToCommand(Localizer["command.rollthedice.notalive"]);
                 return;
             };
-            if (_playersThatRolledTheDice.Contains(player))
+            if (_playersThatRolledTheDice.ContainsKey(player))
             {
-                if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.alreadyrolled"]);
-                command.ReplyToCommand(Localizer["command.rollthedice.alreadyrolled"]);
+                if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.alreadyrolled"].Value
+                                                                                .Replace("{dice}", _playersThatRolledTheDice[player]));
+                command.ReplyToCommand(Localizer["command.rollthedice.alreadyrolled"].Value
+                    .Replace("{dice}", _playersThatRolledTheDice[player])
+                );
                 return;
             }
-            // add player to list
-            _playersThatRolledTheDice.Add(player);
             // get random dice
             var dice = GetRandomDice();
             if (dice == -1)
@@ -55,6 +56,8 @@ namespace RollTheDice
                 command.ReplyToCommand(Localizer["command.rollthedice.nodicesenabled"]);
                 return;
             }
+            // add player to list
+            _playersThatRolledTheDice.Add(player, _dices[dice].Method.Name);
             // count dice roll
             _countRolledDices[_dices[dice].Method.Name]++;
             // execute dice function

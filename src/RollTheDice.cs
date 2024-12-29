@@ -10,7 +10,7 @@ namespace RollTheDice
         public override string ModuleAuthor => "Jon-Mailes Graeffe <mail@jonni.it> / Kalle <kalle@kandru.de>";
 
         private string _currentMap = "";
-        private List<CCSPlayerController> _playersThatRolledTheDice = new();
+        private Dictionary<CCSPlayerController, string> _playersThatRolledTheDice = new();
         private Dictionary<string, int> _countRolledDices = new();
         private List<Func<CCSPlayerController, CCSPlayerPawn, Dictionary<string, string>>> _dices = new();
         private bool _isDuringRound = false;

@@ -11,7 +11,7 @@
     "command.rollthedice.iswarmup": "{purple}[RollTheDice] {default}disabled during Warm-Up!",
     "command.rollthedice.noactiveround": "{purple}[RollTheDice] {default}No active round!",
     "command.rollthedice.notalive": "{purple}[RollTheDice] {default}You need to be alive to roll the dice!",
-    "command.rollthedice.alreadyrolled": "{purple}[RollTheDice] {default}You already rolled the dice this round!",
+    "command.rollthedice.alreadyrolled": "{purple}[RollTheDice] {red}Already rolled: {default}{dice}",
     "command.rollthedice.error": "{purple}[RollTheDice] {green}{playerName} {default}could not roll the dice :(",
     "DiceChangeNamePlayer": "{default}You are now named {green}{randomName}{default}!",
     "DiceChangeName": "{purple}[RollTheDice] {green}{playerName} {default}changed their name to {green}{randomName}{default}!",
