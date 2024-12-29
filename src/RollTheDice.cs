@@ -1,5 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using System.Reflection;
 
 namespace RollTheDice
 {
@@ -30,12 +31,6 @@ namespace RollTheDice
             RegisterListener<Listeners.OnMapStart>(OnMapStart);
             RegisterListener<Listeners.OnMapEnd>(OnMapEnd);
             RegisterListener<Listeners.OnServerPrecacheResources>(OnServerPrecacheResources);
-            CreateDiceFastBombActionEventHandlers();
-            CreateDicePlayerVampireEventHandler();
-            CreateDicePlayerDisguiseAsPlantEventHandler();
-            CreateDicePlayerRespawnEventHandler();
-            CreateDiceBigTaserBatteryEventHandler();
-            CreateDiceIncreaseSpeedEventHandler();
             // print message if hot reload
             if (hotReload)
             {
@@ -58,17 +53,13 @@ namespace RollTheDice
             RemoveListener<Listeners.OnMapStart>(OnMapStart);
             RemoveListener<Listeners.OnMapEnd>(OnMapEnd);
             RemoveListener<Listeners.OnServerPrecacheResources>(OnServerPrecacheResources);
-            RemoveDiceFastBombActionEventHandlers();
-            RemoveDicePlayerVampireEventHandler();
-            RemoveDicePlayerDisguiseAsPlantListener();
-            RemoveDicePlayerRespawnListener();
-            RemoveDicePlayerAsChickenListeners();
-            RemoveDicePlayerMakeHostageSoundsListener();
-            RemoveDicePlayerMakeFakeGunSoundsListener();
-            RemoveDiceBigTaserBatteryListeners();
-            RemoveDicePlayerCloakListeners();
-            RemoveDiceNoExplosivesEventHandler();
-            RemoveDDiceIncreaseSpeedEventHandler();
+            // iterate through all dices and call their unload method dynamically
+            foreach (var dice in _dices)
+            {
+                var methodName = $"{dice.Method.Name}Unload";
+                var method = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
+                if (method != null) method.Invoke(this, null);
+            }
             Console.WriteLine(Localizer["core.unload"]);
         }
 
@@ -142,23 +133,27 @@ namespace RollTheDice
                 DiceGiveHealthShot,
                 DiceNoExplosives
             };
+            // run all dices' initialization methods
+            // TODO: check after each map load and unload if dice is enabled
+            // and run load and unload methods dynamically
+            // iterate through all dices and call their reset method dynamically
+            foreach (var dice in _dices)
+            {
+                var methodName = $"{dice.Method.Name}Load";
+                var method = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
+                if (method != null) method.Invoke(this, null);
+            }
         }
 
         private void ResetDices()
         {
-            ResetDicePlayerInvisible();
-            ResetDiceIncreaseSpeed();
-            ResetDiceChangeName();
-            ResetDiceFastBombAction();
-            ResetDicePlayerVampire();
-            ResetDicePlayerDisguiseAsPlant();
-            ResetDicePlayerRespawn();
-            ResetDicePlayerAsChicken();
-            ResetDicePlayerMakeHostageSounds();
-            ResetDicePlayerMakeFakeGunSounds();
-            ResetDiceBigTaserBattery();
-            ResetDicePlayerCloak();
-            ResetDiceNoExplosives();
+            // iterate through all dices and call their reset method dynamically
+            foreach (var dice in _dices)
+            {
+                var methodName = $"{dice.Method.Name}Reset";
+                var method = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
+                if (method != null) method.Invoke(this, null);
+            }
         }
 
         private int GetRandomDice()

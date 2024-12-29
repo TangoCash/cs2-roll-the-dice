@@ -21,7 +21,12 @@ namespace RollTheDice
             };
         }
 
-        private void ResetDicePlayerInvisible()
+        private void DicePlayerInvisibleUnload()
+        {
+            DicePlayerInvisibleReset();
+        }
+
+        private void DicePlayerInvisibleReset()
         {
             // iterate through all players
             foreach (var player in _playersThatAreInvisible)

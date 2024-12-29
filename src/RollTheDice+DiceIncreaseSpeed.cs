@@ -25,7 +25,18 @@ namespace RollTheDice
             };
         }
 
-        private void ResetDiceIncreaseSpeed()
+        private void DiceIncreaseSpeedLoad()
+        {
+            RegisterEventHandler<EventPlayerHurt>(EventDiceIncreaseSpeedOnPlayerHurt);
+        }
+
+        private void DiceIncreaseSpeedUnload()
+        {
+            DeregisterEventHandler<EventPlayerHurt>(EventDiceIncreaseSpeedOnPlayerHurt);
+            DiceIncreaseSpeedReset();
+        }
+
+        private void DiceIncreaseSpeedReset()
         {
             // iterate through all players
             foreach (var player in _playersWithIncreasedSpeed)
@@ -40,16 +51,6 @@ namespace RollTheDice
             }
             _playersWithIncreasedSpeed.Clear();
             _playersWithIncreasedSpeedValue.Clear();
-        }
-
-        private void CreateDiceIncreaseSpeedEventHandler()
-        {
-            RegisterEventHandler<EventPlayerHurt>(EventDiceIncreaseSpeedOnPlayerHurt);
-        }
-
-        private void RemoveDDiceIncreaseSpeedEventHandler()
-        {
-            DeregisterEventHandler<EventPlayerHurt>(EventDiceIncreaseSpeedOnPlayerHurt);
         }
 
         private HookResult EventDiceIncreaseSpeedOnPlayerHurt(EventPlayerHurt @event, GameEventInfo info)

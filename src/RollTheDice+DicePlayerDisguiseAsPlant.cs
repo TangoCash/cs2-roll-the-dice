@@ -49,8 +49,20 @@ namespace RollTheDice
             };
         }
 
-        private void ResetDicePlayerDisguiseAsPlant()
+        private void DicePlayerDisguiseAsPlantLoad()
         {
+            RegisterEventHandler<EventPlayerDeath>(EventDicePlayerDisguiseAsPlantOnPlayerDeath);
+        }
+
+        private void DicePlayerDisguiseAsPlantUnload()
+        {
+            DeregisterEventHandler<EventPlayerDeath>(EventDicePlayerDisguiseAsPlantOnPlayerDeath);
+            DicePlayerDisguiseAsPlantReset();
+        }
+
+        private void DicePlayerDisguiseAsPlantReset()
+        {
+            RemoveListener<Listeners.OnTick>(EventDicePlayerDisguiseAsPlantOnTick);
             foreach (CCSPlayerController player in _playersDisguisedAsPlants.Keys)
             {
                 if (player == null || player.Pawn == null || player.Pawn.Value == null) continue;
@@ -58,17 +70,6 @@ namespace RollTheDice
                 MakePlayerVisible(player);
             }
             _playersDisguisedAsPlants.Clear();
-        }
-
-        private void CreateDicePlayerDisguiseAsPlantEventHandler()
-        {
-            RegisterEventHandler<EventPlayerDeath>(EventDicePlayerDisguiseAsPlantOnPlayerDeath);
-        }
-
-        private void RemoveDicePlayerDisguiseAsPlantListener()
-        {
-            DeregisterEventHandler<EventPlayerDeath>(EventDicePlayerDisguiseAsPlantOnPlayerDeath);
-            RemoveListener<Listeners.OnTick>(EventDicePlayerDisguiseAsPlantOnTick);
         }
 
         private void EventDicePlayerDisguiseAsPlantOnTick()

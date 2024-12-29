@@ -34,17 +34,15 @@ namespace RollTheDice
             };
         }
 
-        private void ResetDicePlayerMakeFakeGunSounds()
+        private void DicePlayerMakeFakeGunSoundsUnload()
         {
-            // remove listener
-            RemoveDicePlayerMakeFakeGunSoundsListener();
-            // clear list
-            _playersWithFakeGunSounds.Clear();
+            DicePlayerMakeFakeGunSoundsReset();
         }
 
-        private void RemoveDicePlayerMakeFakeGunSoundsListener()
+        private void DicePlayerMakeFakeGunSoundsReset()
         {
             RemoveListener<Listeners.OnTick>(EventDicePlayerMakeFakeGunSoundsOnTick);
+            _playersWithFakeGunSounds.Clear();
         }
 
         private void EventDicePlayerMakeFakeGunSoundsOnTick()
@@ -52,7 +50,7 @@ namespace RollTheDice
             // remove listener if no players to save resources
             if (_playersWithFakeGunSounds.Count() == 0)
             {
-                RemoveListener<Listeners.OnTick>(EventDicePlayerMakeFakeGunSoundsOnTick);
+                DicePlayerMakeFakeGunSoundsReset();
                 return;
             }
             // worker

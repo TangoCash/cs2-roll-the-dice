@@ -37,14 +37,15 @@ namespace RollTheDice
             };
         }
 
-        private void ResetDiceNoExplosives()
+        private void DiceNoExplosivesReset()
         {
             _playersWithoutExplosives.Clear();
         }
 
-        private void RemoveDiceNoExplosivesEventHandler()
+        private void DiceNoExplosivesUnload()
         {
             RemoveListener<Listeners.OnEntitySpawned>(DiceNoExplosivesOnEntitySpawned);
+            DiceNoExplosivesReset();
         }
 
         private void DiceNoExplosivesOnEntitySpawned(CEntityInstance entity)

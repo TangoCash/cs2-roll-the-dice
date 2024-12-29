@@ -41,22 +41,23 @@ namespace RollTheDice
             }
         }
 
-        private void ResetDiceFastBombAction()
-        {
-            _playersCanInstantDefuse.Clear();
-            _playersCanInstantPlant.Clear();
-        }
-
-        private void CreateDiceFastBombActionEventHandlers()
+        private void DiceFastBombActionLoad()
         {
             RegisterEventHandler<EventBombBegindefuse>(DiceFastBombActionEventBeginDefuse);
             RegisterEventHandler<EventBombBeginplant>(DiceFastBombActionEventBeginPlant);
         }
 
-        private void RemoveDiceFastBombActionEventHandlers()
+        private void DiceFastBombActionUnload()
         {
             DeregisterEventHandler<EventBombBegindefuse>(DiceFastBombActionEventBeginDefuse);
             DeregisterEventHandler<EventBombBeginplant>(DiceFastBombActionEventBeginPlant);
+            DiceFastBombActionReset();
+        }
+
+        private void DiceFastBombActionReset()
+        {
+            _playersCanInstantDefuse.Clear();
+            _playersCanInstantPlant.Clear();
         }
 
         private HookResult DiceFastBombActionEventBeginDefuse(EventBombBegindefuse @event, GameEventInfo info)

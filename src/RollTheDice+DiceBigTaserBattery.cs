@@ -20,17 +20,18 @@ namespace RollTheDice
             };
         }
 
-        private void CreateDiceBigTaserBatteryEventHandler()
+        private void DiceBigTaserBatteryLoad()
         {
             RegisterEventHandler<EventWeaponFire>(EventDiceBigTaserBatteryOnWeaponFire);
         }
 
-        private void RemoveDiceBigTaserBatteryListeners()
+        private void DiceBigTaserBatteryUnload()
         {
             DeregisterEventHandler<EventWeaponFire>(EventDiceBigTaserBatteryOnWeaponFire);
+            DiceBigTaserBatteryReset();
         }
 
-        private void ResetDiceBigTaserBattery()
+        private void DiceBigTaserBatteryReset()
         {
             _playersWithBigTaserBattery.Clear();
         }

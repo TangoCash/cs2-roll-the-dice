@@ -31,15 +31,15 @@ namespace RollTheDice
             };
         }
 
-        private void RemoveDicePlayerCloakListeners()
+        private void DicePlayerCloakUnload()
         {
-            RemoveListener<Listeners.OnTick>(EventDicePlayerCloakOnTick);
+            DicePlayerCloakReset();
         }
 
-        private void ResetDicePlayerCloak()
+        private void DicePlayerCloakReset()
         {
             // remove listeners
-            RemoveDicePlayerCloakListeners();
+            RemoveListener<Listeners.OnTick>(EventDicePlayerCloakOnTick);
             // iterate through all players
             foreach (var (player, visibility) in _playersWithCloak)
             {

@@ -27,17 +27,15 @@ namespace RollTheDice
             };
         }
 
-        private void ResetDicePlayerMakeHostageSounds()
+        private void DicePlayerMakeHostageSoundsUnload()
         {
-            // remove listener
-            RemoveDicePlayerMakeHostageSoundsListener();
-            // clear list
-            _playersWithHostageSounds.Clear();
+            DicePlayerMakeHostageSoundsReset();
         }
 
-        private void RemoveDicePlayerMakeHostageSoundsListener()
+        private void DicePlayerMakeHostageSoundsReset()
         {
             RemoveListener<Listeners.OnTick>(EventDicePlayerMakeHostageSoundsOnTick);
+            _playersWithHostageSounds.Clear();
         }
 
         private void EventDicePlayerMakeHostageSoundsOnTick()
@@ -45,7 +43,7 @@ namespace RollTheDice
             // remove listener if no players to save resources
             if (_playersWithHostageSounds.Count() == 0)
             {
-                RemoveListener<Listeners.OnTick>(EventDicePlayerMakeHostageSoundsOnTick);
+                DicePlayerMakeHostageSoundsReset();
                 return;
             }
             // worker

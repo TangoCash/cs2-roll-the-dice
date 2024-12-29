@@ -42,10 +42,17 @@ namespace RollTheDice
             };
         }
 
-        private void ResetDicePlayerAsChicken()
+        private void DicePlayerAsChickenUnload()
         {
-            // remove listener
-            RemoveDicePlayerAsChickenListeners();
+            DicePlayerAsChickenReset();
+        }
+
+        private void DicePlayerAsChickenReset()
+        {
+            // remove listeners
+            DeregisterEventHandler<EventPlayerDeath>(EventDicePlayerAsChickenOnPlayerDeath);
+            RemoveListener<Listeners.OnTick>(EventDicePlayerAsChickenOnTick);
+            RemoveListener<Listeners.CheckTransmit>(EventDicePlayerAsChickenCheckTransmit);
             // iterate through all players
             foreach (CCSPlayerController player in _playersAsChicken.Keys)
             {
@@ -54,13 +61,6 @@ namespace RollTheDice
                 MakePlayerVisible(player);
             }
             _playersAsChicken.Clear();
-        }
-
-        private void RemoveDicePlayerAsChickenListeners()
-        {
-            DeregisterEventHandler<EventPlayerDeath>(EventDicePlayerAsChickenOnPlayerDeath);
-            RemoveListener<Listeners.OnTick>(EventDicePlayerAsChickenOnTick);
-            RemoveListener<Listeners.CheckTransmit>(EventDicePlayerAsChickenCheckTransmit);
         }
 
         private void EventDicePlayerAsChickenOnTick()

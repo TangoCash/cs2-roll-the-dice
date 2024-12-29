@@ -37,7 +37,12 @@ namespace RollTheDice
             };
         }
 
-        private void ResetDiceChangeName()
+        private void DiceChangeNameUnload()
+        {
+            DiceChangeNameReset();
+        }
+
+        private void DiceChangeNameReset()
         {
             // iterate through all players
             foreach (var player in _playersWithChangedNames)

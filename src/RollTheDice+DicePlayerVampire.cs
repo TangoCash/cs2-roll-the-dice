@@ -18,19 +18,19 @@ namespace RollTheDice
             };
         }
 
-        private void ResetDicePlayerVampire()
-        {
-            _playerVampires.Clear();
-        }
-
-        private void CreateDicePlayerVampireEventHandler()
+        private void DicePlayerVampireLoad()
         {
             RegisterEventHandler<EventPlayerHurt>(EventDicePlayerVampireOnPlayerHurt);
         }
 
-        private void RemoveDicePlayerVampireEventHandler()
+        private void DicePlayerVampireUnload()
         {
             DeregisterEventHandler<EventPlayerHurt>(EventDicePlayerVampireOnPlayerHurt);
+        }
+
+        private void DicePlayerVampireReset()
+        {
+            _playerVampires.Clear();
         }
 
         private HookResult EventDicePlayerVampireOnPlayerHurt(EventPlayerHurt @event, GameEventInfo info)
@@ -38,9 +38,9 @@ namespace RollTheDice
             var attacker = @event.Attacker;
             var victim = @event.Userid;
             if (attacker == null || victim == null) return HookResult.Continue;
+            if (!_playerVampires.Contains(attacker)) return HookResult.Continue;
             var playerPawn = attacker.PlayerPawn.Value;
             if (playerPawn == null) return HookResult.Continue;
-            if (!_playerVampires.Contains(attacker)) return HookResult.Continue;
             playerPawn.Health += (int)float.Round(@event.DmgHealth);
             if (playerPawn.Health > 200) playerPawn.Health = 200;
             attacker.PrintToCenterAlert($"+{(int)float.Round(@event.DmgHealth)} health!");

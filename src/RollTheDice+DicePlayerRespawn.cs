@@ -22,22 +22,23 @@ namespace RollTheDice
             };
         }
 
-        private void ResetDicePlayerRespawn()
-        {
-            _playersWithRespawnAbility.Clear();
-        }
-
-        private void CreateDicePlayerRespawnEventHandler()
+        private void DicePlayerRespawnLoad()
         {
             RegisterEventHandler<EventPlayerDeath>(EventDicePlayerRespawnOnPlayerDeath);
             RegisterEventHandler<EventPlayerTeam>(EventDicePlayerRespawnOnPlayerTeam);
         }
 
-        private void RemoveDicePlayerRespawnListener()
+        private void DicePlayerRespawnUnload()
         {
             DeregisterEventHandler<EventPlayerDeath>(EventDicePlayerRespawnOnPlayerDeath);
             DeregisterEventHandler<EventPlayerTeam>(EventDicePlayerRespawnOnPlayerTeam);
+            DicePlayerRespawnReset();
+        }
+
+        private void DicePlayerRespawnReset()
+        {
             RemoveListener<Listeners.OnTick>(EventDicePlayerRespawnOnTick);
+            _playersWithRespawnAbility.Clear();
         }
 
         private void EventDicePlayerRespawnOnTick()
@@ -45,7 +46,7 @@ namespace RollTheDice
             // remove listener if no players to save resources
             if (_playersWithRespawnAbility.Count() == 0)
             {
-                RemoveListener<Listeners.OnTick>(EventDicePlayerRespawnOnTick);
+                DicePlayerRespawnReset();
                 return;
             }
             // worker
