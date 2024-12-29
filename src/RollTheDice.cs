@@ -132,7 +132,8 @@ namespace RollTheDice
                 DiceBigTaserBattery,
                 DicePlayerCloak,
                 DiceGiveHealthShot,
-                DiceNoExplosives
+                DiceNoExplosives,
+                DiceChangePlayerModel
             };
             // initialize dice counter
             foreach (var dice in _dices)

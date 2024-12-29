@@ -61,5 +61,7 @@
     "DiceGiveHealthShotPlayer": "{default}Du hast {amount}x Gesundheitsspritze(n) erhalten!",
     "DiceGiveHealthShot": "{purple}[WürfelSpiel] {green}{playerName} {default}hat {amount}x Gesundheitsspritze(n) erhalten!",
     "DiceNoExplosivesPlayer": "{default}Du kannst keine Granaten benutzen!",
-    "DiceNoExplosives": "{purple}[WürfelSpiel] {green}{playerName} {default}kann keine Granaten benutzen!"
+    "DiceNoExplosives": "{purple}[WürfelSpiel] {green}{playerName} {default}kann keine Granaten benutzen!",
+    "DiceChangePlayerModelPlayer": "{default}Du siehst aus wie deine Gegner!",
+    "DiceChangePlayerModel": "{purple}[WürfelSpiel] {green}{playerName} {default}verkleidet sich als Gegner!"
 }
