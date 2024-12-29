@@ -11,6 +11,7 @@ namespace RollTheDice
 
         private string _currentMap = "";
         private List<CCSPlayerController> _playersThatRolledTheDice = new();
+        private Dictionary<string, int> _countRolledDices = new();
         private List<Func<CCSPlayerController, CCSPlayerPawn, Dictionary<string, string>>> _dices = new();
         private bool _isDuringRound = false;
         Random _random = new Random(Guid.NewGuid().GetHashCode());
@@ -133,6 +134,11 @@ namespace RollTheDice
                 DiceGiveHealthShot,
                 DiceNoExplosives
             };
+            // initialize dice counter
+            foreach (var dice in _dices)
+            {
+                _countRolledDices[dice.Method.Name] = 0;
+            }
             // run all dices' initialization methods
             // TODO: check after each map load and unload if dice is enabled
             // and run load and unload methods dynamically
@@ -154,34 +160,6 @@ namespace RollTheDice
                 var method = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
                 if (method != null) method.Invoke(this, null);
             }
-        }
-
-        private int GetRandomDice()
-        {
-            // Filter enabled dices based on map-specific and global configuration
-            var enabledDiceIndices = _dices
-                .Select((dice, index) => new { dice, index })
-                .Where(diceInfo =>
-                {
-                    var diceName = diceInfo.dice.Method.Name;
-                    // Check map-specific configuration
-                    if (Config.MapConfigs.TryGetValue(_currentMap, out var mapConfig) && mapConfig.Features.TryGetValue(diceName, out var isEnabled))
-                    {
-                        return isEnabled;
-                    }
-                    // Check global configuration
-                    if (Config.Features.TryGetValue(diceName, out isEnabled))
-                    {
-                        return isEnabled;
-                    }
-                    // Default to enabled if not found in either configuration
-                    return true;
-                })
-                .Select(diceInfo => diceInfo.index)
-                .ToList();
-            if (enabledDiceIndices.Count == 0) return -1;
-            // Get random dice from enabled dices
-            return enabledDiceIndices[_random.Next(enabledDiceIndices.Count)];
         }
     }
 }

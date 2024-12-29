@@ -8,6 +8,44 @@ namespace RollTheDice
 {
     public partial class RollTheDice : BasePlugin
     {
+        private int GetRandomDice()
+        {
+            // Filter enabled dices based on map-specific and global configuration
+            var enabledDiceIndices = _dices
+                .Select((dice, index) => new { dice, index })
+                .Where(diceInfo =>
+                {
+                    var diceName = diceInfo.dice.Method.Name;
+                    // Check map-specific configuration
+                    if (Config.MapConfigs.TryGetValue(_currentMap, out var mapConfig) && mapConfig.Features.TryGetValue(diceName, out var isEnabled))
+                    {
+                        return isEnabled;
+                    }
+                    // Check global configuration
+                    if (Config.Features.TryGetValue(diceName, out isEnabled))
+                    {
+                        return isEnabled;
+                    }
+                    // Default to enabled if not found in either configuration
+                    return true;
+                })
+                .Select(diceInfo => diceInfo.index)
+                .ToList();
+            if (enabledDiceIndices.Count == 0) return -1;
+            // subset of enabled dices from dice counter
+            var countRolledDicesEnabled = _countRolledDices
+                .Where(diceCounter => enabledDiceIndices.Contains(_dices.FindIndex(dice => dice.Method.Name == diceCounter.Key)))
+                .ToDictionary(diceCounter => diceCounter.Key, diceCounter => diceCounter.Value);
+            // get the lowest count from enabled dices
+            var countRolledDicesLowestCount = countRolledDicesEnabled.Values.Min();
+            var countRolledDicesLowest = countRolledDicesEnabled
+                .Where(diceCounter => diceCounter.Value == countRolledDicesLowestCount)
+                .Select(diceCounter => _dices.FindIndex(dice => dice.Method.Name == diceCounter.Key))
+                .ToList();
+            // Get random dice from lowest used enabled dices
+            return countRolledDicesLowest[_random.Next(countRolledDicesLowest.Count)];
+        }
+
         public void SendGlobalChatMessage(string message, float delay = 0, CCSPlayerController? player = null)
         {
             foreach (CCSPlayerController entry in Utilities.GetPlayers())

@@ -55,6 +55,8 @@ namespace RollTheDice
                 command.ReplyToCommand(Localizer["command.rollthedice.nodicesenabled"]);
                 return;
             }
+            // count dice roll
+            _countRolledDices[_dices[dice].Method.Name]++;
             // execute dice function
             Dictionary<string, string> data = _dices[dice](player, playerPawn);
             // send message to all players
