@@ -165,7 +165,7 @@ namespace RollTheDice
         {
             var prop = Utilities.GetEntityFromIndex<CDynamicProp>((int)index);
             // remove plant entity
-            if (prop == null)
+            if (prop == null || !prop.IsValid)
                 return;
             if (softRemove)
                 prop.Teleport(new Vector(-999, -999, -999));

@@ -73,7 +73,7 @@ namespace RollTheDice
             Server.NextFrame(() =>
             {
                 CSmokeGrenadeProjectile grenade = new(handle);
-                if (grenade.Handle == IntPtr.Zero || grenade.AbsOrigin == null) return;
+                if (!grenade.IsValid || grenade.Handle == IntPtr.Zero || grenade.AbsOrigin == null) return;
                 CBaseEntity? owner = grenade.OwnerEntity?.Value;
                 if (owner == null) return;
                 if (_playersWithoutExplosives.Contains(owner))
@@ -97,7 +97,7 @@ namespace RollTheDice
             Server.NextFrame(() =>
             {
                 CHEGrenadeProjectile grenade = new(handle);
-                if (grenade.Handle == IntPtr.Zero || grenade.AbsOrigin == null) return;
+                if (!grenade.IsValid || grenade.Handle == IntPtr.Zero || grenade.AbsOrigin == null) return;
                 CBaseEntity? owner = grenade.OwnerEntity?.Value;
                 if (owner == null) return;
                 if (_playersWithoutExplosives.Contains(owner))
@@ -121,7 +121,7 @@ namespace RollTheDice
             Server.NextFrame(() =>
             {
                 CMolotovProjectile grenade = new(handle);
-                if (grenade.Handle == IntPtr.Zero || grenade.AbsOrigin == null) return;
+                if (!grenade.IsValid || grenade.Handle == IntPtr.Zero || grenade.AbsOrigin == null) return;
                 CBaseEntity? owner = grenade.OwnerEntity?.Value;
                 if (owner == null) return;
                 if (_playersWithoutExplosives.Contains(owner))
@@ -145,7 +145,7 @@ namespace RollTheDice
             Server.NextFrame(() =>
             {
                 CDecoyProjectile grenade = new(handle);
-                if (grenade.Handle == IntPtr.Zero || grenade.AbsOrigin == null) return;
+                if (!grenade.IsValid || grenade.Handle == IntPtr.Zero || grenade.AbsOrigin == null) return;
                 CBaseEntity? owner = grenade.OwnerEntity?.Value;
                 if (owner == null) return;
                 if (_playersWithoutExplosives.Contains(owner))
@@ -169,7 +169,7 @@ namespace RollTheDice
             Server.NextFrame(() =>
             {
                 CFlashbangProjectile grenade = new(handle);
-                if (grenade.Handle == IntPtr.Zero || grenade.AbsOrigin == null) return;
+                if (!grenade.IsValid || grenade.Handle == IntPtr.Zero || grenade.AbsOrigin == null) return;
                 CBaseEntity? owner = grenade.OwnerEntity?.Value;
                 if (owner == null) return;
                 if (_playersWithoutExplosives.Contains(owner))
