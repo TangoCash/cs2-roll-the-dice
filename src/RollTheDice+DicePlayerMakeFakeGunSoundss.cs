@@ -36,23 +36,18 @@ namespace RollTheDice
 
         private void DicePlayerMakeFakeGunSoundsUnload()
         {
+            RemoveListener<Listeners.OnTick>(EventDicePlayerMakeFakeGunSoundsOnTick);
             DicePlayerMakeFakeGunSoundsReset();
         }
 
         private void DicePlayerMakeFakeGunSoundsReset()
         {
-            RemoveListener<Listeners.OnTick>(EventDicePlayerMakeFakeGunSoundsOnTick);
             _playersWithFakeGunSounds.Clear();
         }
 
         private void EventDicePlayerMakeFakeGunSoundsOnTick()
         {
-            // remove listener if no players to save resources
-            if (_playersWithFakeGunSounds.Count() == 0)
-            {
-                DicePlayerMakeFakeGunSoundsReset();
-                return;
-            }
+            if (_playersWithFakeGunSounds.Count() == 0) return;
             // worker
             Dictionary<CCSPlayerController, int> _playersWithFakeGunSoundsCopy = new(_playersWithFakeGunSounds);
             foreach (var (player, last_sound) in _playersWithFakeGunSoundsCopy)

@@ -30,23 +30,18 @@ namespace RollTheDice
 
         private void DicePlayerRespawnUnload()
         {
+            RemoveListener<Listeners.OnTick>(EventDicePlayerRespawnOnTick);
             DicePlayerRespawnReset();
         }
 
         private void DicePlayerRespawnReset()
         {
-            RemoveListener<Listeners.OnTick>(EventDicePlayerRespawnOnTick);
             _playersWithRespawnAbility.Clear();
         }
 
         private void EventDicePlayerRespawnOnTick()
         {
-            // remove listener if no players to save resources
-            if (_playersWithRespawnAbility.Count() == 0)
-            {
-                DicePlayerRespawnReset();
-                return;
-            }
+            if (_playersWithRespawnAbility.Count() == 0) return;
             // worker
             Dictionary<CCSPlayerController, Dictionary<string, string>> _playersWithRespawnAbilityCopy = new(_playersWithRespawnAbility);
             foreach (var (player, playerData) in _playersWithRespawnAbilityCopy)

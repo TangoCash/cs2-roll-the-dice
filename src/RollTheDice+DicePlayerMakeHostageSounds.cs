@@ -29,23 +29,18 @@ namespace RollTheDice
 
         private void DicePlayerMakeHostageSoundsUnload()
         {
+            RemoveListener<Listeners.OnTick>(EventDicePlayerMakeHostageSoundsOnTick);
             DicePlayerMakeHostageSoundsReset();
         }
 
         private void DicePlayerMakeHostageSoundsReset()
         {
-            RemoveListener<Listeners.OnTick>(EventDicePlayerMakeHostageSoundsOnTick);
             _playersWithHostageSounds.Clear();
         }
 
         private void EventDicePlayerMakeHostageSoundsOnTick()
         {
-            // remove listener if no players to save resources
-            if (_playersWithHostageSounds.Count() == 0)
-            {
-                DicePlayerMakeHostageSoundsReset();
-                return;
-            }
+            if (_playersWithHostageSounds.Count() == 0) return;
             // worker
             Dictionary<CCSPlayerController, int> _playersWithHostageSoundsCopy = new(_playersWithHostageSounds);
             foreach (var (player, playerStatus) in _playersWithHostageSoundsCopy)

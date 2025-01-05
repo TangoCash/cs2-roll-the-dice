@@ -51,11 +51,7 @@ namespace RollTheDice
         private void DiceNoExplosivesOnEntitySpawned(CEntityInstance entity)
         {
             // remove listener if no players to save resources
-            if (_playersWithoutExplosives.Count == 0)
-            {
-                RemoveListener<Listeners.OnEntitySpawned>(DiceNoExplosivesOnEntitySpawned);
-                return;
-            }
+            if (_playersWithoutExplosives.Count == 0) return;
             // handle smoke grenades
             if (entity.DesignerName == "smokegrenade_projectile") DiceNoExplosivesHandleSmokeGrenade(entity.Handle);
             // handle HE grenades

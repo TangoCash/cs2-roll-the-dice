@@ -33,13 +33,13 @@ namespace RollTheDice
 
         private void DicePlayerCloakUnload()
         {
+            // remove listeners
+            RemoveListener<Listeners.OnTick>(EventDicePlayerCloakOnTick);
             DicePlayerCloakReset();
         }
 
         private void DicePlayerCloakReset()
         {
-            // remove listeners
-            RemoveListener<Listeners.OnTick>(EventDicePlayerCloakOnTick);
             // iterate through all players
             foreach (var (player, visibility) in _playersWithCloak)
             {
@@ -56,12 +56,7 @@ namespace RollTheDice
 
         private void EventDicePlayerCloakOnTick()
         {
-            // remove listener if no players to save resources
-            if (_playersWithCloak.Count() == 0)
-            {
-                RemoveListener<Listeners.OnTick>(EventDicePlayerCloakOnTick);
-                return;
-            }
+            if (_playersWithCloak.Count() == 0) return;
             // worker
             Dictionary<CCSPlayerController, int> _playersWithCloakCopy = new(_playersWithCloak);
             foreach (var (player, visibility) in _playersWithCloakCopy)

@@ -44,14 +44,14 @@ namespace RollTheDice
 
         private void DicePlayerAsChickenUnload()
         {
+            // remove listeners
+            RemoveListener<Listeners.OnTick>(EventDicePlayerAsChickenOnTick);
+            RemoveListener<Listeners.CheckTransmit>(EventDicePlayerAsChickenCheckTransmit);
             DicePlayerAsChickenReset();
         }
 
         private void DicePlayerAsChickenReset()
         {
-            // remove listeners
-            RemoveListener<Listeners.OnTick>(EventDicePlayerAsChickenOnTick);
-            RemoveListener<Listeners.CheckTransmit>(EventDicePlayerAsChickenCheckTransmit);
             // iterate through all players
             foreach (CCSPlayerController player in _playersAsChicken.Keys)
             {
@@ -65,11 +65,7 @@ namespace RollTheDice
         private void EventDicePlayerAsChickenOnTick()
         {
             // remove listener if no players to save resources
-            if (_playersAsChicken.Count() == 0)
-            {
-                RemoveListener<Listeners.OnTick>(EventDicePlayerAsChickenOnTick);
-                return;
-            }
+            if (_playersAsChicken.Count() == 0) return;
             // worker
             Dictionary<CCSPlayerController, Dictionary<string, string>> _playersAsChickenCopy = new(_playersAsChicken);
             foreach (var (player, playerData) in _playersAsChickenCopy)
@@ -109,11 +105,7 @@ namespace RollTheDice
         private void EventDicePlayerAsChickenCheckTransmit(CCheckTransmitInfoList infoList)
         {
             // remove listener if no players to save resources
-            if (_playersAsChicken.Count() == 0)
-            {
-                RemoveListener<Listeners.CheckTransmit>(EventDicePlayerAsChickenCheckTransmit);
-                return;
-            }
+            if (_playersAsChicken.Count() == 0) return;
             // worker
             foreach ((CCheckTransmitInfo info, CCSPlayerController? player) in infoList)
             {

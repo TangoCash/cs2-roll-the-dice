@@ -56,12 +56,12 @@ namespace RollTheDice
 
         private void DicePlayerDisguiseAsPlantUnload()
         {
+            RemoveListener<Listeners.OnTick>(EventDicePlayerDisguiseAsPlantOnTick);
             DicePlayerDisguiseAsPlantReset();
         }
 
         private void DicePlayerDisguiseAsPlantReset()
         {
-            RemoveListener<Listeners.OnTick>(EventDicePlayerDisguiseAsPlantOnTick);
             foreach (CCSPlayerController player in _playersDisguisedAsPlants.Keys)
             {
                 if (player == null || player.Pawn == null || player.Pawn.Value == null) continue;
@@ -73,12 +73,7 @@ namespace RollTheDice
 
         private void EventDicePlayerDisguiseAsPlantOnTick()
         {
-            // remove listener if no players to save resources
-            if (_playersDisguisedAsPlants.Count == 0)
-            {
-                RemoveListener<Listeners.OnTick>(EventDicePlayerDisguiseAsPlantOnTick);
-                return;
-            }
+            if (_playersDisguisedAsPlants.Count == 0) return;
             // worker
             Dictionary<CCSPlayerController, Dictionary<string, string>> _playersDisguisedAsPlantsCopy = new(_playersDisguisedAsPlants);
             foreach (var (player, playerData) in _playersDisguisedAsPlantsCopy)
