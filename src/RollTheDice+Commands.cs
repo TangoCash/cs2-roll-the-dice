@@ -56,6 +56,8 @@ namespace RollTheDice
                 command.ReplyToCommand(Localizer["command.rollthedice.nodicesenabled"]);
                 return;
             }
+            // debug print
+            DebugPrint($"Player {player.PlayerName} rolled the dice and got {_dices[dice].Method.Name}");
             // add player to list
             _playersThatRolledTheDice.Add(player, _dices[dice].Method.Name);
             // count dice roll
