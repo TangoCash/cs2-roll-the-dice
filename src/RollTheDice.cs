@@ -58,9 +58,12 @@ namespace RollTheDice
             foreach (var dice in _dices)
             {
                 var methodName = $"{dice.Method.Name}Unload";
-                DebugPrint($"Unloading dice: {methodName}");
                 var method = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
-                if (method != null) method.Invoke(this, null);
+                if (method != null)
+                {
+                    DebugPrint($"Unloading dice: {methodName}");
+                    method.Invoke(this, null);
+                }
             }
             Console.WriteLine(Localizer["core.unload"]);
         }
@@ -153,9 +156,12 @@ namespace RollTheDice
             foreach (var dice in _dices)
             {
                 var methodName = $"{dice.Method.Name}Load";
-                DebugPrint($"Loading dice: {methodName}");
                 var method = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
-                if (method != null) method.Invoke(this, null);
+                if (method != null) 
+                {
+                    DebugPrint($"Loading dice: {methodName}");
+                    method.Invoke(this, null);
+                }
             }
         }
 
@@ -166,9 +172,12 @@ namespace RollTheDice
             foreach (var dice in _dices)
             {
                 var methodName = $"{dice.Method.Name}Reset";
-                DebugPrint($"Resetting dice: {methodName}");
                 var method = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
-                if (method != null) method.Invoke(this, null);
+                if (method != null)
+                {
+                    DebugPrint($"Resetting dice: {methodName}");
+                    method.Invoke(this, null);
+                }
             }
         }
     }
