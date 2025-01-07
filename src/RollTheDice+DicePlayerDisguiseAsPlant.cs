@@ -29,7 +29,11 @@ namespace RollTheDice
                     { "playerName", player.PlayerName }
                 };
             // create listener if not exists
-            if (_playersDisguisedAsPlants.Count == 0) RegisterListener<Listeners.OnTick>(EventDicePlayerDisguiseAsPlantOnTick);
+            if (_playersDisguisedAsPlants.Count == 0)
+            {
+                RegisterEventHandler<EventPlayerDeath>(EventDicePlayerDisguiseAsPlantOnPlayerDeath);
+                RegisterListener<Listeners.OnTick>(EventDicePlayerDisguiseAsPlantOnTick);
+            }
             // add player to list
             _playersDisguisedAsPlants.Add(player, new Dictionary<string, string>());
             _playersDisguisedAsPlants[player]["status"] = "player";
@@ -49,19 +53,16 @@ namespace RollTheDice
             };
         }
 
-        private void DicePlayerDisguiseAsPlantLoad()
-        {
-            RegisterEventHandler<EventPlayerDeath>(EventDicePlayerDisguiseAsPlantOnPlayerDeath);
-        }
-
         private void DicePlayerDisguiseAsPlantUnload()
         {
-            RemoveListener<Listeners.OnTick>(EventDicePlayerDisguiseAsPlantOnTick);
             DicePlayerDisguiseAsPlantReset();
         }
 
         private void DicePlayerDisguiseAsPlantReset()
         {
+            DeregisterEventHandler<EventPlayerDeath>(EventDicePlayerDisguiseAsPlantOnPlayerDeath);
+            RemoveListener<Listeners.OnTick>(EventDicePlayerDisguiseAsPlantOnTick);
+            // iterate through all players
             foreach (CCSPlayerController player in _playersDisguisedAsPlants.Keys)
             {
                 if (player == null || player.Pawn == null || player.Pawn.Value == null) continue;

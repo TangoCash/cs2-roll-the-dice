@@ -11,7 +11,12 @@ namespace RollTheDice
         private Dictionary<string, string> DicePlayerRespawn(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             // create listener if not exists
-            if (_playersWithRespawnAbility.Count() == 0) RegisterListener<Listeners.OnTick>(EventDicePlayerRespawnOnTick);
+            if (_playersWithRespawnAbility.Count() == 0)
+            {
+                RegisterEventHandler<EventPlayerDeath>(EventDicePlayerRespawnOnPlayerDeath);
+                RegisterEventHandler<EventPlayerTeam>(EventDicePlayerRespawnOnPlayerTeam);
+                RegisterListener<Listeners.OnTick>(EventDicePlayerRespawnOnTick);
+            }
             // add player to list
             _playersWithRespawnAbility.Add(player, new Dictionary<string, string>());
             return new Dictionary<string, string>
@@ -22,20 +27,16 @@ namespace RollTheDice
             };
         }
 
-        private void DicePlayerRespawnLoad()
-        {
-            RegisterEventHandler<EventPlayerDeath>(EventDicePlayerRespawnOnPlayerDeath);
-            RegisterEventHandler<EventPlayerTeam>(EventDicePlayerRespawnOnPlayerTeam);
-        }
-
         private void DicePlayerRespawnUnload()
         {
-            RemoveListener<Listeners.OnTick>(EventDicePlayerRespawnOnTick);
             DicePlayerRespawnReset();
         }
 
         private void DicePlayerRespawnReset()
         {
+            DeregisterEventHandler<EventPlayerDeath>(EventDicePlayerRespawnOnPlayerDeath);
+            DeregisterEventHandler<EventPlayerTeam>(EventDicePlayerRespawnOnPlayerTeam);
+            RemoveListener<Listeners.OnTick>(EventDicePlayerRespawnOnTick);
             _playersWithRespawnAbility.Clear();
         }
 

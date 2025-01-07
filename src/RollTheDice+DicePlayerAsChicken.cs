@@ -44,14 +44,14 @@ namespace RollTheDice
 
         private void DicePlayerAsChickenUnload()
         {
-            // remove listeners
-            RemoveListener<Listeners.OnTick>(EventDicePlayerAsChickenOnTick);
-            RemoveListener<Listeners.CheckTransmit>(EventDicePlayerAsChickenCheckTransmit);
             DicePlayerAsChickenReset();
         }
 
         private void DicePlayerAsChickenReset()
         {
+            DeregisterEventHandler<EventPlayerDeath>(EventDicePlayerAsChickenOnPlayerDeath);
+            RemoveListener<Listeners.OnTick>(EventDicePlayerAsChickenOnTick);
+            RemoveListener<Listeners.CheckTransmit>(EventDicePlayerAsChickenCheckTransmit);
             // iterate through all players
             foreach (CCSPlayerController player in _playersAsChicken.Keys)
             {

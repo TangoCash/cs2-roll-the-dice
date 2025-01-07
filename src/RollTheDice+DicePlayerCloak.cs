@@ -17,10 +17,7 @@ namespace RollTheDice
                     { "playerName", player.PlayerName }
                 };
             // create listener if not exists
-            if (_playersWithCloak.Count() == 0)
-            {
-                RegisterListener<Listeners.OnTick>(EventDicePlayerCloakOnTick);
-            }
+            if (_playersWithCloak.Count() == 0) RegisterListener<Listeners.OnTick>(EventDicePlayerCloakOnTick);
             // add player to list
             _playersWithCloak.Add(player, 255);
             return new Dictionary<string, string>
@@ -33,13 +30,12 @@ namespace RollTheDice
 
         private void DicePlayerCloakUnload()
         {
-            // remove listeners
-            RemoveListener<Listeners.OnTick>(EventDicePlayerCloakOnTick);
             DicePlayerCloakReset();
         }
 
         private void DicePlayerCloakReset()
         {
+            RemoveListener<Listeners.OnTick>(EventDicePlayerCloakOnTick);
             // iterate through all players
             foreach (var (player, visibility) in _playersWithCloak)
             {

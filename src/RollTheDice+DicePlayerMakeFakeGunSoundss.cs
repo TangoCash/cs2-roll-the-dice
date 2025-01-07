@@ -36,12 +36,12 @@ namespace RollTheDice
 
         private void DicePlayerMakeFakeGunSoundsUnload()
         {
-            RemoveListener<Listeners.OnTick>(EventDicePlayerMakeFakeGunSoundsOnTick);
             DicePlayerMakeFakeGunSoundsReset();
         }
 
         private void DicePlayerMakeFakeGunSoundsReset()
         {
+            RemoveListener<Listeners.OnTick>(EventDicePlayerMakeFakeGunSoundsOnTick);
             _playersWithFakeGunSounds.Clear();
         }
 

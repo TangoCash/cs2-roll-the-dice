@@ -29,12 +29,12 @@ namespace RollTheDice
 
         private void DicePlayerMakeHostageSoundsUnload()
         {
-            RemoveListener<Listeners.OnTick>(EventDicePlayerMakeHostageSoundsOnTick);
             DicePlayerMakeHostageSoundsReset();
         }
 
         private void DicePlayerMakeHostageSoundsReset()
         {
+            RemoveListener<Listeners.OnTick>(EventDicePlayerMakeHostageSoundsOnTick);
             _playersWithHostageSounds.Clear();
         }
 

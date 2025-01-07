@@ -9,6 +9,8 @@ namespace RollTheDice
 
         private Dictionary<string, string> DicePlayerVampire(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
+            // create listener if not exists
+            if (_playerVampires.Count() == 0) RegisterEventHandler<EventPlayerHurt>(EventDicePlayerVampireOnPlayerHurt);
             _playerVampires.Add(player);
             return new Dictionary<string, string>
             {
@@ -18,11 +20,6 @@ namespace RollTheDice
             };
         }
 
-        private void DicePlayerVampireLoad()
-        {
-            RegisterEventHandler<EventPlayerHurt>(EventDicePlayerVampireOnPlayerHurt);
-        }
-
         private void DicePlayerVampireUnload()
         {
             DicePlayerVampireReset();
@@ -30,6 +27,7 @@ namespace RollTheDice
 
         private void DicePlayerVampireReset()
         {
+            DeregisterEventHandler<EventPlayerHurt>(EventDicePlayerVampireOnPlayerHurt);
             _playerVampires.Clear();
         }
 
