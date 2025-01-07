@@ -1,4 +1,4 @@
-# CounterstrikeSharp - Plugin Update Manager
+# CounterstrikeSharp - Roll The Dice
 
 [![UpdateManager Compatible](https://img.shields.io/badge/CS2-UpdateManager-darkgreen)](https://github.com/Kandru/cs2-roll-the-dice/)
 [![Discord Support](https://img.shields.io/discord/289448144335536138?label=Discord%20Support&color=darkgreen)](https://discord.gg/bkuF8xKHUt)
@@ -59,7 +59,7 @@ bind "o" rtd
 
 ## Configuration
 
-This plugin automatically creates a readable JSON configuration file. This configuration file can be found in `/addons/counterstrikesharp/configs/plugins/RollTheDice/UpdateManager.json`.
+This plugin automatically creates a readable JSON configuration file. This configuration file can be found in `/addons/counterstrikesharp/configs/plugins/RollTheDice/RollTheDice.json`.
 
 ```json
 {
