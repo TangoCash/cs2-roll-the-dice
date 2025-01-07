@@ -14,26 +14,23 @@ namespace RollTheDice
                     { "playerName", player.PlayerName }
                 };
             var playerWeapons = playerPawn.WeaponServices!;
+            bool hasC4 = false;
             foreach (var weapon in playerWeapons.MyWeapons)
             {
                 // ignore unknown weapons
                 if (weapon.Value == null || weapon.Value != null && weapon.Value.DesignerName == null) continue;
                 if (weapon.Value!.DesignerName == CsItem.C4.ToString().ToLower()
-                    || weapon.Value!.DesignerName == CsItem.Bomb.ToString().ToLower())
+                    || weapon.Value!.DesignerName == CsItem.Bomb.ToString().ToLower()
+                    || weapon.Value!.DesignerName == $"weapon_{CsItem.C4.ToString().ToLower()}"
+                    || weapon.Value!.DesignerName == $"weapon_{CsItem.Bomb.ToString().ToLower()}")
                 {
-                    // change weapon to currently active weapon
-                    playerPawn.WeaponServices.ActiveWeapon.Raw = weapon.Raw;
-                    // drop active weapon
-                    player.DropActiveWeapon();
+                    hasC4 = true;
                 }
             }
-            AddTimer(0.1f, () =>
-            {
-                if (player == null || !player.IsValid) return;
-                player.RemoveWeapons();
-                player.GiveNamedItem("weapon_knife");
-            });
-
+            player.RemoveWeapons();
+            player.GiveNamedItem(CsItem.Knife);
+            if (hasC4)
+                player.GiveNamedItem(CsItem.C4);
             return new Dictionary<string, string>
             {
                 {"_translation_player", "DiceStripWeaponsPlayer"},
