@@ -11,6 +11,12 @@ namespace RollTheDice
 
         private Dictionary<string, string> DiceFastBombAction(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
+            // create listener if not exists
+            if (_playersCanInstantDefuse.Count() == 0 && _playersCanInstantPlant.Count() == 0)
+            {
+                RegisterEventHandler<EventBombBegindefuse>(DiceFastBombActionEventBeginDefuse);
+                RegisterEventHandler<EventBombBeginplant>(DiceFastBombActionEventBeginPlant);
+            }
             if (playerPawn.TeamNum == (int)CsTeam.Terrorist)
             {
                 _playersCanInstantPlant.Add(player);
@@ -41,12 +47,6 @@ namespace RollTheDice
             }
         }
 
-        private void DiceFastBombActionLoad()
-        {
-            RegisterEventHandler<EventBombBegindefuse>(DiceFastBombActionEventBeginDefuse);
-            RegisterEventHandler<EventBombBeginplant>(DiceFastBombActionEventBeginPlant);
-        }
-
         private void DiceFastBombActionUnload()
         {
             DiceFastBombActionReset();
@@ -54,6 +54,8 @@ namespace RollTheDice
 
         private void DiceFastBombActionReset()
         {
+            DeregisterEventHandler<EventBombBegindefuse>(DiceFastBombActionEventBeginDefuse);
+            DeregisterEventHandler<EventBombBeginplant>(DiceFastBombActionEventBeginPlant);
             _playersCanInstantDefuse.Clear();
             _playersCanInstantPlant.Clear();
         }

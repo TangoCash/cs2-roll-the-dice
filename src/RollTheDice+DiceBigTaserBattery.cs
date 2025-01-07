@@ -8,6 +8,11 @@ namespace RollTheDice
 
         private Dictionary<string, string> DiceBigTaserBattery(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
+            // create listener if not exists
+            if (_playersWithBigTaserBattery.Count() == 0)
+            {
+                RegisterEventHandler<EventWeaponFire>(EventDiceBigTaserBatteryOnWeaponFire);
+            }
             int battery = _random.Next(2, 10);
             _playersWithBigTaserBattery.Add(player, battery);
             player.GiveNamedItem("weapon_taser");
@@ -20,11 +25,6 @@ namespace RollTheDice
             };
         }
 
-        private void DiceBigTaserBatteryLoad()
-        {
-            RegisterEventHandler<EventWeaponFire>(EventDiceBigTaserBatteryOnWeaponFire);
-        }
-
         private void DiceBigTaserBatteryUnload()
         {
             DiceBigTaserBatteryReset();
@@ -32,6 +32,7 @@ namespace RollTheDice
 
         private void DiceBigTaserBatteryReset()
         {
+            DeregisterEventHandler<EventWeaponFire>(EventDiceBigTaserBatteryOnWeaponFire);
             _playersWithBigTaserBattery.Clear();
         }
 

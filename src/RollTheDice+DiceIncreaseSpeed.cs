@@ -10,6 +10,11 @@ namespace RollTheDice
 
         private Dictionary<string, string> DiceIncreaseSpeed(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
+            // create listener if not exists
+            if (_playersWithIncreasedSpeed.Count() == 0)
+            {
+                RegisterEventHandler<EventPlayerHurt>(EventDiceIncreaseSpeedOnPlayerHurt);
+            }
             _playersWithIncreasedSpeed.Add(player);
             var speedIncrease = _random.NextDouble() * (2.0 - 1.5) + 1.5;
             playerPawn.VelocityModifier *= (float)speedIncrease;
@@ -25,11 +30,6 @@ namespace RollTheDice
             };
         }
 
-        private void DiceIncreaseSpeedLoad()
-        {
-            RegisterEventHandler<EventPlayerHurt>(EventDiceIncreaseSpeedOnPlayerHurt);
-        }
-
         private void DiceIncreaseSpeedUnload()
         {
             DiceIncreaseSpeedReset();
@@ -37,6 +37,7 @@ namespace RollTheDice
 
         private void DiceIncreaseSpeedReset()
         {
+            DeregisterEventHandler<EventPlayerHurt>(EventDiceIncreaseSpeedOnPlayerHurt);
             // iterate through all players
             foreach (var player in _playersWithIncreasedSpeed)
             {
