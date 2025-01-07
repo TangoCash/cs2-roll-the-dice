@@ -64,5 +64,7 @@
     "DiceNoExplosivesPlayer": "{default}You can't use explosives!",
     "DiceNoExplosives": "{purple}[RollTheDice] {green}{playerName} {default}can't use explosives!",
     "DiceChangePlayerModelPlayer": "{default}You look like your enemies!",
-    "DiceChangePlayerModel": "{purple}[RollTheDice] {green}{playerName} {default}disguises as an enemy!"
+    "DiceChangePlayerModel": "{purple}[RollTheDice] {green}{playerName} {default}disguises as an enemy!",
+    "DicePlayerGlowPlayer": "{default}You are now glowing!",
+    "DicePlayerGlow": "{purple}[RollTheDice] {green}{playerName} {default}is now glowing!"
 }

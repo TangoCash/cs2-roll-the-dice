@@ -142,7 +142,8 @@ namespace RollTheDice
                 DicePlayerCloak,
                 DiceGiveHealthShot,
                 DiceNoExplosives,
-                DiceChangePlayerModel
+                DiceChangePlayerModel,
+                DicePlayerGlow
             };
             // initialize dice counter
             foreach (var dice in _dices)
@@ -157,7 +158,7 @@ namespace RollTheDice
             {
                 var methodName = $"{dice.Method.Name}Load";
                 var method = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
-                if (method != null) 
+                if (method != null)
                 {
                     DebugPrint($"Loading dice: {methodName}");
                     method.Invoke(this, null);
