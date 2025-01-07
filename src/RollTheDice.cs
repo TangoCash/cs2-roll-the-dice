@@ -105,7 +105,7 @@ namespace RollTheDice
 
         private void OnMapEnd()
         {
-            DebugPrint($"Map ended: {mapName}");
+            DebugPrint($"Map ended: {_currentMap}");
             ResetDices();
             // disallow dice rolls
             _isDuringRound = false;
