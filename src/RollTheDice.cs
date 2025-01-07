@@ -58,6 +58,7 @@ namespace RollTheDice
             foreach (var dice in _dices)
             {
                 var methodName = $"{dice.Method.Name}Unload";
+                DebugPrint($"Unloading dice: {methodName}");
                 var method = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
                 if (method != null) method.Invoke(this, null);
             }
@@ -66,6 +67,7 @@ namespace RollTheDice
 
         private HookResult OnRoundStart(EventRoundStart @event, GameEventInfo info)
         {
+            DebugPrint("Round started");
             // reset players that rolled the dice
             _playersThatRolledTheDice.Clear();
             // reset dices (necessary after warmup)
@@ -82,6 +84,7 @@ namespace RollTheDice
 
         private HookResult OnRoundEnd(EventRoundEnd @event, GameEventInfo info)
         {
+            DebugPrint("Round ended");
             ResetDices();
             // disallow dice rolls
             _isDuringRound = false;
@@ -91,6 +94,7 @@ namespace RollTheDice
 
         private void OnMapStart(string mapName)
         {
+            DebugPrint($"Map started: {mapName}");
             // set current map
             _currentMap = mapName;
             // update configuration
@@ -101,6 +105,7 @@ namespace RollTheDice
 
         private void OnMapEnd()
         {
+            DebugPrint($"Map ended: {mapName}");
             ResetDices();
             // disallow dice rolls
             _isDuringRound = false;
@@ -108,6 +113,7 @@ namespace RollTheDice
 
         private void InitializeDices()
         {
+            DebugPrint("Initializing dices");
             // create dynamic list containing functions to execute for each dice
             _dices = new List<Func<CCSPlayerController, CCSPlayerPawn, Dictionary<string, string>>>
             {
@@ -147,6 +153,7 @@ namespace RollTheDice
             foreach (var dice in _dices)
             {
                 var methodName = $"{dice.Method.Name}Load";
+                DebugPrint($"Loading dice: {methodName}");
                 var method = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
                 if (method != null) method.Invoke(this, null);
             }
@@ -154,10 +161,12 @@ namespace RollTheDice
 
         private void ResetDices()
         {
+            DebugPrint("Resetting dices");
             // iterate through all dices and call their reset method dynamically
             foreach (var dice in _dices)
             {
                 var methodName = $"{dice.Method.Name}Reset";
+                DebugPrint($"Resetting dice: {methodName}");
                 var method = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
                 if (method != null) method.Invoke(this, null);
             }

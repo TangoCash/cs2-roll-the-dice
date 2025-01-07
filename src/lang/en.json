@@ -8,6 +8,7 @@
     "core.error": "{purple}[RollTheDice] {default}Error: {error}",
     "core.nodicesenabled": "{purple}[RollTheDice] {default}No dices enabled! Please enable at least one dice in the configuration!",
     "core.disabled": "{purple}[RollTheDice] {default}RollTheDice is disabled!",
+    "core.debugprint": "{purple}[RollTheDice]{red}[DEBUG] {default}{message}",
     "command.rollthedice.iswarmup": "{purple}[RollTheDice] {default}disabled during Warm-Up!",
     "command.rollthedice.noactiveround": "{purple}[RollTheDice] {default}No active round!",
     "command.rollthedice.notalive": "{purple}[RollTheDice] {default}You need to be alive to roll the dice!",

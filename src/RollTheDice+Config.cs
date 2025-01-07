@@ -18,6 +18,8 @@ namespace RollTheDice
     {
         // disabled
         [JsonPropertyName("enabled")] public bool Enabled { get; set; } = true;
+        // debug prints
+        [JsonPropertyName("debug")] public bool Enabled { get; set; } = false;
         // disabled features
         [JsonPropertyName("dices")] public Dictionary<string, bool> Features { get; set; } = new();
         // map configurations
