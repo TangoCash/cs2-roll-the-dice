@@ -8,8 +8,6 @@ namespace RollTheDice
         private readonly Dictionary<CCSPlayerController, int> _playersWithHostageSounds = new();
         private readonly List<string> _hostageSounds = new List<string>
         {
-            "Hostage.StartFollowCT",
-            "Hostage.StartFollowCTGuardian",
             "Hostage.Pain"
         };
 
