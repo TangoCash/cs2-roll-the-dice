@@ -15,7 +15,6 @@ namespace RollTheDice
                 CChicken? chicken = Utilities.CreateEntityByName<CChicken>("chicken");
                 if (chicken != null)
                 {
-                    chicken.Teleport(player.Pawn.Value!.AbsOrigin!, player.Pawn.Value.AbsRotation!, player.Pawn.Value.AbsVelocity);
                     Vector offset = new Vector(
                         (float)(100 * Math.Cos(2 * Math.PI * i / amountChickens)),
                         (float)(100 * Math.Sin(2 * Math.PI * i / amountChickens)),
