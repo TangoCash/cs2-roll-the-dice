@@ -59,10 +59,11 @@ namespace RollTheDice
             if (victim == null) return HookResult.Continue;
             if (!_playersWithIncreasedSpeed.Contains(victim)) return HookResult.Continue;
             if (victim == null || victim.PlayerPawn == null || !victim.PlayerPawn.IsValid || victim.PlayerPawn.Value == null || victim.LifeState != (byte)LifeState_t.LIFE_ALIVE) return HookResult.Continue;
-            var playerPawn = victim.PlayerPawn.Value!;
             AddTimer(0f, () =>
             {
-                if (playerPawn == null || !playerPawn.IsValid) return;
+                if (victim == null || !victim.IsValid
+                    || victim.PlayerPawn == null || !victim.PlayerPawn.IsValid) return;
+                CCSPlayerPawn playerPawn = victim.PlayerPawn.Value!;
                 // set player speed
                 playerPawn.VelocityModifier = _playersWithIncreasedSpeedValue[victim];
                 // set state changed
