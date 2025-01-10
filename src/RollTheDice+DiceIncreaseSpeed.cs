@@ -55,14 +55,16 @@ namespace RollTheDice
 
         private HookResult EventDiceIncreaseSpeedOnPlayerHurt(EventPlayerHurt @event, GameEventInfo info)
         {
-            var victim = @event.Userid;
+            CCSPlayerController? victim = @event.Userid;
             if (victim == null) return HookResult.Continue;
             if (!_playersWithIncreasedSpeed.Contains(victim)) return HookResult.Continue;
             if (victim == null || victim.PlayerPawn == null || !victim.PlayerPawn.IsValid || victim.PlayerPawn.Value == null || victim.LifeState != (byte)LifeState_t.LIFE_ALIVE) return HookResult.Continue;
             AddTimer(0f, () =>
             {
-                if (victim == null || !victim.IsValid
-                    || victim.PlayerPawn == null || !victim.PlayerPawn.IsValid) return;
+                if (victim == null
+                    || !victim.IsValid
+                    || victim.PlayerPawn == null
+                    || !victim.PlayerPawn.IsValid) return;
                 CCSPlayerPawn playerPawn = victim.PlayerPawn.Value!;
                 // set player speed
                 playerPawn.VelocityModifier = _playersWithIncreasedSpeedValue[victim];
