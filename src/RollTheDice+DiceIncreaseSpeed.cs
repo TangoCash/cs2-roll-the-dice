@@ -59,7 +59,7 @@ namespace RollTheDice
             if (victim == null) return HookResult.Continue;
             if (!_playersWithIncreasedSpeed.Contains(victim)) return HookResult.Continue;
             if (victim == null || victim.PlayerPawn == null || !victim.PlayerPawn.IsValid || victim.PlayerPawn.Value == null || victim.LifeState != (byte)LifeState_t.LIFE_ALIVE) return HookResult.Continue;
-            AddTimer(0f, () =>
+            Server.NextFrame(() =>
             {
                 if (victim == null
                     || !victim.IsValid
