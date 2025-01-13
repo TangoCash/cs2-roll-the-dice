@@ -64,7 +64,8 @@ namespace RollTheDice
                 if (victim == null
                     || !victim.IsValid
                     || victim.PlayerPawn == null
-                    || !victim.PlayerPawn.IsValid) return;
+                    || !victim.PlayerPawn.IsValid
+                    || !_playersWithIncreasedSpeed.Contains(victim)) return;
                 CCSPlayerPawn playerPawn = victim.PlayerPawn.Value!;
                 // set player speed
                 playerPawn.VelocityModifier = _playersWithIncreasedSpeedValue[victim];
