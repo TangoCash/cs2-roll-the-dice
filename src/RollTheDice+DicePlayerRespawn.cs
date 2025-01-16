@@ -101,7 +101,7 @@ namespace RollTheDice
                 foreach (var weapon in attacker.PlayerPawn.Value.WeaponServices.MyWeapons)
                 {
                     // ignore unknown weapons
-                    if (weapon.Value == null || weapon.Value != null && weapon.Value.DesignerName == null) continue;
+                    if (weapon == null || !weapon.IsValid || weapon.Value == null || (weapon.Value != null && weapon.Value.DesignerName == null)) continue;
                     // ignore knife and C4
                     if (weapon.Value!.DesignerName == $"weapon_{CsItem.C4.ToString().ToLower()}"
                         || weapon.Value!.DesignerName == "weapon_knife" // necessary because CsItem.Knife is not always this value
