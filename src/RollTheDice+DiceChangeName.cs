@@ -44,6 +44,7 @@ namespace RollTheDice
             _playersWithChangedNames.Add(player);
             _playersWithChangedNamesOldNames[player] = player.PlayerName;
             player.PlayerName = randomName;
+            Utilities.SetStateChanged(player, "CBasePlayerController", "m_iszPlayerName");
             return new Dictionary<string, string>
             {
                 {"_translation_player", "DiceChangeNamePlayer"},
