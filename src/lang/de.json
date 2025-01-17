@@ -66,5 +66,7 @@
     "DiceChangePlayerModelPlayer": "{default}Du siehst aus wie deine Gegner!",
     "DiceChangePlayerModel": "{purple}[WürfelSpiel] {green}{playerName} {default}verkleidet sich als Gegner!",
     "DicePlayerGlowPlayer": "{default}Du leuchtest jetzt!",
-    "DicePlayerGlow": "{purple}[WürfelSpiel] {green}{playerName} {default}leuchtet jetzt!"
+    "DicePlayerGlow": "{purple}[WürfelSpiel] {green}{playerName} {default}leuchtet jetzt!",
+    "DiceShowPlayerHealthBarOnHitPlayer": "{default}Du siehst die Gesundheit des Gegners!",
+    "DiceShowPlayerHealthBarOnHit": "{purple}[WürfelSpiel] {green}{playerName} {default}sieht die Gesundheit des Gegners!"
 }

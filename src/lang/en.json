@@ -66,5 +66,7 @@
     "DiceChangePlayerModelPlayer": "{default}You look like your enemies!",
     "DiceChangePlayerModel": "{purple}[RollTheDice] {green}{playerName} {default}disguises as an enemy!",
     "DicePlayerGlowPlayer": "{default}You are now glowing!",
-    "DicePlayerGlow": "{purple}[RollTheDice] {green}{playerName} {default}is now glowing!"
+    "DicePlayerGlow": "{purple}[RollTheDice] {green}{playerName} {default}is now glowing!",
+    "DiceShowPlayerHealthBarOnHitPlayer": "{default}You see the enemies health bar!",
+    "DiceShowPlayerHealthBarOnHit": "{purple}[RollTheDice] {green}{playerName} {default} sees the enemy health bar!"
 }
