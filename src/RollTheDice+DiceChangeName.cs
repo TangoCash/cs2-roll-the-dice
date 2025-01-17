@@ -1,3 +1,4 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 
 namespace RollTheDice
@@ -9,8 +10,13 @@ namespace RollTheDice
 
         private Dictionary<string, string> DiceChangeName(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
-            // select random string from list
-            var names = new List<string>
+            // random names from users
+            List<string> PlayerNames = Utilities.GetPlayers()
+                .Where(p => !p.IsBot)
+                .Select(p => p.PlayerName)
+                .ToList();
+            // random names from list
+            var RandomNames = new List<string>
             {
                 "Hans Wurst", "Fritz Frosch", "Klaus Kleber", "Otto Normalverbraucher", "Peter Lustig",
                 "Karl-Heinz Klammer", "Gustav Gans", "Heinz Erhardt", "Wolfgang Witzig", "Ludwig Lustig",
@@ -24,7 +30,17 @@ namespace RollTheDice
                 "Jochen Jaguar", "Knut Känguru", "Lothar Löwe", "Martin Marder", "Norbert Nashorn",
                 "Egon Kowalski", "Fritz Fink", "Heinz Hering"
             };
-            var randomName = names[_random.Next(names.Count)];
+            // set random player name
+            string randomName = "";
+            // copy player names list
+            List<string> PlayerNamesCopy = new List<string>(PlayerNames);
+            // remove own name from list
+            PlayerNamesCopy.Remove(player.PlayerName);
+            // check if we have more then 4 players on the server
+            if (PlayerNames.Count > 3)
+                randomName = PlayerNamesCopy[_random.Next(PlayerNamesCopy.Count)];
+            else
+                randomName = RandomNames[_random.Next(RandomNames.Count)];
             _playersWithChangedNames.Add(player);
             _playersWithChangedNamesOldNames[player] = player.PlayerName;
             player.PlayerName = randomName;
