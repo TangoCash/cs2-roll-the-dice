@@ -47,10 +47,11 @@ namespace RollTheDice
                 || !attacker.IsValid) return HookResult.Continue;
             if (victim == attacker) return HookResult.Continue;
             if (!_playersWithHealthBarShown.Contains(attacker)) return HookResult.Continue;
-            var message = UserMessage.FromPartialName("UpdateScreenHealthBar");
             float oldHealth = @event.Health + @event.DmgHealth;
             float newHealth = @event.Health;
             if (oldHealth == newHealth) return HookResult.Continue;
+            // send message
+            var message = UserMessage.FromPartialName("UpdateScreenHealthBar");
             message.SetInt("entidx", (int)victim.PlayerPawn.Index);
             message.SetFloat("healthratio_old", oldHealth / victim.PlayerPawn.Value!.MaxHealth);
             message.SetFloat("healthratio_new", newHealth / victim.PlayerPawn.Value!.MaxHealth);
