@@ -129,7 +129,7 @@ namespace RollTheDice
                 DicePlayerRespawn,
                 DiceStripWeapons,
                 DiceChickenLeader,
-                DiceFastBombAction,
+                DiceFastMapAction,
                 DicePlayerVampire,
                 DicePlayerLowGravity,
                 DicePlayerHighGravity,

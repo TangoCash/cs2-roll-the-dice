@@ -24,6 +24,8 @@
     "DiceFastBombActionT": "{purple}[WürfelSpiel] {green}{playerName} {default}kann jetzt die Bombe sofort legen!",
     "DiceFastBombActionCTPlayer": "{default}Du kannst jetzt ohne Wartezeit die Bombe entschärfen",
     "DiceFastBombActionCT": "{purple}[WürfelSpiel] {green}{playerName} {default}kann jetzt die Bombe sofort entschärfen!",
+    "DiceFastHostageActionCTPlayer": "{default}Du kannst die Geisel nun sofort aufnehmen!",
+    "DiceFastHostageActionCT": "{purple}[WürfelSpiel] {green}{playerName} {default}kann die Geisel nun sofort aufnehmen!",
     "DiceIncreaseHealthPlayer": "{default}Gesundheit um {green}{healthIncrease} erhöht!",
     "DiceIncreaseHealth": "{purple}[WürfelSpiel] {green}{playerName} {default}hat seine Gesundheit um {green}{healthIncrease} {default}erhöht!",
     "DiceIncreaseSpeedPlayer": "{default}Geschwindigkeit um {green}{percentageIncrease}% erhöht!",

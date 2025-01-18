@@ -24,6 +24,8 @@
     "DiceFastBombActionT": "{purple}[RollTheDice] {green}{playerName} {default}can now instant plant the bomb!",
     "DiceFastBombActionCTPlayer": "{default}You can now instant defuse",
     "DiceFastBombActionCT": "{purple}[RollTheDice] {green}{playerName} {default}can now instant defuse the bomb!",
+    "DiceFastHostageActionCTPlayer": "{default}You can now instant pick up the hostage",
+    "DiceFastHostageActionCT": "{purple}[RollTheDice] {green}{playerName} {default}can now instant pick up the hostage!",
     "DiceIncreaseHealthPlayer": "{default}Increased your health by {green}{healthIncrease}!",
     "DiceIncreaseHealth": "{purple}[RollTheDice] {green}{playerName} {default}increased their health by {green}{healthIncrease}{default}!",
     "DiceIncreaseSpeedPlayer": "{default}Increased your speed by {green}{percentageIncrease}%!",
