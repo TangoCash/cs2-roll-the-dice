@@ -47,7 +47,8 @@ namespace RollTheDice
                 || !victim.PlayerPawn.IsValid
                 || victim.PlayerPawn.Value == null
                 || attacker == null
-                || !attacker.IsValid) return HookResult.Continue;
+                || !attacker.IsValid
+                || victim.TeamNum == attacker.TeamNum) return HookResult.Continue;
             if (victim == attacker) return HookResult.Continue;
             if (!_playersWithHealthBarShown.Contains(attacker)) return HookResult.Continue;
             float oldHealth = @event.Health + @event.DmgHealth;
@@ -86,7 +87,9 @@ namespace RollTheDice
                         .GameRules?
                         .FindPickerEntity<CCSPlayerPawn>(player);
                     if (playerTarget == null
-                        || !playerTarget.IsValid) continue;
+                        || !playerTarget.IsValid
+                        || playerTarget.LifeState != (byte)LifeState_t.LIFE_ALIVE
+                        || playerTarget.TeamNum == player.TeamNum) continue;
                     // send message
                     var message = UserMessage.FromPartialName("UpdateScreenHealthBar");
                     message.SetInt("entidx", (int)playerTarget.Index);
