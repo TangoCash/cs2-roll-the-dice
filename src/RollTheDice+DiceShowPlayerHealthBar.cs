@@ -89,12 +89,13 @@ namespace RollTheDice
                     if (playerTarget == null
                         || !playerTarget.IsValid
                         || playerTarget.LifeState != (byte)LifeState_t.LIFE_ALIVE
-                        || playerTarget.TeamNum == player.TeamNum) continue;
+                        || playerTarget.TeamNum == player.TeamNum
+                        || playerTarget.Health <= 0) continue;
                     // send message
                     var message = UserMessage.FromPartialName("UpdateScreenHealthBar");
                     message.SetInt("entidx", (int)playerTarget.Index);
-                    message.SetFloat("healthratio_old", playerTarget.Health / 100);
-                    message.SetFloat("healthratio_new", playerTarget.Health / 100);
+                    message.SetFloat("healthratio_old", (float)playerTarget.Health / (float)playerTarget.MaxHealth);
+                    message.SetFloat("healthratio_new", (float)playerTarget.Health / (float)playerTarget.MaxHealth);
                     message.SetInt("style", 0);
                     message.Send(player);
                 }
