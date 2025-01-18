@@ -16,9 +16,10 @@ namespace RollTheDice
         {
             // check for map entities
             var bombEntities = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>("weapon_c4").ToArray();
+            var plantetBombEntities = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>("planted_c4").ToArray();
             var hostageEntities = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>("hostage_entity").ToArray();
             // if bomb map
-            if (bombEntities.Length > 0)
+            if (bombEntities.Length > 0 || plantetBombEntities.Length > 0)
             {
                 // create listener if not exists
                 if (_playersCanInstantDefuse.Count() == 0 && _playersCanInstantPlant.Count() == 0)
