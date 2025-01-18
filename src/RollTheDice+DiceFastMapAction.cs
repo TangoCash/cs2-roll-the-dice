@@ -1,6 +1,7 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Utils;
+using CounterStrikeSharp.API.Core.Attributes.Registration;
 
 namespace RollTheDice
 {
@@ -16,7 +17,7 @@ namespace RollTheDice
             var bombEntities = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>("weapon_c4").ToArray();
             var hostageEntities = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>("hostage_entity").ToArray();
             // if bomb map
-            if (bombEntities.Count > 0)
+            if (bombEntities.Length > 0)
             {
                 // create listener if not exists
                 if (_playersCanInstantDefuse.Count() == 0 && _playersCanInstantPlant.Count() == 0)
@@ -52,7 +53,8 @@ namespace RollTheDice
                         { "playerName", player.PlayerName }
                     };
                 }
-            }else if (hostageEntities.Length > 0)
+            }
+            else if (hostageEntities.Length > 0)
             {
                 if (playerPawn.TeamNum == (int)CsTeam.CounterTerrorist)
                 {
@@ -142,7 +144,7 @@ namespace RollTheDice
             // m_flProgressBarStartTime -> gameTime
             // m_flGrabSuccessTime -> gameTime + 0.1f
             // set changed state to propagate properly to user
-            if (!_playersCanInstantRescueHostages.Contains(player)) return HookResult.Continue;
+            if (!_playersCanInstantRescueHostages.Contains(activator)) return HookResult.Continue;
             return HookResult.Continue;
         }
     }
