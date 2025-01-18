@@ -70,7 +70,7 @@ namespace RollTheDice
                 {
                     return new Dictionary<string, string>
                     {
-                        {"_translation_player", "command.rollthedice.error"},
+                        {"_translation_player", "command.rollthedice.unlucky"},
                         { "playerName", player.PlayerName }
                     };
                 }
@@ -79,7 +79,7 @@ namespace RollTheDice
             {
                 return new Dictionary<string, string>
                 {
-                    {"_translation_player", "command.rollthedice.error"},
+                    {"_translation_player", "command.rollthedice.unlucky"},
                     { "playerName", player.PlayerName }
                 };
             }
