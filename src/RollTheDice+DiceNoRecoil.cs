@@ -15,15 +15,6 @@ namespace RollTheDice
                 RegisterEventHandler<EventWeaponFire>(EventDiceNoRecoilOnWeaponFire);
             }
             _playersWithoutRecoil.Add(player);
-            // no recoil
-            playerPawn.AimPunchAngle.X = 0;
-            playerPawn.AimPunchAngle.Y = 0;
-            playerPawn.AimPunchAngle.Z = 0;
-            playerPawn.AimPunchAngleVel.X = 0;
-            playerPawn.AimPunchAngleVel.Y = 0;
-            playerPawn.AimPunchAngleVel.Z = 0;
-            playerPawn.AimPunchTickBase = -1;
-            playerPawn.AimPunchTickFraction = 0;
             return new Dictionary<string, string>
             {
                 {"_translation_player", "DiceNoRecoilPlayer"},
@@ -56,10 +47,20 @@ namespace RollTheDice
                 || player.PlayerPawn.Value.WeaponServices.ActiveWeapon.Value == null) return HookResult.Continue;
             if (!_playersWithoutRecoil.Contains(player)) return HookResult.Continue;
             CBasePlayerWeapon weapon = player.PlayerPawn!.Value!.WeaponServices!.ActiveWeapon!.Value!;
+            // reset playerpawn recoil
+            player.PlayerPawn.Value.AimPunchAngle.X = 0;
+            player.PlayerPawn.Value.AimPunchAngle.Y = 0;
+            player.PlayerPawn.Value.AimPunchAngle.Z = 0;
+            player.PlayerPawn.Value.AimPunchAngleVel.X = 0;
+            player.PlayerPawn.Value.AimPunchAngleVel.Y = 0;
+            player.PlayerPawn.Value.AimPunchAngleVel.Z = 0;
+            player.PlayerPawn.Value.AimPunchTickBase = -1;
+            player.PlayerPawn.Value.AimPunchTickFraction = 0;
             //decrease recoil
             weapon.As<CCSWeaponBase>().FlRecoilIndex = 0;
             //nospread
             weapon.As<CCSWeaponBase>().AccuracyPenalty = 0;
+            Console.WriteLine("=== NO RECOIL");
             return HookResult.Continue;
         }
     }
