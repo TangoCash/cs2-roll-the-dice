@@ -67,8 +67,8 @@
     "DiceChangePlayerModel": "{purple}[RollTheDice] {green}{playerName} {default}disguises as an enemy!",
     "DicePlayerGlowPlayer": "{default}You are now glowing!",
     "DicePlayerGlow": "{purple}[RollTheDice] {green}{playerName} {default}is now glowing!",
-    "DiceShowPlayerHealthBarOnHitPlayer": "{default}You see the enemies health bar!",
-    "DiceShowPlayerHealthBarOnHit": "{purple}[RollTheDice] {green}{playerName} {default} sees the enemy health bar!",
+    "DiceShowPlayerHealthBarPlayer": "{default}You see the enemies health bar!",
+    "DiceShowPlayerHealthBar": "{purple}[RollTheDice] {green}{playerName} {default} sees the enemy health bar!",
     "DiceNoRecoilPlayer": "{default}You have no recoil!",
     "DiceNoRecoil": "{purple}[RollTheDice] {green}{playerName} {default} has no recoil!"
 }

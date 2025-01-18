@@ -144,7 +144,7 @@ namespace RollTheDice
                 DiceNoExplosives,
                 DiceChangePlayerModel,
                 DicePlayerGlow,
-                DiceShowPlayerHealthBarOnHit,
+                DiceShowPlayerHealthBar,
                 DiceNoRecoil
             };
             // initialize dice counter
