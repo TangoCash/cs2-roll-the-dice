@@ -14,7 +14,7 @@
     "command.rollthedice.notalive": "{purple}[WürfelSpiel] {default}Du musst am Leben sein, um zu würfeln!",
     "command.rollthedice.alreadyrolled": "{purple}[WürfelSpiel] {red}Bereits gewürfelt: {default}{dice}",
     "command.rollthedice.error": "{purple}[WürfelSpiel] {green}{playerName} {default}konnte nicht würfeln :(",
-    "command.rollthedice.unluckyPlayer": "{default}Du hast die Würfel verloren :D",
+    "command.rollthedice.unlucky.player": "{default}Du hast die Würfel verloren :D",
     "command.rollthedice.unlucky": "{purple}[RollTheDice] {green}{playerName} {default}hat die Würfel verloren :D",
     "DiceChangeNamePlayer": "{default}Du heißt jetzt {green}{randomName}{default}!",
     "DiceChangeName": "{purple}[WürfelSpiel] {green}{playerName} {default}hat seinen Namen in {green}{randomName} {default}geändert!",
