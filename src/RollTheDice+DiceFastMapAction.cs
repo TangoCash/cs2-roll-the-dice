@@ -1,5 +1,6 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 
@@ -9,7 +10,7 @@ namespace RollTheDice
     {
         private List<CCSPlayerController> _playersCanInstantDefuse = new();
         private List<CCSPlayerController> _playersCanInstantPlant = new();
-        private List<CCSPlayerController> _playersCanInstantRescueHostages = new();
+        private List<CCSPlayerPawn> _playersCanInstantRescueHostages = new();
 
         private Dictionary<string, string> DiceFastMapAction(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
@@ -58,7 +59,7 @@ namespace RollTheDice
             {
                 if (playerPawn.TeamNum == (int)CsTeam.CounterTerrorist)
                 {
-                    _playersCanInstantRescueHostages.Add(player);
+                    _playersCanInstantRescueHostages.Add(playerPawn);
                     return new Dictionary<string, string>
                     {
                         {"_translation_player", "DiceFastHostageActionCTPlayer"},
@@ -96,6 +97,7 @@ namespace RollTheDice
             DeregisterEventHandler<EventBombBeginplant>(DiceFastBombActionEventBeginPlant);
             _playersCanInstantDefuse.Clear();
             _playersCanInstantPlant.Clear();
+            _playersCanInstantRescueHostages.Clear();
         }
 
         private HookResult DiceFastBombActionEventBeginDefuse(EventBombBegindefuse @event, GameEventInfo info)
@@ -136,15 +138,19 @@ namespace RollTheDice
         }
 
         // Hook HostageEntity grab begin
-        [EntityOutputHook("hostage_entity", "OnHostageBeginGrab")]
+        [EntityOutputHook("*", "OnHostageBeginGrab")]
         public HookResult OnPickup(CEntityIOOutput output, string name, CEntityInstance activator, CEntityInstance caller, CVariant value, float delay)
         {
-            // TODO: set variables:
-            // m_iProgressBarDuration -> 0.1f
-            // m_flProgressBarStartTime -> gameTime
-            // m_flGrabSuccessTime -> gameTime + 0.1f
-            // set changed state to propagate properly to user
-            if (!_playersCanInstantRescueHostages.Contains(activator)) return HookResult.Continue;
+            if (activator.DesignerName != "hostage_entity") return HookResult.Continue;
+            if (caller.DesignerName != "player") return HookResult.Continue;
+            CCSPlayerPawn playerPawn = new CCSPlayerPawn(caller.Handle);
+            if (playerPawn == null
+                || !playerPawn.IsValid)
+                return HookResult.Continue;
+            // check if user is eligible to rescue a hostage instantly
+            if (!_playersCanInstantRescueHostages.Contains(playerPawn)) return HookResult.Continue;
+            // set success time to current time
+            Schema.SetSchemaValue(activator.Handle, "CHostage", "m_flGrabSuccessTime", Server.CurrentTime);
             return HookResult.Continue;
         }
     }
