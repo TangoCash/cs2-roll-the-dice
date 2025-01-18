@@ -144,7 +144,8 @@ namespace RollTheDice
                 DiceNoExplosives,
                 DiceChangePlayerModel,
                 DicePlayerGlow,
-                DiceShowPlayerHealthBarOnHit
+                DiceShowPlayerHealthBarOnHit,
+                DiceNoRecoil
             };
             // initialize dice counter
             foreach (var dice in _dices)
