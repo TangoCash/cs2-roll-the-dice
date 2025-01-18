@@ -67,7 +67,7 @@ namespace RollTheDice
         {
             if (_playersWithHealthBarShown.Count() == 0) return;
             // only every 32 ticks (roughly one second)
-            if (Server.TickCount % 32 != 0) return;
+            if (Server.TickCount % 8 != 0) return;
             // worker
             List<CCSPlayerController> _playersWithHealthBarShownCopy = new(_playersWithHealthBarShown);
             foreach (CCSPlayerController player in _playersWithHealthBarShownCopy)
@@ -81,19 +81,17 @@ namespace RollTheDice
                     || player.PlayerPawn.Value == null
                     || player.PlayerPawn.Value.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
                     // check if player is aiming at another player
-                    CCSPlayerController? playerTarget = Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules")?
+                    CCSPlayerPawn? playerTarget = Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules")?
                         .FirstOrDefault()?
                         .GameRules?
-                        .FindPickerEntity<CCSPlayerController>(player);
-                        if (playerTarget == null
-                            || playerTarget.PlayerPawn == null
-                            || !playerTarget.PlayerPawn.IsValid
-                            || playerTarget.PlayerPawn.Value == null) continue;
+                        .FindPickerEntity<CCSPlayerPawn>(player);
+                    if (playerTarget == null
+                        || !playerTarget.IsValid) continue;
                     // send message
                     var message = UserMessage.FromPartialName("UpdateScreenHealthBar");
-                    message.SetInt("entidx", (int)playerTarget.PlayerPawn.Index);
-                    message.SetFloat("healthratio_old", playerTarget.PlayerPawn.Value.Health / 100);
-                    message.SetFloat("healthratio_new", playerTarget.PlayerPawn.Value.Health / 100);
+                    message.SetInt("entidx", (int)playerTarget.Index);
+                    message.SetFloat("healthratio_old", playerTarget.Health / 100);
+                    message.SetFloat("healthratio_new", playerTarget.Health / 100);
                     message.SetInt("style", 0);
                     message.Send(player);
                 }
