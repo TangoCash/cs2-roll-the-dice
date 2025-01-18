@@ -60,7 +60,6 @@ namespace RollTheDice
             weapon.As<CCSWeaponBase>().FlRecoilIndex = 0;
             //nospread
             weapon.As<CCSWeaponBase>().AccuracyPenalty = 0;
-            Console.WriteLine("=== NO RECOIL");
             return HookResult.Continue;
         }
     }
