@@ -74,5 +74,7 @@
     "DiceShowPlayerHealthBarPlayer": "{default}Du siehst die Gesundheit des Gegners!",
     "DiceShowPlayerHealthBar": "{purple}[WürfelSpiel] {green}{playerName} {default}sieht die Gesundheit des Gegners!",
     "DiceNoRecoilPlayer": "{default}Deine Waffe hat kaum Rückstoß!",
-    "DiceNoRecoil": "{purple}[WürfelSpiel] {green}{playerName} {default} hat kaum Rückstoß!"
+    "DiceNoRecoil": "{purple}[WürfelSpiel] {green}{playerName} {default} hat kaum Rückstoß!",
+    "DiceChangePlayerSizePlayer": "{default}Du hast deine Größe zu {playerSize}x geändert!",
+    "DiceChangePlayerSize": "{purple}[WürfelSpiel] {green}{playerName} {default} ist nun {playerSize}x so groß wie vorher!"
 }
