@@ -1,6 +1,7 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.UserMessages;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace RollTheDice
 {
@@ -90,6 +91,8 @@ namespace RollTheDice
                         || !playerTarget.IsValid
                         || playerTarget.LifeState != (byte)LifeState_t.LIFE_ALIVE
                         || playerTarget.TeamNum == player.TeamNum
+                        || playerTarget.DesignerName == null
+                        || playerTarget.DesignerName != "player"
                         || playerTarget.Health <= 0) continue;
                     // send message
                     var message = UserMessage.FromPartialName("UpdateScreenHealthBar");
