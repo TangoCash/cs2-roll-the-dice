@@ -10,7 +10,7 @@ namespace RollTheDice
         private Dictionary<string, string> DiceChangePlayerSize(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             _playersWithChangedModelSize.Add(playerPawn);
-            float playerSize = (float)(_random.NextDouble() * (1.5 - 0.5) + 0.5);
+            float playerSize = float.Round((float)(_random.NextDouble() * (1.5 - 0.5) + 0.5), 2);
             var playerSceneNode = playerPawn.CBodyComponent?.SceneNode;
             if (playerSceneNode == null)
                 return new Dictionary<string, string>
