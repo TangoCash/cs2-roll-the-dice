@@ -1,13 +1,12 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.UserMessages;
-using CounterStrikeSharp.API.Modules.Utils;
 
 namespace RollTheDice
 {
     public partial class RollTheDice : BasePlugin
     {
-        private List<CCSPlayerController> _playersWithHealthBarShown = new();
+        private Dictionary<CCSPlayerController, Dictionary<CCSPlayerPawn, float>> _playersWithHealthBarShown = new();
 
         private Dictionary<string, string> DiceShowPlayerHealthBar(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
@@ -17,7 +16,7 @@ namespace RollTheDice
                 RegisterListener<Listeners.OnTick>(DiceShowPlayerHealthBarOnTick);
                 RegisterEventHandler<EventPlayerHurt>(EventDiceShowPlayerHealthBarOnPlayerHurt);
             }
-            _playersWithHealthBarShown.Add(player);
+            _playersWithHealthBarShown.Add(player, new Dictionary<CCSPlayerPawn, float>());
             return new Dictionary<string, string>
             {
                 {"_translation_player", "DiceShowPlayerHealthBarPlayer"},
@@ -51,7 +50,7 @@ namespace RollTheDice
                 || !attacker.IsValid
                 || victim.TeamNum == attacker.TeamNum) return HookResult.Continue;
             if (victim == attacker) return HookResult.Continue;
-            if (!_playersWithHealthBarShown.Contains(attacker)) return HookResult.Continue;
+            if (!_playersWithHealthBarShown.ContainsKey(attacker)) return HookResult.Continue;
             float oldHealth = @event.Health + @event.DmgHealth;
             float newHealth = @event.Health;
             if (oldHealth == newHealth) return HookResult.Continue;
@@ -71,8 +70,8 @@ namespace RollTheDice
             // only every 32 ticks (roughly one second)
             if (Server.TickCount % 8 != 0) return;
             // worker
-            List<CCSPlayerController> _playersWithHealthBarShownCopy = new(_playersWithHealthBarShown);
-            foreach (CCSPlayerController player in _playersWithHealthBarShownCopy)
+            Dictionary<CCSPlayerController, Dictionary<CCSPlayerPawn, float>> _playersWithHealthBarShownCopy = new(_playersWithHealthBarShown);
+            foreach (CCSPlayerController player in _playersWithHealthBarShownCopy.Keys)
             {
                 try
                 {
@@ -81,7 +80,8 @@ namespace RollTheDice
                     || player.PlayerPawn == null
                     || !player.PlayerPawn.IsValid
                     || player.PlayerPawn.Value == null
-                    || player.PlayerPawn.Value.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
+                    || player.PlayerPawn.Value.LifeState != (byte)LifeState_t.LIFE_ALIVE
+                    || !_playersWithHealthBarShown.ContainsKey(player)) continue;
                     // check if player is aiming at another player
                     CCSPlayerPawn? playerTarget = Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules")?
                         .FirstOrDefault()?
@@ -94,6 +94,22 @@ namespace RollTheDice
                         || playerTarget.DesignerName == null
                         || playerTarget.DesignerName != "player"
                         || playerTarget.Health <= 0) continue;
+                    // check if we should resend the message (only every 2 seconds)
+                    if (_playersWithHealthBarShown[player].ContainsKey(playerTarget))
+                    {
+                        if (_playersWithHealthBarShown[player][playerTarget] + 2.0f <= Server.CurrentTime)
+                        {
+                            _playersWithHealthBarShown[player][playerTarget] = Server.CurrentTime;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        _playersWithHealthBarShown[player].Add(playerTarget, Server.CurrentTime);
+                    }
                     // send message
                     var message = UserMessage.FromPartialName("UpdateScreenHealthBar");
                     message.SetInt("entidx", (int)playerTarget.Index);
