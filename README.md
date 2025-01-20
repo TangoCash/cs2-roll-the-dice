@@ -43,7 +43,7 @@ This plugin lets your players roll the dice each round (at any time during an ro
 
 ## Plugin Update
 
-Simply overwrite all plugin files and they will be reloaded automatically or just use the Update Manager itself for an easy automatic update by using the *um update RollTheDice* command.
+Simply overwrite all plugin files and they will be reloaded automatically or just use the [Update Manager](https://github.com/Kandru/cs2-update-manager/) itself for an easy automatic or manual update by using the *um update RollTheDice* command.
 
 ## Commands
 
