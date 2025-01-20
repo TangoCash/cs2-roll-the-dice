@@ -14,16 +14,19 @@ This plugin lets your players roll the dice each round (at any time during an ro
 - Bigger Taser Battery (between 2 and 10 instant taser shots)
 - Change player name (changes the player name randomly)
 - Change player model (disguise as enemy player model)
+- Change player size (from 0.5x to 1.5x randomly)
 - Chicken Leader (spawns chickens around the player)
 - Decrease health (-10 to -30 health)
-- Instant bomb plant or bomb defuse
+- Instant bomb plant or bomb defuse / instant hostage grab
 - Give between 1 to 5 health shots
 - Increase health (10 to 30 health)
 - Increase speed (+50% to +100%)
 - No explosives (no grenades)
+- (Almost) no recoil (https://www.youtube.com/watch?v=s7PIG3cQo4M)
 - Change player to a big chicken
 - Cloak (Player is invisible after 2 seconds without movement)
 - Disguise as Plant (gives player a random prop model)
+- Make player glow (X-Ray through walls)
 - High Gravity
 - Invisibility (Player 50% visible)
 - Low Gravity
@@ -33,6 +36,7 @@ This plugin lets your players roll the dice each round (at any time during an ro
 - Respawn after death
 - Suicide
 - Vampire (get the damage as health, max. 200hp)
+- Show health bar for enemies (https://www.youtube.com/watch?v=SBKvAz9PDqs)
 - Strip weapons
 
 ## Plugin Installation
