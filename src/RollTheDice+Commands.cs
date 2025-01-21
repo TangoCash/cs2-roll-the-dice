@@ -40,13 +40,16 @@ namespace RollTheDice
                 command.ReplyToCommand(Localizer["command.rollthedice.notalive"]);
                 return;
             }
-            if (_playersThatRolledTheDice.ContainsKey(player) && _playersThatRolledTheDice[player].ContainsKey("message"))
+            if (_playersThatRolledTheDice.ContainsKey(player))
             {
-                if (command.CallingContext == CommandCallingContext.Console)
-                    player.PrintToChat(Localizer["command.rollthedice.alreadyrolled"].Value
+                if (_playersThatRolledTheDice[player].ContainsKey("message"))
+                {
+                    if (command.CallingContext == CommandCallingContext.Console)
+                        player.PrintToChat(Localizer["command.rollthedice.alreadyrolled"].Value
+                            .Replace("{dice}", (string)_playersThatRolledTheDice[player]["message"]));
+                    command.ReplyToCommand(Localizer["command.rollthedice.alreadyrolled"].Value
                         .Replace("{dice}", (string)_playersThatRolledTheDice[player]["message"]));
-                command.ReplyToCommand(Localizer["command.rollthedice.alreadyrolled"].Value
-                    .Replace("{dice}", (string)_playersThatRolledTheDice[player]["message"]));
+                }
                 return;
             }
             // get random dice
