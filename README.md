@@ -1,6 +1,6 @@
 # CounterstrikeSharp - Roll The Dice
 
-[![UpdateManager Compatible](https://img.shields.io/badge/CS2-UpdateManager-darkgreen)](https://github.com/Kandru/cs2-roll-the-dice/)
+[![UpdateManager Compatible](https://img.shields.io/badge/CS2-UpdateManager-darkgreen)](https://github.com/Kandru/cs2-update-manager/)
 [![Discord Support](https://img.shields.io/discord/289448144335536138?label=Discord%20Support&color=darkgreen)](https://discord.gg/bkuF8xKHUt)
 [![GitHub release](https://img.shields.io/github/release/Kandru/cs2-roll-the-dice?include_prereleases=&sort=semver&color=blue)](https://github.com/Kandru/cs2-roll-the-dice/releases/)
 [![License](https://img.shields.io/badge/License-GPLv3-blue)](#license)
@@ -14,16 +14,19 @@ This plugin lets your players roll the dice each round (at any time during an ro
 - Bigger Taser Battery (between 2 and 10 instant taser shots)
 - Change player name (changes the player name randomly)
 - Change player model (disguise as enemy player model)
+- Change player size (from 0.5x to 1.5x randomly)
 - Chicken Leader (spawns chickens around the player)
 - Decrease health (-10 to -30 health)
-- Instant bomb plant or bomb defuse
+- Instant bomb plant or bomb defuse / instant hostage grab
 - Give between 1 to 5 health shots
 - Increase health (10 to 30 health)
 - Increase speed (+50% to +100%)
 - No explosives (no grenades)
+- (Almost) no recoil (https://www.youtube.com/watch?v=s7PIG3cQo4M)
 - Change player to a big chicken
 - Cloak (Player is invisible after 2 seconds without movement)
 - Disguise as Plant (gives player a random prop model)
+- Make player glow (X-Ray through walls)
 - High Gravity
 - Invisibility (Player 50% visible)
 - Low Gravity
@@ -33,6 +36,7 @@ This plugin lets your players roll the dice each round (at any time during an ro
 - Respawn after death
 - Suicide
 - Vampire (get the damage as health, max. 200hp)
+- Show health bar for enemies (https://www.youtube.com/watch?v=SBKvAz9PDqs)
 - Strip weapons
 
 ## Plugin Installation
@@ -43,7 +47,7 @@ This plugin lets your players roll the dice each round (at any time during an ro
 
 ## Plugin Update
 
-Simply overwrite all plugin files and they will be reloaded automatically or just use the Update Manager itself for an easy automatic update by using the *um update RollTheDice* command.
+Simply overwrite all plugin files and they will be reloaded automatically or just use the [Update Manager](https://github.com/Kandru/cs2-update-manager/) itself for an easy automatic or manual update by using the *um update RollTheDice* command.
 
 ## Commands
 
