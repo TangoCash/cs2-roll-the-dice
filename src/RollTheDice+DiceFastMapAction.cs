@@ -32,8 +32,6 @@ namespace RollTheDice
                     _playersCanInstantPlant.Add(player);
                     return new Dictionary<string, string>
                     {
-                        {"_translation_player", "DiceFastBombActionTPlayer"},
-                        {"_translation_other", "DiceFastBombActionT"},
                         { "playerName", player.PlayerName }
                     };
                 }
@@ -42,8 +40,6 @@ namespace RollTheDice
                     _playersCanInstantDefuse.Add(player);
                     return new Dictionary<string, string>
                     {
-                        {"_translation_player", "DiceFastBombActionCTPlayer"},
-                        {"_translation_other", "DiceFastBombActionCT"},
                         { "playerName", player.PlayerName }
                     };
                 }
@@ -51,8 +47,7 @@ namespace RollTheDice
                 {
                     return new Dictionary<string, string>
                     {
-                        {"_translation_player", "command.rollthedice.error"},
-                        { "playerName", player.PlayerName }
+                        {"error", "command.rollthedice.error"}
                     };
                 }
             }
@@ -63,8 +58,6 @@ namespace RollTheDice
                     _playersCanInstantRescueHostages.Add(playerPawn);
                     return new Dictionary<string, string>
                     {
-                        {"_translation_player", "DiceFastHostageActionCTPlayer"},
-                        {"_translation_other", "DiceFastHostageActionCT"},
                         { "playerName", player.PlayerName }
                     };
                 }
@@ -72,8 +65,6 @@ namespace RollTheDice
                 {
                     return new Dictionary<string, string>
                     {
-                        {"_translation_player", "command.rollthedice.unlucky.player"},
-                        {"_translation_other", "command.rollthedice.unlucky"},
                         { "playerName", player.PlayerName }
                     };
                 }
@@ -82,8 +73,7 @@ namespace RollTheDice
             {
                 return new Dictionary<string, string>
                 {
-                    {"_translation_player", "command.rollthedice.unlucky.player"},
-                    {"_translation_other", "command.rollthedice.unlucky"},
+                    {"error", "command.rollthedice.unlucky"},
                     { "playerName", player.PlayerName }
                 };
             }

@@ -15,8 +15,7 @@ namespace RollTheDice
             if (playerSceneNode == null)
                 return new Dictionary<string, string>
                 {
-                    {"_translation_player", "command.rollthedice.error"},
-                    { "playerName", player.PlayerName }
+                    {"error", "command.rollthedice.error"}
                 };
             playerSceneNode.GetSkeletonInstance().Scale = playerSize;
             playerPawn.AcceptInput("SetScale", null, null, playerSize.ToString());
@@ -28,8 +27,6 @@ namespace RollTheDice
 
             return new Dictionary<string, string>
             {
-                {"_translation_player", "DiceChangePlayerSizePlayer"},
-                {"_translation_other", "DiceChangePlayerSize"},
                 { "playerName", player.PlayerName },
                 { "playerSize", playerSize.ToString() }
             };

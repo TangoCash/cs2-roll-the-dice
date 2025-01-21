@@ -47,8 +47,6 @@ namespace RollTheDice
             Utilities.SetStateChanged(player, "CBasePlayerController", "m_iszPlayerName");
             return new Dictionary<string, string>
             {
-                {"_translation_player", "DiceChangeNamePlayer"},
-                {"_translation_other", "DiceChangeName"},
                 { "playerName", _playersWithChangedNamesOldNames[player] },
                 { "randomName", randomName }
             };

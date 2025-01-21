@@ -38,7 +38,7 @@ namespace RollTheDice
                 if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.notalive"]);
                 command.ReplyToCommand(Localizer["command.rollthedice.notalive"]);
                 return;
-            };
+            }
             if (_playersThatRolledTheDice.ContainsKey(player))
             {
                 if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.alreadyrolled"].Value
@@ -64,10 +64,21 @@ namespace RollTheDice
             _countRolledDices[_dices[dice].Method.Name]++;
             // execute dice function
             Dictionary<string, string> data = _dices[dice](player, playerPawn);
-            // send message to all players
-            if (data.TryGetValue("_translation_all", out var translationAll))
+            // check for error
+            if (data.ContainsKey("error"))
             {
-                string message = Localizer[translationAll].Value;
+                string message = Localizer[data["error"]];
+                // send message to player
+                player.PrintToCenter(message);
+                player.PrintToChat(message);
+                // change player message
+                _playersThatRolledTheDice[player] = message;
+                return;
+            }
+            // send message to all players
+            if (!Localizer[$"{_dices[dice].Method.Name}_all"].ResourceNotFound)
+            {
+                string message = Localizer[$"{_dices[dice].Method.Name}_all"].Value;
                 foreach (var kvp in data)
                 {
                     message = message.Replace($"{{{kvp.Key}}}", kvp.Value);
@@ -75,10 +86,10 @@ namespace RollTheDice
                 SendGlobalChatMessage(message);
             }
             // send message to other players (and maybe player)
-            else if (data.TryGetValue("_translation_other", out var translationOther))
+            else if (!Localizer[$"{_dices[dice].Method.Name}_other"].ResourceNotFound)
             {
                 // send message to others
-                string message = Localizer[translationOther].Value;
+                string message = Localizer[$"{_dices[dice].Method.Name}_other"].Value;
                 foreach (var kvp in data)
                 {
                     message = message.Replace($"{{{kvp.Key}}}", kvp.Value);
@@ -86,9 +97,9 @@ namespace RollTheDice
                 SendGlobalChatMessage(message, player: player);
             }
             // if player should get a message
-            if (data.TryGetValue("_translation_player", out var translationPlayer))
+            if (!Localizer[$"{_dices[dice].Method.Name}_player"].ResourceNotFound)
             {
-                string message = Localizer[translationPlayer].Value;
+                string message = Localizer[$"{_dices[dice].Method.Name}_player"].Value;
                 foreach (var kvp in data)
                 {
                     message = message.Replace($"{{{kvp.Key}}}", kvp.Value);

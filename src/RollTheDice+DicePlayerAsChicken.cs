@@ -15,12 +15,6 @@ namespace RollTheDice
 
         private Dictionary<string, string> DicePlayerAsChicken(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
-            if (_playersAsChicken.ContainsKey(player))
-                return new Dictionary<string, string>
-                {
-                    {"_translation_player", "command.rollthedice.error"},
-                    { "playerName", player.PlayerName }
-                };
             // create listener if not exists
             if (_playersAsChicken.Count() == 0)
             {
@@ -36,8 +30,6 @@ namespace RollTheDice
             MakePlayerInvisible(player);
             return new Dictionary<string, string>
             {
-                {"_translation_player", "DicePlayerAsChickenPlayer"},
-                {"_translation_other", "DicePlayerAsChicken"},
                 { "playerName", player.PlayerName }
             };
         }

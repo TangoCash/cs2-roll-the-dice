@@ -10,20 +10,12 @@ namespace RollTheDice
 
         private Dictionary<string, string> DicePlayerCloak(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
-            if (_playersWithCloak.ContainsKey(player))
-                return new Dictionary<string, string>
-                {
-                    {"_translation_player", "command.rollthedice.error"},
-                    { "playerName", player.PlayerName }
-                };
             // create listener if not exists
             if (_playersWithCloak.Count() == 0) RegisterListener<Listeners.OnTick>(EventDicePlayerCloakOnTick);
             // add player to list
             _playersWithCloak.Add(player, 255);
             return new Dictionary<string, string>
             {
-                {"_translation_player", "DicePlayerCloakPlayer"},
-                {"_translation_other", "DicePlayerCloak"},
                 { "playerName", player.PlayerName }
             };
         }

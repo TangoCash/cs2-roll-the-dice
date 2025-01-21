@@ -28,8 +28,6 @@ namespace RollTheDice
             _playersWithFakeGunSounds.Add(player, (int)Server.CurrentTime + _random.Next(3, 10));
             return new Dictionary<string, string>
             {
-                {"_translation_player", "DicePlayerMakeFakeGunSoundsPlayer"},
-                {"_translation_other", "DicePlayerMakeFakeGunSounds"},
                 { "playerName", player.PlayerName }
             };
         }

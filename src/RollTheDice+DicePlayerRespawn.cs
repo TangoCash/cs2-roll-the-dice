@@ -21,8 +21,6 @@ namespace RollTheDice
             _playersWithRespawnAbility.Add(player, new Dictionary<string, string>());
             return new Dictionary<string, string>
             {
-                {"_translation_player", "DicePlayerRespawnPlayer"},
-                {"_translation_other", "DicePlayerRespawn"},
                 { "playerName", player.PlayerName }
             };
         }

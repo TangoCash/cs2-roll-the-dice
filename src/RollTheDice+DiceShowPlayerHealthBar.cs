@@ -19,8 +19,6 @@ namespace RollTheDice
             _playersWithHealthBarShown.Add(player, new Dictionary<CCSPlayerPawn, float>());
             return new Dictionary<string, string>
             {
-                {"_translation_player", "DiceShowPlayerHealthBarPlayer"},
-                {"_translation_other", "DiceShowPlayerHealthBar"},
                 { "playerName", player.PlayerName }
             };
         }

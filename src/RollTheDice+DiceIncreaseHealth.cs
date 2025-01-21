@@ -17,8 +17,6 @@ namespace RollTheDice
             Utilities.SetStateChanged(playerPawn, "CBaseEntity", "m_iMaxHealth");
             return new Dictionary<string, string>
             {
-                {"_translation_player", "DiceIncreaseHealthPlayer"},
-                {"_translation_other", "DiceIncreaseHealth"},
                 { "playerName", player.PlayerName },
                 { "healthIncrease", healthIncrease.ToString() }
             };

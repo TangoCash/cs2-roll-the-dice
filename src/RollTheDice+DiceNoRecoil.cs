@@ -10,15 +10,10 @@ namespace RollTheDice
         private Dictionary<string, string> DiceNoRecoil(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
             // create listener if not exists
-            if (_playersWithoutRecoil.Count() == 0)
-            {
-                RegisterEventHandler<EventWeaponFire>(EventDiceNoRecoilOnWeaponFire);
-            }
+            if (_playersWithoutRecoil.Count() == 0) RegisterEventHandler<EventWeaponFire>(EventDiceNoRecoilOnWeaponFire);
             _playersWithoutRecoil.Add(player);
             return new Dictionary<string, string>
             {
-                {"_translation_player", "DiceNoRecoilPlayer"},
-                {"_translation_other", "DiceNoRecoil"},
                 { "playerName", player.PlayerName }
             };
         }

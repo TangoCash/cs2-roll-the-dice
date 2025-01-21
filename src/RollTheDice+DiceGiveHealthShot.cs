@@ -13,8 +13,6 @@ namespace RollTheDice
             }
             return new Dictionary<string, string>
             {
-                {"_translation_player", "DiceGiveHealthShotPlayer"},
-                {"_translation_other", "DiceGiveHealthShot"},
                 { "playerName", player.PlayerName },
                 { "amount", amount.ToString() }
             };

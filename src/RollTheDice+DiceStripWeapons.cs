@@ -10,8 +10,7 @@ namespace RollTheDice
             if (playerPawn.WeaponServices == null)
                 return new Dictionary<string, string>
                 {
-                    {"_translation_player", "command.rollthedice.error"},
-                    { "playerName", player.PlayerName }
+                    {"error", "command.rollthedice.error"}
                 };
             var playerWeapons = playerPawn.WeaponServices!;
             bool hasC4 = false;
@@ -33,8 +32,6 @@ namespace RollTheDice
                 player.GiveNamedItem(CsItem.C4);
             return new Dictionary<string, string>
             {
-                {"_translation_player", "DiceStripWeaponsPlayer"},
-                {"_translation_other", "DiceStripWeapons"},
                 { "playerName", player.PlayerName }
             };
         }

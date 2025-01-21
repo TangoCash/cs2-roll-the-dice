@@ -19,20 +19,11 @@ namespace RollTheDice
 
         private Dictionary<string, string> DiceNoExplosives(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
-            if (_playersWithoutExplosives.Contains(playerPawn))
-                return new Dictionary<string, string>
-                {
-                    {"_translation_player", "DiceNoExplosivesPlayer"},
-                    {"_translation_other", "DiceNoExplosives"},
-                    { "playerName", player.PlayerName }
-                };
             // register listener
             if (_playersWithoutExplosives.Count == 0) RegisterListener<Listeners.OnEntitySpawned>(DiceNoExplosivesOnEntitySpawned);
             _playersWithoutExplosives.Add(playerPawn);
             return new Dictionary<string, string>
             {
-                {"_translation_player", "DiceNoExplosivesPlayer"},
-                {"_translation_other", "DiceNoExplosives"},
                 { "playerName", player.PlayerName }
             };
         }

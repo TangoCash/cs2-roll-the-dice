@@ -15,8 +15,6 @@ namespace RollTheDice
             Utilities.SetStateChanged(playerPawn, "CBaseModelEntity", "m_clrRender");
             return new Dictionary<string, string>
             {
-                {"_translation_player", "DicePlayerInvisiblePlayer"},
-                {"_translation_other", "DicePlayerInvisible"},
                 { "playerName", player.PlayerName }
             };
         }
