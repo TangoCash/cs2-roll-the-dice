@@ -79,10 +79,14 @@ namespace RollTheDice
                 _playersThatRolledTheDice[player]["message"] = message;
                 return;
             }
+            // set default locale to the dice method name
+            string locale = _dices[dice].Method.Name;
+            // check if we should use a provided locale
+            if (data.ContainsKey("locale")) locale = data["locale"];
             // send message to all players
-            if (!Localizer[$"{_dices[dice].Method.Name}_all"].ResourceNotFound)
+            if (!Localizer[$"{locale}_all"].ResourceNotFound)
             {
-                string message = Localizer[$"{_dices[dice].Method.Name}_all"].Value;
+                string message = Localizer[$"{locale}_all"].Value;
                 foreach (var kvp in data)
                 {
                     message = message.Replace($"{{{kvp.Key}}}", kvp.Value);
@@ -90,10 +94,10 @@ namespace RollTheDice
                 SendGlobalChatMessage(message);
             }
             // send message to other players (and maybe player)
-            else if (!Localizer[$"{_dices[dice].Method.Name}_other"].ResourceNotFound)
+            else if (!Localizer[$"{locale}_other"].ResourceNotFound)
             {
                 // send message to others
-                string message = Localizer[$"{_dices[dice].Method.Name}_other"].Value;
+                string message = Localizer[$"{locale}_other"].Value;
                 foreach (var kvp in data)
                 {
                     message = message.Replace($"{{{kvp.Key}}}", kvp.Value);
@@ -101,9 +105,9 @@ namespace RollTheDice
                 SendGlobalChatMessage(message, player: player);
             }
             // if player should get a message
-            if (!Localizer[$"{_dices[dice].Method.Name}_player"].ResourceNotFound)
+            if (!Localizer[$"{locale}_player"].ResourceNotFound)
             {
-                string message = Localizer[$"{_dices[dice].Method.Name}_player"].Value;
+                string message = Localizer[$"{locale}_player"].Value;
                 foreach (var kvp in data)
                 {
                     message = message.Replace($"{{{kvp.Key}}}", kvp.Value);
@@ -114,11 +118,11 @@ namespace RollTheDice
                 _playersThatRolledTheDice[player]["message"] = message;
             }
             // if player should get a GUI message
-            if (!Localizer[$"{_dices[dice].Method.Name}_gui"].ResourceNotFound)
+            if (!Localizer[$"{locale}_gui"].ResourceNotFound)
             {
                 string message = Localizer["command.prefix"].Value
                     + " "
-                    + Localizer[$"{_dices[dice].Method.Name}_gui"].Value;
+                    + Localizer[$"{locale}_gui"].Value;
                 foreach (var kvp in data)
                 {
                     message = message.Replace($"{{{kvp.Key}}}", kvp.Value);

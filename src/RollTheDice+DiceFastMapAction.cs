@@ -32,6 +32,7 @@ namespace RollTheDice
                     _playersCanInstantPlant.Add(player);
                     return new Dictionary<string, string>
                     {
+                        {"locale", "DiceFastBombActionT"},
                         { "playerName", player.PlayerName }
                     };
                 }
@@ -40,6 +41,7 @@ namespace RollTheDice
                     _playersCanInstantDefuse.Add(player);
                     return new Dictionary<string, string>
                     {
+                        {"locale", "DiceFastBombActionCT"},
                         { "playerName", player.PlayerName }
                     };
                 }
@@ -58,6 +60,7 @@ namespace RollTheDice
                     _playersCanInstantRescueHostages.Add(playerPawn);
                     return new Dictionary<string, string>
                     {
+                        {"locale", "DiceFastHostageActionCT"},
                         { "playerName", player.PlayerName }
                     };
                 }
@@ -65,7 +68,7 @@ namespace RollTheDice
                 {
                     return new Dictionary<string, string>
                     {
-                        { "playerName", player.PlayerName }
+                        {"error", "command.rollthedice.unlucky"}
                     };
                 }
             }
@@ -73,8 +76,7 @@ namespace RollTheDice
             {
                 return new Dictionary<string, string>
                 {
-                    {"error", "command.rollthedice.unlucky"},
-                    { "playerName", player.PlayerName }
+                    {"error", "command.rollthedice.unlucky"}
                 };
             }
         }
