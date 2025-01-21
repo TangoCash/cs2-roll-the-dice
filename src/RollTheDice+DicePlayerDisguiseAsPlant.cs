@@ -32,6 +32,7 @@ namespace RollTheDice
             _playersDisguisedAsPlants.Add(player, new Dictionary<string, string>());
             _playersDisguisedAsPlants[player]["status"] = "player";
             var randomKey = _playersDisguisedAsPlantsModels.Keys.ElementAt(_random.Next(0, _playersDisguisedAsPlantsModels.Count));
+            _playersDisguisedAsPlants[player]["prop_name"] = randomKey;
             _playersDisguisedAsPlants[player]["prop"] = SpawnProp(
                 player,
                 _playersDisguisedAsPlantsModels[randomKey]["model"].ToString()!
@@ -91,12 +92,28 @@ namespace RollTheDice
                             int.Parse(_playersDisguisedAsPlants[player]["offset_z"]),
                             int.Parse(_playersDisguisedAsPlants[player]["offset_angle"])
                         );
+                        // update gui if available
+                        if (_playersThatRolledTheDice.ContainsKey(player)
+                            && _playersThatRolledTheDice[player].ContainsKey("gui_status")
+                            && (CPointWorldText)_playersThatRolledTheDice[player]["gui_status"] != null)
+                        {
+                            CPointWorldText worldText = (CPointWorldText)_playersThatRolledTheDice[player]["gui_status"];
+                            worldText.AcceptInput("SetMessage", worldText, worldText, playerData["prop_name"]);
+                        }
                     }
                     else if (player.Buttons != 0 && playerData["status"] == "plant")
                     {
                         _playersDisguisedAsPlants[player]["status"] = "player";
                         MakePlayerVisible(player);
                         RemoveProp(int.Parse(playerData["prop"]), true);
+                        // update gui if available
+                        if (_playersThatRolledTheDice.ContainsKey(player)
+                            && _playersThatRolledTheDice[player].ContainsKey("gui_status")
+                            && (CPointWorldText)_playersThatRolledTheDice[player]["gui_status"] != null)
+                        {
+                            CPointWorldText worldText = (CPointWorldText)_playersThatRolledTheDice[player]["gui_status"];
+                            worldText.AcceptInput("SetMessage", worldText, worldText, "");
+                        }
                     }
                     else if (playerData["status"] == "plant")
                     {

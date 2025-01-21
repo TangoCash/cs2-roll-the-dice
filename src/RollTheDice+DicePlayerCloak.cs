@@ -49,6 +49,7 @@ namespace RollTheDice
             Dictionary<CCSPlayerController, int> _playersWithCloakCopy = new(_playersWithCloak);
             foreach (var (player, visibility) in _playersWithCloakCopy)
             {
+                bool changedVisibility = false;
                 try
                 {
                     // sanity checks
@@ -66,6 +67,7 @@ namespace RollTheDice
                         player.PlayerPawn.Value.Render = Color.FromArgb(visibility - 1, 255, 255, 255);
                         // set state changed
                         Utilities.SetStateChanged(player.PlayerPawn.Value, "CBaseModelEntity", "m_clrRender");
+                        changedVisibility = true;
                     }
                     else if (player.Buttons != 0 && visibility < 255)
                     {
@@ -75,7 +77,23 @@ namespace RollTheDice
                         player.PlayerPawn.Value.Render = Color.FromArgb(255, 255, 255, 255);
                         // set state changed
                         Utilities.SetStateChanged(player.PlayerPawn.Value, "CBaseModelEntity", "m_clrRender");
+                        changedVisibility = true;
                     }
+                    // update gui if available
+                    if (changedVisibility)
+                        if (_playersThatRolledTheDice.ContainsKey(player)
+                            && _playersThatRolledTheDice[player].ContainsKey("gui_status")
+                            && (CPointWorldText)_playersThatRolledTheDice[player]["gui_status"] != null)
+                        {
+                            string percentageVisible = ((_playersWithCloak[player] / 255.0) * 100).ToString("0.#") + "%";
+                            CPointWorldText worldText = (CPointWorldText)_playersThatRolledTheDice[player]["gui_status"];
+                            worldText.AcceptInput(
+                                "SetMessage",
+                                worldText,
+                                worldText,
+                                Localizer["DicePlayerCloak_gui_status"].Value.Replace("{percentage}", percentageVisible)
+                            );
+                        }
                 }
                 catch (Exception e)
                 {

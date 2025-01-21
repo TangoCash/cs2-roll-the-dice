@@ -62,15 +62,23 @@ namespace RollTheDice
                     var (weaponName, soundName, playTotal, soundLength) = _fakeGunSounds[_random.Next(_fakeGunSounds.Count)];
                     EmitFakeGunSounds(player.Handle, soundName, soundLength, playTotal);
                     // let the player know
-                    player.PrintToCenter(Localizer["DicePlayerMakeFakeGunSoundsWeaponPlayer"].Value
-                        .Replace("{weapon}", weaponName));
+                    string message = Localizer["DicePlayerMakeFakeGunSoundsWeapon_player"].Value.Replace("{weapon}", weaponName);
+                    player.PrintToCenter(message);
+                    // update gui if available
+                    if (_playersThatRolledTheDice.ContainsKey(player)
+                        && _playersThatRolledTheDice[player].ContainsKey("gui_status")
+                        && (CPointWorldText)_playersThatRolledTheDice[player]["gui_status"] != null)
+                    {
+                        CPointWorldText worldText = (CPointWorldText)_playersThatRolledTheDice[player]["gui_status"];
+                        worldText.AcceptInput("SetMessage", worldText, worldText, message);
+                    }
                     // let everyone else know
-                    SendGlobalChatMessage(Localizer["DicePlayerMakeFakeGunSoundsWeapon"].Value
+                    SendGlobalChatMessage(Localizer["DicePlayerMakeFakeGunSoundsWeapon_other"].Value
                         .Replace("{playerName}", player.PlayerName)
                         .Replace("{weapon}", weaponName),
                         player: player);
                     // reset timer
-                    _playersWithFakeGunSounds[player] = (int)Server.CurrentTime + _random.Next(playTotal * (int)soundLength + 2, (playTotal * (int)soundLength));
+                    _playersWithFakeGunSounds[player] = (int)Server.CurrentTime + _random.Next(playTotal * (int)soundLength + 2, playTotal * (int)soundLength + 3);
                 }
                 catch (Exception e)
                 {
