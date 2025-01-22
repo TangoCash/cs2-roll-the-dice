@@ -57,6 +57,14 @@ namespace RollTheDice
             return worldText;
         }
 
+        private void RemoveAllGUIs()
+        {
+            foreach (CCSPlayerController player in _playersThatRolledTheDice.Keys)
+            {
+                if (player != null) RemoveGUI(player);
+            }
+        }
+
         private void RemoveGUI(CCSPlayerController player)
         {
             if (!_playersThatRolledTheDice.ContainsKey(player)) return;

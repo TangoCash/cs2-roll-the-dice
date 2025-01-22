@@ -48,6 +48,7 @@ namespace RollTheDice
         {
             // reset dice rolls on unload
             ResetDices();
+            RemoveAllGUIs();
             // unregister listeners
             DeregisterEventHandler<EventRoundStart>(OnRoundStart);
             DeregisterEventHandler<EventRoundEnd>(OnRoundEnd);
@@ -75,6 +76,7 @@ namespace RollTheDice
             _playersThatRolledTheDice.Clear();
             // reset dices (necessary after warmup)
             ResetDices();
+            RemoveAllGUIs();
             // abort if warmup
             if ((bool)GetGameRule("WarmupPeriod")!) return HookResult.Continue;
             // announce round start
@@ -89,13 +91,9 @@ namespace RollTheDice
         {
             DebugPrint("Round ended");
             ResetDices();
+            RemoveAllGUIs();
             // disallow dice rolls
             _isDuringRound = false;
-            // remove GUI
-            foreach (CCSPlayerController player in _playersThatRolledTheDice.Keys)
-            {
-                if (player != null) RemoveGUI(player);
-            }
             // continue event
             return HookResult.Continue;
         }
@@ -115,6 +113,7 @@ namespace RollTheDice
         {
             DebugPrint($"Map ended: {_currentMap}");
             ResetDices();
+            RemoveAllGUIs();
             // disallow dice rolls
             _isDuringRound = false;
         }
