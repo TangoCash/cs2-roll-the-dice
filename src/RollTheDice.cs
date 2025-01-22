@@ -41,6 +41,8 @@ namespace RollTheDice
                 InitializeConfig(_currentMap);
                 Console.WriteLine(Localizer["core.hotreload"]);
                 SendGlobalChatMessage(Localizer["core.hotreload"]);
+                // check if warmup and start round otherwise
+                if (!(bool)GetGameRule("WarmupPeriod")!) _isDuringRound = true;
             }
         }
 
