@@ -9,9 +9,11 @@ namespace RollTheDice
 
         private Dictionary<string, string> DicePlayerVampire(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
+            Dictionary<string, object> config = GetDiceConfig("DicePlayerVampire");
             // create listener if not exists
             if (_playerVampires.Count() == 0) RegisterEventHandler<EventPlayerHurt>(EventDicePlayerVampireOnPlayerHurt);
             _playerVampires.Add(player);
+            playerPawn.MaxHealth = Convert.ToInt32(config["max_health"]);
             return new Dictionary<string, string>
             {
                 { "playerName", player.PlayerName }
@@ -37,11 +39,19 @@ namespace RollTheDice
             if (!_playerVampires.Contains(attacker)) return HookResult.Continue;
             var playerPawn = attacker.PlayerPawn.Value;
             if (playerPawn == null) return HookResult.Continue;
+            Dictionary<string, object> config = GetDiceConfig("DicePlayerVampire");
             playerPawn.Health += (int)float.Round(@event.DmgHealth);
-            if (playerPawn.Health > 200) playerPawn.Health = 200;
+            if (playerPawn.Health > Convert.ToInt32(config["max_health"])) playerPawn.Health = Convert.ToInt32(config["max_health"]);
             attacker.PrintToCenterAlert($"+{(int)float.Round(@event.DmgHealth)} health!");
             Utilities.SetStateChanged(playerPawn, "CBaseEntity", "m_iHealth");
             return HookResult.Continue;
+        }
+
+        private Dictionary<string, object> DicePlayerVampireConfig()
+        {
+            var config = new Dictionary<string, object>();
+            config["max_health"] = (int)200;
+            return config;
         }
     }
 }

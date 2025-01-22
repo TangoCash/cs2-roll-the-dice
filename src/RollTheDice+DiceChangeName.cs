@@ -10,37 +10,26 @@ namespace RollTheDice
 
         private Dictionary<string, string> DiceChangeName(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
+            Dictionary<string, object> config = GetDiceConfig("DiceChangeName");
             // random names from users
             List<string> PlayerNames = Utilities.GetPlayers()
                 .Where(p => !p.IsBot)
                 .Select(p => p.PlayerName)
                 .ToList();
-            // random names from list
-            var RandomNames = new List<string>
-            {
-                "Hans Wurst", "Fritz Frosch", "Klaus Kleber", "Otto Normalverbraucher", "Peter Lustig",
-                "Karl-Heinz Klammer", "Gustav Gans", "Heinz Erhardt", "Wolfgang Witzig", "Ludwig Lustig",
-                "Rudi Rüssel", "Siggi Sorglos", "Berti Bratwurst", "Dieter Dosenbier", "Erwin Einhorn",
-                "Franz Fuchs", "Günther Gans", "Horst Hering", "Ingo Igel", "Jürgen Jux",
-                "Kurt Ketchup", "Lars Lachs", "Manfred Möhre", "Norbert Nudel", "Olaf Oktopus",
-                "Paul Pinguin", "Quirin Qualle", "Ralf Rabe", "Stefan Seestern", "Thomas Tintenfisch",
-                "Uwe Uhu", "Volker Vogel", "Willi Wurm", "Xaver Xylophon", "Yannik Yak",
-                "Zacharias Zebra", "Albert Apfel", "Bernd Banane", "Claus Clown", "Detlef Dachs",
-                "Egon Eule", "Ferdinand Frosch", "Gerd Giraffe", "Helmut Hase", "Igor Igel",
-                "Jochen Jaguar", "Knut Känguru", "Lothar Löwe", "Martin Marder", "Norbert Nashorn",
-                "Egon Kowalski", "Fritz Fink", "Heinz Hering"
-            };
             // set random player name
             string randomName = "";
             // copy player names list
-            List<string> PlayerNamesCopy = new List<string>(PlayerNames);
+            List<string> PlayerNamesCopy = [.. PlayerNames];
             // remove own name from list
             PlayerNamesCopy.Remove(player.PlayerName);
-            // check if we have more then 4 players on the server
-            if (PlayerNames.Count > 3)
+            // check if we have at least X players on the server before we use player names instead of the predefined list
+            if (PlayerNamesCopy.Count >= Convert.ToInt32(config["min_players_for_using_player_names"]))
                 randomName = PlayerNamesCopy[_random.Next(PlayerNamesCopy.Count)];
             else
-                randomName = RandomNames[_random.Next(RandomNames.Count)];
+            {
+                var namesList = ((List<object>)config["names"]).Cast<string>().ToList();
+                randomName = namesList[_random.Next(namesList.Count)];
+            }
             _playersWithChangedNames.Add(player);
             _playersWithChangedNamesOldNames[player] = player.PlayerName;
             player.PlayerName = randomName;
@@ -68,6 +57,27 @@ namespace RollTheDice
             }
             _playersWithChangedNames.Clear();
             _playersWithChangedNamesOldNames.Clear();
+        }
+
+        private Dictionary<string, object> DiceChangeNameConfig()
+        {
+            var config = new Dictionary<string, object>();
+            config["names"] = new List<string>
+                {
+                    "Hans Wurst", "Fritz Frosch", "Klaus Kleber", "Otto Normalverbraucher", "Peter Lustig",
+                    "Karl-Heinz Klammer", "Gustav Gans", "Heinz Erhardt", "Wolfgang Witzig", "Ludwig Lustig",
+                    "Rudi Rüssel", "Siggi Sorglos", "Berti Bratwurst", "Dieter Dosenbier", "Erwin Einhorn",
+                    "Franz Fuchs", "Günther Gans", "Horst Hering", "Ingo Igel", "Jürgen Jux",
+                    "Kurt Ketchup", "Lars Lachs", "Manfred Möhre", "Norbert Nudel", "Olaf Oktopus",
+                    "Paul Pinguin", "Quirin Qualle", "Ralf Rabe", "Stefan Seestern", "Thomas Tintenfisch",
+                    "Uwe Uhu", "Volker Vogel", "Willi Wurm", "Xaver Xylophon", "Yannik Yak",
+                    "Zacharias Zebra", "Albert Apfel", "Bernd Banane", "Claus Clown", "Detlef Dachs",
+                    "Egon Eule", "Ferdinand Frosch", "Gerd Giraffe", "Helmut Hase", "Igor Igel",
+                    "Jochen Jaguar", "Knut Känguru", "Lothar Löwe", "Martin Marder", "Norbert Nashorn",
+                    "Egon Kowalski", "Fritz Fink", "Heinz Hering"
+                };
+            config["min_players_for_using_player_names"] = (int)4;
+            return config;
         }
     }
 }

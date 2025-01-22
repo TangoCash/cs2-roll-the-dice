@@ -8,12 +8,16 @@ namespace RollTheDice
 
         private Dictionary<string, string> DiceBigTaserBattery(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
+            Dictionary<string, object> config = GetDiceConfig("DiceBigTaserBattery");
             // create listener if not exists
             if (_playersWithBigTaserBattery.Count() == 0)
             {
                 RegisterEventHandler<EventWeaponFire>(EventDiceBigTaserBatteryOnWeaponFire);
             }
-            int battery = _random.Next(2, 10);
+            int battery = _random.Next(
+                Convert.ToInt32(config["min_batteries"]),
+                Convert.ToInt32(config["max_batteries"]) + 1
+            );
             _playersWithBigTaserBattery.Add(player, battery);
             player.GiveNamedItem("weapon_taser");
             return new Dictionary<string, string>
@@ -46,6 +50,14 @@ namespace RollTheDice
             player.Pawn.Value.WeaponServices.ActiveWeapon.Value!.Clip1 = 2;
             _playersWithBigTaserBattery[player]--;
             return HookResult.Continue;
+        }
+
+        private Dictionary<string, object> DiceBigTaserBatteryConfig()
+        {
+            var config = new Dictionary<string, object>();
+            config["min_batteries"] = (int)2;
+            config["max_batteries"] = (int)10;
+            return config;
         }
     }
 }

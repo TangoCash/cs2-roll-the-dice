@@ -24,15 +24,29 @@ namespace RollTheDice
                 .Where(diceInfo =>
                 {
                     var diceName = diceInfo.dice.Method.Name;
-                    // Check map-specific configuration
-                    if (Config.MapConfigs.TryGetValue(_currentMap, out var mapConfig) && mapConfig.Features.TryGetValue(diceName, out var isEnabled))
+                    // Check map configuration for dices
+                    if (Config.MapConfigs.TryGetValue(_currentMap, out MapConfig? mapConfig) && mapConfig.Dices.TryGetValue(diceName, out var diceConfig) && diceConfig is Dictionary<string, object> diceDict)
                     {
-                        return isEnabled;
+                        if (diceDict.TryGetValue("enabled", out var enabledValue))
+                        {
+                            if (bool.TryParse(enabledValue.ToString(), out var isEnabled))
+                            {
+                                return isEnabled;
+                            }
+                        }
+                        return false;
                     }
-                    // Check global configuration
-                    if (Config.Features.TryGetValue(diceName, out isEnabled))
+                    // Check global configuration if no map-specific configuration is available
+                    if (Config.Dices.TryGetValue(diceName, out diceConfig) && diceConfig is Dictionary<string, object> diceDict2)
                     {
-                        return isEnabled;
+                        if (diceDict2.TryGetValue("enabled", out var enabledValue))
+                        {
+                            if (bool.TryParse(enabledValue.ToString(), out var isEnabled))
+                            {
+                                return isEnabled;
+                            }
+                        }
+                        return false;
                     }
                     // Default to enabled if not found in either configuration
                     return true;

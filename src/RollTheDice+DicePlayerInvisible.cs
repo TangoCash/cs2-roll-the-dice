@@ -10,8 +10,11 @@ namespace RollTheDice
 
         private Dictionary<string, string> DicePlayerInvisible(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
+            Dictionary<string, object> config = GetDiceConfig("DicePlayerInvisible");
             _playersThatAreInvisible.Add(player);
-            playerPawn.Render = Color.FromArgb(125, 255, 255, 255);
+            int alpha = 255 - (int)((float)config["invisibility_percentage"] * 255);
+            alpha = Math.Clamp(alpha, 0, 255);
+            playerPawn.Render = Color.FromArgb(alpha, 255, 255, 255);
             Utilities.SetStateChanged(playerPawn, "CBaseModelEntity", "m_clrRender");
             return new Dictionary<string, string>
             {
@@ -38,6 +41,13 @@ namespace RollTheDice
                 Utilities.SetStateChanged(playerPawn, "CBaseModelEntity", "m_clrRender");
             }
             _playersThatAreInvisible.Clear();
+        }
+
+        private Dictionary<string, object> DicePlayerInvisibleConfig()
+        {
+            var config = new Dictionary<string, object>();
+            config["invisibility_percentage"] = (float)0.5f;
+            return config;
         }
     }
 }

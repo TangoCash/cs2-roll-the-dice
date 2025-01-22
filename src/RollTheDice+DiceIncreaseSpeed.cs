@@ -10,13 +10,14 @@ namespace RollTheDice
 
         private Dictionary<string, string> DiceIncreaseSpeed(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
+            Dictionary<string, object> config = GetDiceConfig("DiceIncreaseSpeed");
             // create listener if not exists
             if (_playersWithIncreasedSpeed.Count() == 0)
             {
                 RegisterEventHandler<EventPlayerHurt>(EventDiceIncreaseSpeedOnPlayerHurt);
             }
             _playersWithIncreasedSpeed.Add(player);
-            var speedIncrease = _random.NextDouble() * (2.0 - 1.5) + 1.5;
+            var speedIncrease = _random.NextDouble() * ((float)config["max_speed"] - (float)config["min_speed"]) + (float)config["min_speed"];
             playerPawn.VelocityModifier *= (float)speedIncrease;
             _playersWithIncreasedSpeedValue[player] = (float)playerPawn.VelocityModifier;
             Utilities.SetStateChanged(playerPawn, "CCSPlayerPawn", "m_flVelocityModifier");
@@ -71,6 +72,14 @@ namespace RollTheDice
                 Utilities.SetStateChanged(playerPawn, "CCSPlayerPawn", "m_flVelocityModifier");
             });
             return HookResult.Continue;
+        }
+
+        private Dictionary<string, object> DiceIncreaseSpeedConfig()
+        {
+            var config = new Dictionary<string, object>();
+            config["min_speed"] = (float)1.5f;
+            config["max_speed"] = (float)2.0f;
+            return config;
         }
     }
 }

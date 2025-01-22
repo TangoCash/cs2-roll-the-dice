@@ -8,16 +8,16 @@ namespace RollTheDice
     {
         private Dictionary<string, string> DiceChickenLeader(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
-            var amountChickens = 16;
+            Dictionary<string, object> config = GetDiceConfig("DiceChickenLeader");
             // spawn chickens
-            for (int i = 0; i < amountChickens; i++)
+            for (int i = 0; i < Convert.ToInt32(config["amount_chicken"]); i++)
             {
                 CChicken? chicken = Utilities.CreateEntityByName<CChicken>("chicken");
                 if (chicken != null)
                 {
                     Vector offset = new Vector(
-                        (float)(100 * Math.Cos(2 * Math.PI * i / amountChickens)),
-                        (float)(100 * Math.Sin(2 * Math.PI * i / amountChickens)),
+                        (float)(100 * Math.Cos(2 * Math.PI * i / Convert.ToInt32(config["amount_chicken"]))),
+                        (float)(100 * Math.Sin(2 * Math.PI * i / Convert.ToInt32(config["amount_chicken"]))),
                         0
                     );
                     chicken.Teleport(player.Pawn.Value!.AbsOrigin! + offset, player.Pawn.Value.AbsRotation!, player.Pawn.Value.AbsVelocity);
@@ -47,6 +47,13 @@ namespace RollTheDice
             {
                 { "playerName", player.PlayerName }
             };
+        }
+
+        private Dictionary<string, object> DiceChickenLeaderConfig()
+        {
+            var config = new Dictionary<string, object>();
+            config["amount_chicken"] = (int)16;
+            return config;
         }
     }
 }

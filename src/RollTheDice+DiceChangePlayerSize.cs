@@ -9,8 +9,9 @@ namespace RollTheDice
 
         private Dictionary<string, string> DiceChangePlayerSize(CCSPlayerController player, CCSPlayerPawn playerPawn)
         {
+            Dictionary<string, object> config = GetDiceConfig("DiceChangePlayerSize");
             _playersWithChangedModelSize.Add(playerPawn);
-            float playerSize = float.Round((float)(_random.NextDouble() * (1.5 - 0.5) + 0.5), 2);
+            float playerSize = float.Round((float)(_random.NextDouble() * ((float)config["max_size"] - (float)config["min_size"]) + (float)config["min_size"]), 2);
             var playerSceneNode = playerPawn.CBodyComponent?.SceneNode;
             if (playerSceneNode == null)
                 return new Dictionary<string, string>
@@ -53,6 +54,14 @@ namespace RollTheDice
                 });
             }
             _playersWithChangedModelSize.Clear();
+        }
+
+        private Dictionary<string, object> DiceChangePlayerSizeConfig()
+        {
+            var config = new Dictionary<string, object>();
+            config["min_size"] = (float)0.5f;
+            config["max_size"] = (float)1.5f;
+            return config;
         }
     }
 }
