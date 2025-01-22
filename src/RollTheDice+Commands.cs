@@ -118,7 +118,7 @@ namespace RollTheDice
                 _playersThatRolledTheDice[player]["message"] = message;
             }
             // if player should get a GUI message
-            if (!Localizer[$"{locale}_gui"].ResourceNotFound)
+            if (!Localizer[$"{locale}_gui"].ResourceNotFound && Config.GUIPositions.ContainsKey(Config.GUIPosition))
             {
                 string message = Localizer["command.prefix"].Value
                     + " "
@@ -128,25 +128,43 @@ namespace RollTheDice
                     message = message.Replace($"{{{kvp.Key}}}", kvp.Value);
                 }
                 // create gui entity
+                Color messageColor;
+                try
+                {
+                    messageColor = ColorTranslator.FromHtml(Config.GUIPositions[Config.GUIPosition].MessageColor);
+                }
+                catch
+                {
+                    messageColor = Color.Purple;
+                }
                 CPointWorldText? playerGUIMessage = CreateGUI(
                     player: player,
                     text: message,
-                    size: 40,
-                    color: Color.Purple,
-                    font: "Verdana",
-                    shiftX: -2.9f,
-                    shiftY: 4.4f
+                    size: Config.GUIPositions[Config.GUIPosition].MessageFontSize,
+                    color: messageColor,
+                    font: Config.GUIPositions[Config.GUIPosition].MessageFont,
+                    shiftX: Config.GUIPositions[Config.GUIPosition].MessageShiftX,
+                    shiftY: Config.GUIPositions[Config.GUIPosition].MessageShiftY
                 );
                 if (playerGUIMessage != null) _playersThatRolledTheDice[player]["gui_message"] = playerGUIMessage;
                 // create (empty) status gui entity
+                Color statusColor;
+                try
+                {
+                    statusColor = ColorTranslator.FromHtml(Config.GUIPositions[Config.GUIPosition].StatusColor);
+                }
+                catch
+                {
+                    statusColor = Color.Purple;
+                }
                 CPointWorldText? playerGUIStatus = CreateGUI(
                     player: player,
                     text: "",
-                    size: 30,
-                    color: Color.Red,
-                    font: "Verdana",
-                    shiftX: -2.75f,
-                    shiftY: 4.0f
+                    size: Config.GUIPositions[Config.GUIPosition].StatusFontSize,
+                    color: statusColor,
+                    font: Config.GUIPositions[Config.GUIPosition].StatusFont,
+                    shiftX: Config.GUIPositions[Config.GUIPosition].StatusShiftX,
+                    shiftY: Config.GUIPositions[Config.GUIPosition].StatusShiftY
                 );
                 if (playerGUIStatus != null) _playersThatRolledTheDice[player]["gui_status"] = playerGUIStatus;
             }

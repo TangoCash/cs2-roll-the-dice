@@ -75,5 +75,33 @@ namespace RollTheDice
                 worldText.AcceptInput("Kill");
             }
         }
+
+        private void CheckGUIConfig()
+        {
+            var positions = new Dictionary<string, (string MessageFont, int MessageFontSize, string MessageColor, float MessageShiftX, float MessageShiftY, string StatusFont, int StatusFontSize, string StatusColor, float StatusShiftX, float StatusShiftY)>
+            {
+                { "top_center", ("Verdana", 40, "Purple",-2.9f, 4.4f, "Verdana", 30, "Red", -2.75f, 4.0f) },
+            };
+
+            foreach (var position in positions)
+            {
+                if (!Config.GUIPositions.ContainsKey(position.Key))
+                {
+                    Config.GUIPositions[position.Key] = new GuiPositionConfig
+                    {
+                        MessageFont = position.Value.MessageFont,
+                        MessageFontSize = position.Value.MessageFontSize,
+                        MessageColor = position.Value.MessageColor,
+                        MessageShiftX = position.Value.MessageShiftX,
+                        MessageShiftY = position.Value.MessageShiftY,
+                        StatusFont = position.Value.StatusFont,
+                        StatusFontSize = position.Value.StatusFontSize,
+                        StatusColor = position.Value.StatusColor,
+                        StatusShiftX = position.Value.StatusShiftX,
+                        StatusShiftY = position.Value.StatusShiftY,
+                    };
+                }
+            }
+        }
     }
 }

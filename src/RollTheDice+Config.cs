@@ -7,6 +7,20 @@ using System.Text.Json.Serialization;
 
 namespace RollTheDice
 {
+    public class GuiPositionConfig
+    {
+        [JsonPropertyName("message_font")] public string MessageFont { get; set; } = "";
+        [JsonPropertyName("message_font_size")] public int MessageFontSize { get; set; } = 40;
+        [JsonPropertyName("message_color")] public string MessageColor { get; set; } = "";
+        [JsonPropertyName("message_shift_x")] public float MessageShiftX { get; set; } = 0.0f;
+        [JsonPropertyName("message_shift_y")] public float MessageShiftY { get; set; } = 0.0f;
+        [JsonPropertyName("status_font")] public string StatusFont { get; set; } = "";
+        [JsonPropertyName("status_font_size")] public int StatusFontSize { get; set; } = 40;
+        [JsonPropertyName("status_color")] public string StatusColor { get; set; } = "";
+        [JsonPropertyName("status_shift_x")] public float StatusShiftX { get; set; } = 0.0f;
+        [JsonPropertyName("status_shift_y")] public float StatusShiftY { get; set; } = 0.0f;
+    }
+
     public class MapConfig
     {
         // disabled
@@ -21,6 +35,9 @@ namespace RollTheDice
         [JsonPropertyName("enabled")] public bool Enabled { get; set; } = true;
         // debug prints
         [JsonPropertyName("debug")] public bool Debug { get; set; } = false;
+        // gui positions
+        [JsonPropertyName("default_gui_position")] public string GUIPosition { get; set; } = "top_center";
+        [JsonPropertyName("gui_positions")] public Dictionary<string, GuiPositionConfig> GUIPositions { get; set; } = new Dictionary<string, GuiPositionConfig>();
         // dices configuration
         [JsonPropertyName("dices")] public Dictionary<string, Dictionary<string, object>> Dices { get; set; } = new();
         // map configurations
@@ -131,6 +148,8 @@ namespace RollTheDice
                     Config.Dices.Remove(key);
                 }
             }
+            // check GUI config
+            CheckGUIConfig();
         }
 
         private void SaveConfig()
