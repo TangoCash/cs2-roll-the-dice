@@ -169,7 +169,7 @@ namespace RollTheDice
                 if (playerGUIStatus != null) _playersThatRolledTheDice[player]["gui_status"] = playerGUIStatus;
             }
             // play sound
-            player.ExecuteClientCommand("play sounds/ui/coin_pickup_01.vsnd");
+            if (Config.CommandSound != null && Config.CommandSound != "") player.ExecuteClientCommand($"play {Config.CommandSound}");
         }
     }
 }
