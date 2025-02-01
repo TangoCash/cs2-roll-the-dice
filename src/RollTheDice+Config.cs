@@ -39,6 +39,8 @@ namespace RollTheDice
         [JsonPropertyName("sound_command")] public string CommandSound { get; set; } = "sounds/ui/coin_pickup_01.vsnd";
         // command price
         [JsonPropertyName("price_to_dice")] public int PriceToDice { get; set; } = 0;
+        // command price
+        [JsonPropertyName("allow_dice_after_respawn")] public bool AllowDiceAfterRespawn { get; set; } = false;
         // gui positions
         [JsonPropertyName("default_gui_position")] public string GUIPosition { get; set; } = "top_center";
         [JsonPropertyName("gui_positions")] public Dictionary<string, GuiPositionConfig> GUIPositions { get; set; } = new Dictionary<string, GuiPositionConfig>();

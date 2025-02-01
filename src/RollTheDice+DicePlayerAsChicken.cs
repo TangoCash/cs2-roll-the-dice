@@ -54,6 +54,18 @@ namespace RollTheDice
             _playersAsChicken.Clear();
         }
 
+        private void DicePlayerAsChickenResetForPlayer(CCSPlayerController player)
+        {
+            if (!_playersAsChicken.ContainsKey(player)) return;
+            // get prop
+            int prop = int.Parse(_playersAsChicken[player]["prop"]);
+            // remove player first to avoid infinite loop
+            _playersAsChicken.Remove(player);
+            // remove prop
+            RemoveProp(prop);
+            MakePlayerVisible(player);
+        }
+
         private void EventDicePlayerAsChickenOnTick()
         {
             // remove listener if no players to save resources

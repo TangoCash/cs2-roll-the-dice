@@ -65,6 +65,18 @@ namespace RollTheDice
             _playersDisguisedAsPlants.Clear();
         }
 
+        private void DicePlayerDisguiseAsPlantResetForPlayer(CCSPlayerController player)
+        {
+            if (!_playersDisguisedAsPlants.ContainsKey(player)) return;
+            // get prop
+            int prop = int.Parse(_playersDisguisedAsPlants[player]["prop"]);
+            // remove player first to avoid infinite loop
+            _playersDisguisedAsPlants.Remove(player);
+            // remove prop
+            RemoveProp(prop);
+            MakePlayerVisible(player);
+        }
+
         private void EventDicePlayerDisguiseAsPlantOnTick()
         {
             if (_playersDisguisedAsPlants.Count == 0) return;

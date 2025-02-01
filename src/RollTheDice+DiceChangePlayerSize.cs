@@ -56,6 +56,24 @@ namespace RollTheDice
             _playersWithChangedModelSize.Clear();
         }
 
+        private void DiceChangePlayerSizeResetForPlayer(CCSPlayerController player)
+        {
+            if (player.PlayerPawn == null
+                || !player.PlayerPawn.IsValid
+                || player.PlayerPawn.Value == null) return;
+            if (!_playersWithChangedModelSize.Contains(player.PlayerPawn.Value)) return;
+            var playerSceneNode = player.PlayerPawn.Value.CBodyComponent?.SceneNode;
+            if (playerSceneNode == null) return;
+            playerSceneNode.GetSkeletonInstance().Scale = 1.0f;
+            player.PlayerPawn.Value.AcceptInput("SetScale", null, null, "1.0");
+            Server.NextFrame(() =>
+            {
+                if (player.PlayerPawn.Value == null) return;
+                Utilities.SetStateChanged(player.PlayerPawn.Value, "CBaseEntity", "m_CBodyComponent");
+            });
+            _playersWithChangedModelSize.Remove(player.PlayerPawn.Value);
+        }
+
         private Dictionary<string, object> DiceChangePlayerSizeConfig()
         {
             var config = new Dictionary<string, object>();

@@ -95,6 +95,16 @@ namespace RollTheDice
             _playersCanInstantRescueHostages.Clear();
         }
 
+        private void DiceFastMapActionResetForPlayer(CCSPlayerController player)
+        {
+            if (_playersCanInstantDefuse.Contains(player)) _playersCanInstantDefuse.Remove(player);
+            if (_playersCanInstantPlant.Contains(player)) _playersCanInstantPlant.Remove(player);
+            if (player.PlayerPawn != null
+                && player.PlayerPawn.IsValid
+                && player.PlayerPawn.Value != null
+                && _playersCanInstantRescueHostages.Contains(player.PlayerPawn.Value)) _playersCanInstantRescueHostages.Remove(player.PlayerPawn.Value);
+        }
+
         private HookResult DiceFastBombActionEventBeginDefuse(EventBombBegindefuse @event, GameEventInfo info)
         {
             var player = @event.Userid;

@@ -38,6 +38,12 @@ namespace RollTheDice
             _playersWithBigTaserBattery.Clear();
         }
 
+        private void DiceBigTaserBatteryResetForPlayer(CCSPlayerController player)
+        {
+            if (!_playersWithBigTaserBattery.ContainsKey(player)) return;
+            _playersWithBigTaserBattery.Remove(player);
+        }
+
         private HookResult EventDiceBigTaserBatteryOnWeaponFire(EventWeaponFire @event, GameEventInfo info)
         {
             CCSPlayerController player = @event.Userid!;

@@ -34,6 +34,15 @@ namespace RollTheDice
             _playersWithoutExplosives.Clear();
         }
 
+        private void DiceNoExplosivesResetForPlayer(CCSPlayerController player)
+        {
+            if (player.PlayerPawn == null
+                || !player.PlayerPawn.IsValid
+                || player.PlayerPawn.Value == null) return;
+            if (!_playersWithoutExplosives.Contains(player.PlayerPawn.Value)) return;
+            _playersWithoutExplosives.Remove(player.PlayerPawn.Value);
+        }
+
         private void DiceNoExplosivesUnload()
         {
             DiceNoExplosivesReset();

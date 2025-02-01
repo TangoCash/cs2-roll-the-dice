@@ -56,5 +56,14 @@ namespace RollTheDice
             }
             _playersThatAreGlowing.Clear();
         }
+
+        private void DicePlayerGlowResetForPlayer(CCSPlayerController player)
+        {
+            if (!_playersThatAreGlowing.ContainsKey(player)) return;
+            var (modelRelayIndex, modelGlowIndex) = _playersThatAreGlowing[player];
+            RemoveProp((int)modelRelayIndex);
+            RemoveProp((int)modelGlowIndex);
+            _playersThatAreGlowing.Remove(player);
+        }
     }
 }

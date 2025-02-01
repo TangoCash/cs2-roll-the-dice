@@ -31,6 +31,12 @@ namespace RollTheDice
             _playerVampires.Clear();
         }
 
+        private void DicePlayerVampireResetForPlayer(CCSPlayerController player)
+        {
+            if (!_playerVampires.Contains(player)) return;
+            _playerVampires.Remove(player);
+        }
+
         private HookResult EventDicePlayerVampireOnPlayerHurt(EventPlayerHurt @event, GameEventInfo info)
         {
             var attacker = @event.Attacker;

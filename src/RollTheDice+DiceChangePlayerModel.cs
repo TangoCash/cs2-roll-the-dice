@@ -39,13 +39,32 @@ namespace RollTheDice
             {
                 var player = kvp.Key;
                 var model = kvp.Value;
-                if (player == null || player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || player.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
+                if (player == null
+                    || player.PlayerPawn == null
+                    || !player.PlayerPawn.IsValid
+                    || player.PlayerPawn.Value == null
+                    || player.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
                 // get player pawn
                 var playerPawn = player.PlayerPawn.Value!;
                 // reset player model
                 playerPawn.SetModel(model);
             }
             _playersWithChangedPlayerModel.Clear();
+        }
+
+        private void DiceChangePlayerModelResetForPlayer(CCSPlayerController player)
+        {
+            if (!_playersWithChangedPlayerModel.ContainsKey(player)) return;
+            if (player == null
+                || player.PlayerPawn == null
+                || !player.PlayerPawn.IsValid
+                || player.PlayerPawn.Value == null
+                || player.LifeState != (byte)LifeState_t.LIFE_ALIVE) return;
+            // get player pawn
+            var playerPawn = player.PlayerPawn.Value!;
+            // reset player model
+            playerPawn.SetModel(_playersWithChangedPlayerModel[player]);
+            _playersWithChangedPlayerModel.Remove(player);
         }
     }
 }

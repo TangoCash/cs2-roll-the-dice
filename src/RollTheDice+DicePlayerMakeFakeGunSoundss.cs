@@ -43,6 +43,12 @@ namespace RollTheDice
             _playersWithFakeGunSounds.Clear();
         }
 
+        private void DicePlayerMakeFakeGunSoundsResetForPlayer(CCSPlayerController player)
+        {
+            if (!_playersWithFakeGunSounds.ContainsKey(player)) return;
+            _playersWithFakeGunSounds.Remove(player);
+        }
+
         private void EventDicePlayerMakeFakeGunSoundsOnTick()
         {
             if (_playersWithFakeGunSounds.Count() == 0) return;

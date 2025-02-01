@@ -59,6 +59,16 @@ namespace RollTheDice
             _playersWithChangedNamesOldNames.Clear();
         }
 
+        private void DiceChangeNameResetForPlayer(CCSPlayerController player)
+        {
+            if (!_playersWithChangedNames.Contains(player)) return;
+            // reset player name
+            player.PlayerName = _playersWithChangedNamesOldNames[player];
+            // remove player from list
+            _playersWithChangedNames.Remove(player);
+            _playersWithChangedNamesOldNames.Remove(player);
+        }
+
         private Dictionary<string, object> DiceChangeNameConfig()
         {
             var config = new Dictionary<string, object>();

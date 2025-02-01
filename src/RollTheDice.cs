@@ -29,6 +29,8 @@ namespace RollTheDice
             // register listeners
             RegisterEventHandler<EventRoundStart>(OnRoundStart);
             RegisterEventHandler<EventRoundEnd>(OnRoundEnd);
+            RegisterEventHandler<EventPlayerDisconnect>(OnPlayerDisconnect);
+            RegisterEventHandler<EventPlayerDeath>(OnPlayerDeath);
             RegisterListener<Listeners.OnMapStart>(OnMapStart);
             RegisterListener<Listeners.OnMapEnd>(OnMapEnd);
             RegisterListener<Listeners.OnServerPrecacheResources>(OnServerPrecacheResources);
@@ -97,6 +99,20 @@ namespace RollTheDice
             // disallow dice rolls
             _isDuringRound = false;
             // continue event
+            return HookResult.Continue;
+        }
+
+        private HookResult OnPlayerDisconnect(EventPlayerDisconnect @event, GameEventInfo info)
+        {
+            CCSPlayerController player = @event.Userid!;
+            ResetDiceForPlayer(player);
+            return HookResult.Continue;
+        }
+
+        private HookResult OnPlayerDeath(EventPlayerDeath @event, GameEventInfo info)
+        {
+            CCSPlayerController player = @event.Userid!;
+            ResetDiceForPlayer(player);
             return HookResult.Continue;
         }
 
@@ -187,6 +203,29 @@ namespace RollTheDice
                 {
                     DebugPrint($"Resetting dice: {methodName}");
                     method.Invoke(this, null);
+                }
+            }
+        }
+
+        private void ResetDiceForPlayer(CCSPlayerController player)
+        {
+            if (!Config.AllowDiceAfterRespawn) return;
+            if (player == null || player.Pawn == null || !player.Pawn.IsValid || player.Pawn.Value == null) return;
+            DebugPrint($"Resetting dices for {player.PlayerName}");
+            if (!_playersThatRolledTheDice.ContainsKey(player)) return;
+            // remove player from list
+            _playersThatRolledTheDice.Remove(player);
+            // remove gui from player
+            RemoveGUI(player);
+            // iterate through all dices and call their reset method dynamically
+            foreach (var dice in _dices)
+            {
+                var methodName = $"{dice.Method.Name}ResetForPlayer";
+                var method = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
+                if (method != null)
+                {
+                    DebugPrint($"Resetting dice: {methodName} for {player.PlayerName}");
+                    method.Invoke(this, [player]);
                 }
             }
         }

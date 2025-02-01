@@ -49,6 +49,17 @@ namespace RollTheDice
             _playersWithIncreasedSpeed.Clear();
         }
 
+        private void DiceIncreaseSpeedResetForPlayer(CCSPlayerController player)
+        {
+            if (player.PlayerPawn == null
+                || !player.PlayerPawn.IsValid
+                || player.PlayerPawn.Value == null) return;
+            if (!_playersWithIncreasedSpeed.ContainsKey(player)) return;
+            player.PlayerPawn.Value.VelocityModifier = 1.0f;
+            Utilities.SetStateChanged(player.PlayerPawn.Value, "CCSPlayerPawn", "m_flVelocityModifier");
+            _playersWithIncreasedSpeed.Remove(player);
+        }
+
         private HookResult EventDiceIncreaseSpeedOnPlayerHurt(EventPlayerHurt @event, GameEventInfo info)
         {
             CCSPlayerController? victim = @event.Userid;
