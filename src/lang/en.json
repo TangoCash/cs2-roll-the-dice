@@ -13,6 +13,7 @@
     "command.rollthedice.iswarmup": "{purple}[RollTheDice] {default}disabled during Warm-Up!",
     "command.rollthedice.noactiveround": "{purple}[RollTheDice] {default}No active round!",
     "command.rollthedice.notalive": "{purple}[RollTheDice] {default}You need to be alive to roll the dice!",
+    "command.rollthedice.notenoughmoney": "{purple}[RollTheDice] {default}You need {green}${money} {default}to roll the dice!",
     "command.rollthedice.alreadyrolled": "{purple}[RollTheDice] {red}Already rolled: {default}{dice}",
     "command.rollthedice.error": "{default}Error: could not roll the dice for you :(",
     "command.rollthedice.unlucky": "{default}You failed to roll the dice :D",

@@ -1,3 +1,4 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
@@ -32,6 +33,20 @@ namespace RollTheDice
                 if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.noactiveround"]);
                 command.ReplyToCommand(Localizer["command.rollthedice.noactiveround"]);
                 return;
+            }
+            if (Config.PriceToDice > 0)
+            {
+                if (player.InGameMoneyServices!.Account < Config.PriceToDice)
+                {
+                    if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.notenoughmoney"].Value.Replace("{money}", Config.PriceToDice.ToString()));
+                    command.ReplyToCommand(Localizer["command.rollthedice.notenoughmoney"].Value.Replace("{money}", Config.PriceToDice.ToString()));
+                    return;
+                }
+                else
+                {
+                    player.InGameMoneyServices!.Account -= Config.PriceToDice;
+                    Utilities.SetStateChanged(player, "CCSPlayerController", "m_pInGameMoneyServices");
+                }
             }
             CCSPlayerPawn playerPawn = player!.PlayerPawn.Value!;
             if (player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || playerPawn.LifeState != (byte)LifeState_t.LIFE_ALIVE)

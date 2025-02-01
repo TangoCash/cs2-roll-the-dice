@@ -13,6 +13,7 @@
     "command.rollthedice.iswarmup": "{purple}[WürfelSpiel] {default}Im Warm-Up deaktiviert!",
     "command.rollthedice.noactiveround": "{purple}[WürfelSpiel] {default}Runde ist nicht gestartet!",
     "command.rollthedice.notalive": "{purple}[WürfelSpiel] {default}Du musst am Leben sein, um zu würfeln!",
+    "command.rollthedice.notenoughmoney": "{purple}[WürfelSpiel] {default}Du brauchst {green}{money}$ {default}um zu würfeln!",
     "command.rollthedice.alreadyrolled": "{purple}[WürfelSpiel] {red}Bereits gewürfelt: {default}{dice}",
     "command.rollthedice.error": "{default}Fehler: konnte nicht würfeln :(",
     "command.rollthedice.unlucky": "{default}Du hast die Würfel verloren :D",
