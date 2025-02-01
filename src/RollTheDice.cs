@@ -9,6 +9,8 @@ namespace RollTheDice
         public override string ModuleName => "Roll The Dice";
         public override string ModuleAuthor => "Jon-Mailes Graeffe <mail@jonni.it> / Kalle <kalle@kandru.de>";
 
+        public static RollTheDice? Instance { get; private set; }
+
         private string _currentMap = "";
         private Dictionary<CCSPlayerController, Dictionary<string, object>> _playersThatRolledTheDice = new();
         private Dictionary<string, int> _countRolledDices = new();
@@ -18,6 +20,7 @@ namespace RollTheDice
 
         public override void Load(bool hotReload)
         {
+            Instance = this;
             // initialize dices
             InitializeDices();
             // initialize configuration
@@ -152,7 +155,8 @@ namespace RollTheDice
                 DicePlayerGlow,
                 DiceShowPlayerHealthBar,
                 DiceNoRecoil,
-                DiceChangePlayerSize
+                DiceChangePlayerSize,
+                DiceThirdPersonView
             };
             // initialize dice counter
             foreach (var dice in _dices)

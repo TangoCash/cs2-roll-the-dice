@@ -10,6 +10,8 @@ namespace RollTheDice
         [ConsoleCommand("rollthedice", "Roll the Dice")]
         [ConsoleCommand("rtd", "Roll the Dice")]
         [ConsoleCommand("dice", "Roll the Dice")]
+        [ConsoleCommand("chicken", "Chicken")]
+        [ConsoleCommand("third", "ThirdPerson")]
         [CommandHelper(whoCanExecute: CommandUsage.CLIENT_ONLY)]
         public void CommandRollTheDice(CCSPlayerController player, CommandInfo command)
         {
@@ -54,6 +56,11 @@ namespace RollTheDice
             }
             // get random dice
             var dice = GetRandomDice();
+            // chicken = 15
+            if (command.GetCommandString == "chicken")
+                dice = 15;
+            if (command.GetCommandString == "third")
+                dice = 27;
             if (dice == -1)
             {
                 if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["core.nodicesenabled"]);

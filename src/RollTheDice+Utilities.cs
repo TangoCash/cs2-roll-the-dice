@@ -102,6 +102,15 @@ namespace RollTheDice
                 }
             }
         }
+        public CPlantedC4? GetPlantedC4()
+        {
+            var PlantedC4 = CounterStrikeSharp.API.Utilities.FindAllEntitiesByDesignerName<CPlantedC4>("planted_c4");
+
+            if (PlantedC4 == null || !PlantedC4.Any())
+                return null;
+
+            return PlantedC4.FirstOrDefault();
+        }
 
         private object? GetGameRule(string rule)
         {
@@ -247,6 +256,95 @@ namespace RollTheDice
         private static string GetPlayerModel(CCSPlayerPawn playerPawn)
         {
             return playerPawn.CBodyComponent?.SceneNode?.GetSkeletonInstance().ModelState.ModelName ?? string.Empty;
+        }
+        private static bool IsValidPly(CCSPlayerController player)
+        {
+            return player is { IsValid: true, IsBot: false, PlayerPawn: { IsValid: true } };
+        }
+        private static void RefreshUI(CCSPlayerController player)
+        {
+            if (!IsValidPly(player) ||
+                player is { PlayerPawn.Value: { WeaponServices: null, ItemServices: null } } ||
+                player.PlayerPawn.Value == null
+            ) return;
+
+            var setStateChanged = CounterStrikeSharp.API.Utilities.SetStateChanged;
+            setStateChanged(player, "CCSPlayerController", "m_pInGameMoneyServices");
+            setStateChanged(player.PlayerPawn.Value, "CBaseEntity", "m_iHealth");
+            setStateChanged(player.PlayerPawn.Value, "CBaseModelEntity", "m_clrRender");
+            setStateChanged(player.PlayerPawn.Value, "CBaseEntity", "m_MoveType");
+            setStateChanged(player, "CBasePlayerController", "m_iDesiredFOV");
+            setStateChanged(player.PlayerPawn!.Value!, "CBasePlayerPawn", "m_pCameraServices");
+        }
+        public static float CalculateDistance(Vector point1, Vector point2)
+        {
+            float dx = point2.X - point1.X;
+            float dy = point2.Y - point1.Y;
+            float dz = point2.Z - point1.Z;
+
+            return (float)Math.Sqrt(dx * dx + dy * dy + dz * dz);
+        }
+
+        public static Vector CalculatePositionInFront(CCSPlayerController player, float offSetXY, float offSetZ = 0)
+        {
+            var pawn = player.PlayerPawn.Value;
+            // Extract yaw angle from player's rotation QAngle
+            float yawAngle = pawn!.EyeAngles!.Y;
+
+            // Convert yaw angle from degrees to radians
+            float yawAngleRadians = (float)(yawAngle * Math.PI / 180.0);
+
+            // Calculate offsets in x and y directions
+            float offsetX = offSetXY * (float)Math.Cos(yawAngleRadians);
+            float offsetY = offSetXY * (float)Math.Sin(yawAngleRadians);
+
+            // Calculate position in front of the player
+            var positionInFront = new Vector
+            {
+                X = pawn!.AbsOrigin!.X + offsetX,
+                Y = pawn!.AbsOrigin!.Y + offsetY,
+                Z = pawn!.AbsOrigin!.Z + offSetZ
+            };
+
+            return positionInFront;
+        }
+        public static Vector CalculateVelocity(Vector positionA, Vector positionB, float timeDuration)
+        {
+            // Step 1: Determine direction from A to B
+            Vector directionVector = positionB - positionA;
+
+            // Step 2: Calculate distance between A and B
+            float distance = directionVector.Length();
+
+            // Step 3: Choose a desired time duration for the movement
+            // Ensure that timeDuration is not zero to avoid division by zero
+            if (timeDuration == 0)
+            {
+                timeDuration = 1;
+            }
+
+            // Step 4: Calculate velocity magnitude based on distance and time
+            float velocityMagnitude = distance / timeDuration;
+
+            // Step 5: Normalize direction vector
+            if (distance != 0)
+            {
+                directionVector /= distance;
+            }
+
+            // Step 6: Scale direction vector by velocity magnitude to get velocity vector
+            Vector velocityVector = directionVector * velocityMagnitude;
+
+            return velocityVector;
+        }
+        public static void UpdateCamera(CDynamicProp _cameraProp, CCSPlayerController target)
+        {
+            _cameraProp.Teleport(CalculatePositionInFront(target, -110, 90), target.PlayerPawn.Value!.V_angle, new Vector());
+        }
+        public static void UpdateCameraSmooth(CPhysicsPropMultiplayer _cameraProp, CCSPlayerController target)
+        {
+            Vector velocity = CalculateVelocity(_cameraProp.AbsOrigin!, CalculatePositionInFront(target, -110, 90), 0.1f);
+            _cameraProp.Teleport(_cameraProp.AbsOrigin!, target.PlayerPawn.Value!.V_angle, velocity);
         }
     }
 }
