@@ -29,7 +29,8 @@ namespace RollTheDice
         {
             RemoveListener<Listeners.OnTick>(EventDicePlayerCloakOnTick);
             // iterate through all players
-            foreach (var (player, visibility) in _playersWithCloak)
+            Dictionary<CCSPlayerController, int> _playersWithCloakCopy = new(_playersWithCloak);
+            foreach (var (player, visibility) in _playersWithCloakCopy)
             {
                 if (player == null || player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || player.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
                 // get player pawn

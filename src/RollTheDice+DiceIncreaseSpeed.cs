@@ -36,7 +36,8 @@ namespace RollTheDice
         {
             DeregisterEventHandler<EventPlayerHurt>(EventDiceIncreaseSpeedOnPlayerHurt);
             // iterate through all players
-            foreach (var kvp in _playersWithIncreasedSpeed)
+            Dictionary<CCSPlayerController, float> _playersWithIncreasedSpeedCopy = new(_playersWithIncreasedSpeed);
+            foreach (var kvp in _playersWithIncreasedSpeedCopy)
             {
                 if (kvp.Key == null || kvp.Key.PlayerPawn == null || !kvp.Key.PlayerPawn.IsValid || kvp.Key.PlayerPawn.Value == null || kvp.Key.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
                 // get player pawn

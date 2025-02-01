@@ -56,10 +56,11 @@ namespace RollTheDice
             DeregisterEventHandler<EventPlayerDeath>(EventDicePlayerDisguiseAsPlantOnPlayerDeath);
             RemoveListener<Listeners.OnTick>(EventDicePlayerDisguiseAsPlantOnTick);
             // iterate through all players
-            foreach (CCSPlayerController player in _playersDisguisedAsPlants.Keys)
+            Dictionary<CCSPlayerController, Dictionary<string, string>> _playersDisguisedAsPlantsCopy = new(_playersDisguisedAsPlants);
+            foreach (CCSPlayerController player in _playersDisguisedAsPlantsCopy.Keys)
             {
                 if (player == null || player.Pawn == null || player.Pawn.Value == null) continue;
-                RemoveProp(int.Parse(_playersDisguisedAsPlants[player]["prop"]));
+                RemoveProp(int.Parse(_playersDisguisedAsPlantsCopy[player]["prop"]));
                 MakePlayerVisible(player);
             }
             _playersDisguisedAsPlants.Clear();

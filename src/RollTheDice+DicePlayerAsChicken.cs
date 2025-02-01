@@ -45,7 +45,8 @@ namespace RollTheDice
             RemoveListener<Listeners.OnTick>(EventDicePlayerAsChickenOnTick);
             RemoveListener<Listeners.CheckTransmit>(EventDicePlayerAsChickenCheckTransmit);
             // iterate through all players
-            foreach (CCSPlayerController player in _playersAsChicken.Keys)
+            Dictionary<CCSPlayerController, Dictionary<string, string>> _playersAsChickenCopy = new(_playersAsChicken);
+            foreach (CCSPlayerController player in _playersAsChickenCopy.Keys)
             {
                 if (player == null || player.Pawn == null || player.Pawn.Value == null) continue;
                 RemoveProp(int.Parse(_playersAsChicken[player]["prop"]));
@@ -90,10 +91,10 @@ namespace RollTheDice
                         (player.Buttons & PlayerButtons.Duck) != 0 ? -18 : 0
                     );
                     // make sound if time
-                    if (int.Parse(_playersAsChicken[player]["next_sound"]) <= (int)Server.CurrentTime)
+                    if (int.Parse(_playersAsChickenCopy[player]["next_sound"]) <= (int)Server.CurrentTime)
                     {
                         EmitSound(player, _chickenSounds[_random.Next(_chickenSounds.Count)]);
-                        _playersAsChicken[player]["next_sound"] = $"{(int)Server.CurrentTime + _random.Next(2, 5)}";
+                        _playersAsChickenCopy[player]["next_sound"] = $"{(int)Server.CurrentTime + _random.Next(2, 5)}";
                     }
                 }
                 catch (Exception e)

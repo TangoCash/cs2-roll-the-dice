@@ -30,7 +30,8 @@ namespace RollTheDice
         private void DicePlayerInvisibleReset()
         {
             // iterate through all players
-            foreach (var player in _playersThatAreInvisible)
+            List<CCSPlayerController> _playersThatAreInvisibleCopy = new(_playersThatAreInvisible);
+            foreach (var player in _playersThatAreInvisibleCopy)
             {
                 if (player == null || player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || player.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
                 // get player pawn

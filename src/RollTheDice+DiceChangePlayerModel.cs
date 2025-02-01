@@ -35,7 +35,8 @@ namespace RollTheDice
         private void DiceChangePlayerModelReset()
         {
             // iterate through all players
-            foreach (var kvp in _playersWithChangedPlayerModel)
+            Dictionary<CCSPlayerController, string> _playersWithChangedPlayerModelCopy = new(_playersWithChangedPlayerModel);
+            foreach (var kvp in _playersWithChangedPlayerModelCopy)
             {
                 var player = kvp.Key;
                 var model = kvp.Value;

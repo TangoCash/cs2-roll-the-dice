@@ -40,7 +40,8 @@ namespace RollTheDice
 
         private void DiceChangePlayerSizeReset()
         {
-            foreach (CCSPlayerPawn playerPawn in _playersWithChangedModelSize)
+            List<CCSPlayerPawn> _playersWithChangedModelSizeCopy = new(_playersWithChangedModelSize);
+            foreach (CCSPlayerPawn playerPawn in _playersWithChangedModelSizeCopy)
             {
                 if (playerPawn == null) continue;
                 var playerSceneNode = playerPawn.CBodyComponent?.SceneNode;
