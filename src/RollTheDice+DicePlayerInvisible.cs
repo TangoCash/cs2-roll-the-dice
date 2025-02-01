@@ -30,7 +30,8 @@ namespace RollTheDice
         private void DicePlayerInvisibleReset()
         {
             // iterate through all players
-            foreach (var player in _playersThatAreInvisible)
+            List<CCSPlayerController> _playersThatAreInvisibleCopy = new(_playersThatAreInvisible);
+            foreach (var player in _playersThatAreInvisibleCopy)
             {
                 if (player == null || player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || player.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
                 // get player pawn
@@ -41,6 +42,19 @@ namespace RollTheDice
                 Utilities.SetStateChanged(playerPawn, "CBaseModelEntity", "m_clrRender");
             }
             _playersThatAreInvisible.Clear();
+        }
+
+        private void DicePlayerInvisibleResetForPlayer(CCSPlayerController player)
+        {
+            if (player.PlayerPawn == null
+                || !player.PlayerPawn.IsValid
+                || player.PlayerPawn.Value == null) return;
+            if (!_playersThatAreInvisible.Contains(player)) return;
+            // reset player render color
+            player.PlayerPawn.Value.Render = Color.FromArgb(255, 255, 255, 255);
+            // set state changed
+            Utilities.SetStateChanged(player.PlayerPawn.Value, "CBaseModelEntity", "m_clrRender");
+            _playersThatAreInvisible.Remove(player);
         }
 
         private Dictionary<string, object> DicePlayerInvisibleConfig()

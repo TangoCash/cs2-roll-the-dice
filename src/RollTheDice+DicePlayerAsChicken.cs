@@ -84,7 +84,8 @@ namespace RollTheDice
             DeregisterEventHandler<EventBombPlanted>(EventDicePlayerAsChickenBombPlanted);
             DeregisterEventHandler<EventPlayerHurt>(EventDicePlayerAsChickenOnPlayerHurt);
             // iterate through all players
-            foreach (CCSPlayerController player in _playersAsChicken.Keys)
+            Dictionary<CCSPlayerController, Dictionary<string, string>> _playersAsChickenCopy = new(_playersAsChicken);
+            foreach (CCSPlayerController player in _playersAsChickenCopy.Keys)
             {
                 if (player == null || player.Pawn == null || player.Pawn.Value == null) continue;
                 // reset player speed
@@ -98,6 +99,18 @@ namespace RollTheDice
                 RefreshUI(player);
             }
             _playersAsChicken.Clear();
+        }
+
+        private void DicePlayerAsChickenResetForPlayer(CCSPlayerController player)
+        {
+            if (!_playersAsChicken.ContainsKey(player)) return;
+            // get prop
+            int prop = int.Parse(_playersAsChicken[player]["prop"]);
+            // remove player first to avoid infinite loop
+            _playersAsChicken.Remove(player);
+            // remove prop
+            RemoveProp(prop);
+            MakePlayerVisible(player);
         }
 
         private void EventDicePlayerAsChickenOnTick()
@@ -124,10 +137,10 @@ namespace RollTheDice
                         (player.Buttons & PlayerButtons.Duck) != 0 ? -18 : 0
                     );
                     // make sound if time
-                    if (int.Parse(_playersAsChicken[player]["next_sound"]) <= (int)Server.CurrentTime)
+                    if (int.Parse(_playersAsChickenCopy[player]["next_sound"]) <= (int)Server.CurrentTime)
                     {
                         EmitSound(player, _chickenSounds[_random.Next(_chickenSounds.Count)]);
-                        _playersAsChicken[player]["next_sound"] = $"{(int)Server.CurrentTime + _random.Next(2, 5)}";
+                        _playersAsChickenCopy[player]["next_sound"] = $"{(int)Server.CurrentTime + _random.Next(2, 5)}";
                     }
                 }
                 catch (Exception e)

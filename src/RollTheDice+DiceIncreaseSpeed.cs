@@ -36,7 +36,8 @@ namespace RollTheDice
         {
             DeregisterEventHandler<EventPlayerHurt>(EventDiceIncreaseSpeedOnPlayerHurt);
             // iterate through all players
-            foreach (var kvp in _playersWithIncreasedSpeed)
+            Dictionary<CCSPlayerController, float> _playersWithIncreasedSpeedCopy = new(_playersWithIncreasedSpeed);
+            foreach (var kvp in _playersWithIncreasedSpeedCopy)
             {
                 if (kvp.Key == null || kvp.Key.PlayerPawn == null || !kvp.Key.PlayerPawn.IsValid || kvp.Key.PlayerPawn.Value == null || kvp.Key.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
                 // get player pawn
@@ -47,6 +48,17 @@ namespace RollTheDice
                 Utilities.SetStateChanged(playerPawn, "CCSPlayerPawn", "m_flVelocityModifier");
             }
             _playersWithIncreasedSpeed.Clear();
+        }
+
+        private void DiceIncreaseSpeedResetForPlayer(CCSPlayerController player)
+        {
+            if (player.PlayerPawn == null
+                || !player.PlayerPawn.IsValid
+                || player.PlayerPawn.Value == null) return;
+            if (!_playersWithIncreasedSpeed.ContainsKey(player)) return;
+            player.PlayerPawn.Value.VelocityModifier = 1.0f;
+            Utilities.SetStateChanged(player.PlayerPawn.Value, "CCSPlayerPawn", "m_flVelocityModifier");
+            _playersWithIncreasedSpeed.Remove(player);
         }
 
         private HookResult EventDiceIncreaseSpeedOnPlayerHurt(EventPlayerHurt @event, GameEventInfo info)

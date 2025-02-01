@@ -34,6 +34,12 @@ namespace RollTheDice
             _playersWithHostageSounds.Clear();
         }
 
+        private void DicePlayerMakeHostageSoundsResetForPlayer(CCSPlayerController player)
+        {
+            if (!_playersWithHostageSounds.ContainsKey(player)) return;
+            _playersWithHostageSounds.Remove(player);
+        }
+
         private void EventDicePlayerMakeHostageSoundsOnTick()
         {
             if (_playersWithHostageSounds.Count() == 0) return;

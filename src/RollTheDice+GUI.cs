@@ -36,10 +36,10 @@ namespace RollTheDice
             QAngle eyeAngles = playerPawn.EyeAngles;
             Vector forward = new(), right = new(), up = new();
             NativeAPI.AngleVectors(eyeAngles.Handle, forward.Handle, right.Handle, up.Handle);
-            Vector eyePosition = new();
-            eyePosition += forward * 7;
-            eyePosition += right * shiftX;
-            eyePosition += up * shiftY;
+            Vector offset = new();
+            offset += forward * 7;
+            offset += right * shiftX;
+            offset += up * shiftY;
             QAngle angles = new()
             {
                 Y = eyeAngles.Y + 270,
@@ -47,13 +47,8 @@ namespace RollTheDice
                 X = 0
             };
             worldText.DispatchSpawn();
-            worldText.Teleport(playerPawn.AbsOrigin! + eyePosition + new Vector(0, 0, playerPawn.ViewOffset.Z), angles, null);
-            Server.NextFrame(() =>
-            {
-                if (worldText == null
-                    || handle == null) return;
-                worldText.AcceptInput("SetParent", handle.Value, null, "!activator");
-            });
+            worldText.Teleport(playerPawn.AbsOrigin! + offset + new Vector(0, 0, playerPawn.ViewOffset.Z), angles, null);
+            worldText.AcceptInput("SetParent", handle.Value, null, "!activator");
             return worldText;
         }
 

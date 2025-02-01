@@ -49,14 +49,25 @@ namespace RollTheDice
         private void DiceChangeNameReset()
         {
             // iterate through all players
-            foreach (var player in _playersWithChangedNames)
+            List<CCSPlayerController> _playersWithChangedNamesCopy = new(_playersWithChangedNames);
+            foreach (var player in _playersWithChangedNamesCopy)
             {
                 if (player == null || player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || player.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
                 // reset player name
-                player.PlayerName = _playersWithChangedNamesOldNames[player];
+                if (_playersWithChangedNamesOldNames.ContainsKey(player)) player.PlayerName = _playersWithChangedNamesOldNames[player];
             }
             _playersWithChangedNames.Clear();
             _playersWithChangedNamesOldNames.Clear();
+        }
+
+        private void DiceChangeNameResetForPlayer(CCSPlayerController player)
+        {
+            if (!_playersWithChangedNames.Contains(player)) return;
+            // reset player name
+            player.PlayerName = _playersWithChangedNamesOldNames[player];
+            // remove player from list
+            _playersWithChangedNames.Remove(player);
+            _playersWithChangedNamesOldNames.Remove(player);
         }
 
         private Dictionary<string, object> DiceChangeNameConfig()

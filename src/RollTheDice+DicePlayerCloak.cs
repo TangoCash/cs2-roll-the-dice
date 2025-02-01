@@ -29,7 +29,8 @@ namespace RollTheDice
         {
             RemoveListener<Listeners.OnTick>(EventDicePlayerCloakOnTick);
             // iterate through all players
-            foreach (var (player, visibility) in _playersWithCloak)
+            Dictionary<CCSPlayerController, int> _playersWithCloakCopy = new(_playersWithCloak);
+            foreach (var (player, visibility) in _playersWithCloakCopy)
             {
                 if (player == null || player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || player.LifeState != (byte)LifeState_t.LIFE_ALIVE) continue;
                 // get player pawn
@@ -40,6 +41,19 @@ namespace RollTheDice
                 Utilities.SetStateChanged(playerPawn, "CBaseModelEntity", "m_clrRender");
             }
             _playersWithCloak.Clear();
+        }
+
+        private void DicePlayerCloakResetForPlayer(CCSPlayerController player)
+        {
+            if (player.PlayerPawn == null
+                || !player.PlayerPawn.IsValid
+                || player.PlayerPawn.Value == null) return;
+            if (!_playersWithCloak.ContainsKey(player)) return;
+            // reset player render color
+            player.PlayerPawn.Value.Render = Color.FromArgb(255, 255, 255, 255);
+            // set state changed
+            Utilities.SetStateChanged(player.PlayerPawn.Value, "CBaseModelEntity", "m_clrRender");
+            _playersWithCloak.Remove(player);
         }
 
         private void EventDicePlayerCloakOnTick()

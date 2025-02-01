@@ -29,6 +29,12 @@ namespace RollTheDice
             _playersWithoutRecoil.Clear();
         }
 
+        private void DiceNoRecoilResetForPlayer(CCSPlayerController player)
+        {
+            if (!_playersWithoutRecoil.Contains(player)) return;
+            _playersWithoutRecoil.Remove(player);
+        }
+
         private HookResult EventDiceNoRecoilOnWeaponFire(EventWeaponFire @event, GameEventInfo info)
         {
             CCSPlayerController? player = @event.Userid;

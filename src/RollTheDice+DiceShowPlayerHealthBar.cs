@@ -35,6 +35,12 @@ namespace RollTheDice
             _playersWithHealthBarShown.Clear();
         }
 
+        private void DiceShowPlayerHealthBarResetForPlayer(CCSPlayerController player)
+        {
+            if (!_playersWithHealthBarShown.ContainsKey(player)) return;
+            _playersWithHealthBarShown.Remove(player);
+        }
+
         private HookResult EventDiceShowPlayerHealthBarOnPlayerHurt(EventPlayerHurt @event, GameEventInfo info)
         {
             CCSPlayerController? victim = @event.Userid;
