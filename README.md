@@ -11,33 +11,36 @@ This plugin lets your players roll the dice each round (at any time during an ro
 
 ## Current Features
 
-- Bigger Taser Battery (between 2 and 10 instant taser shots)
+- Bigger Taser Battery
 - Change player name (changes the player name randomly)
 - Change player model (disguise as enemy player model)
-- Change player size (from 0.5x to 1.5x randomly)
+- Change player size
 - Chicken Leader (spawns chickens around the player)
-- Decrease health (-10 to -30 health)
+- Decrease health
+- Decrease Money
 - Instant bomb plant or bomb defuse / instant hostage grab
-- Give between 1 to 5 health shots
-- Increase health (10 to 30 health)
-- Increase speed (+50% to +100%)
+- Give health shots
+- Increase health
+- Increase Money
+- Increase speed
 - No explosives (no grenades)
 - (Almost) no recoil (https://www.youtube.com/watch?v=s7PIG3cQo4M)
 - Change player to a big chicken
-- Cloak (Player is invisible after 2 seconds without movement)
+- Cloak (Player is invisible after a given period of time)
 - Disguise as Plant (gives player a random prop model)
 - Make player glow (X-Ray through walls)
 - High Gravity
-- Invisibility (Player 50% visible)
+- Invisibility
 - Low Gravity
 - Make fake gun sounds
 - Make fake hostage sounds
 - One HP
 - Respawn after death
 - Suicide
-- Vampire (get the damage as health, max. 200hp)
+- Vampire (get the given damage as health)
 - Show health bar for enemies (https://www.youtube.com/watch?v=SBKvAz9PDqs)
 - Strip weapons
+- Third Person View
 
 ## Plugin Installation
 
@@ -51,14 +54,30 @@ Simply overwrite all plugin files and they will be reloaded automatically or jus
 
 ## Commands
 
-There is currently one client-side command available for this plugin:
-
-### !dice / !rtd
+### !dice / !rtd / !rollthedice
 
 This command triggers the dice for a player. To activate the dice with a button paste the following to the client console:
 
 ```
 bind "o" rtd
+```
+
+### !givedice (@rollthedice/admin)
+
+This command triggers the !rtd command for all or specific players. Only available with the correct permission (@rollthedice/admin).
+
+```
+// roll randomly for everyone
+!givedice
+
+// roll randomly for a player
+!givedice PlayerName
+
+// roll a specific dice for everyone
+!givedice * glow
+
+// roll a specific dice for a player
+!givedice PlayerName glow
 ```
 
 ## Configuration
@@ -68,38 +87,201 @@ This plugin automatically creates a readable JSON configuration file. This confi
 ```json
 {
   "enabled": true,
-  "debug": false,
+  "debug": true,
+  "sound_command": "sounds/ui/coin_pickup_01.vsnd",
+  "price_to_dice": 0,
+  "allow_dice_after_respawn": true,
+  "default_gui_position": "top_center",
+  "gui_positions": {
+    "top_center": {
+      "message_font": "Verdana",
+      "message_font_size": 40,
+      "message_color": "Purple",
+      "message_shift_x": -2.9,
+      "message_shift_y": 4.4,
+      "status_font": "Verdana",
+      "status_font_size": 30,
+      "status_color": "Red",
+      "status_shift_x": -2.75,
+      "status_shift_y": 4
+    }
+  },
   "dices": {
-    "DiceChangePlayerModel": true,
-    "DiceIncreaseHealth": true,
-    "DiceDecreaseHealth": true,
-    "DiceIncreaseSpeed": true,
-    "DiceChangeName": true,
-    "DicePlayerInvisible": true,
-    "DicePlayerSuicide": false,
-    "DicePlayerRespawn": true,
-    "DiceStripWeapons": true,
-    "DiceChickenLeader": true,
-    "DiceFastBombAction": true,
-    "DicePlayerVampire": true,
-    "DicePlayerLowGravity": true,
-    "DicePlayerHighGravity": true,
-    "DicePlayerOneHP": true,
-    "DicePlayerDisguiseAsPlant": true,
-    "DicePlayerAsChicken": true,
-    "DicePlayerMakeHostageSounds": true,
-    "DicePlayerMakeFakeGunSounds": true,
-    "DiceBigTaserBattery": true,
-    "DicePlayerCloak": true,
-    "DiceGiveHealthShot": true,
-    "DiceNoExplosives": true
+    "DiceIncreaseHealth": {
+      "enabled": true,
+      "max_health": 30,
+      "min_health": 10
+    },
+    "DiceDecreaseHealth": {
+      "enabled": true,
+      "max_health": 30,
+      "min_health": 10
+    },
+    "DiceIncreaseSpeed": {
+      "enabled": true,
+      "max_speed": 2,
+      "min_speed": 1.5
+    },
+    "DiceChangeName": {
+      "enabled": true,
+      "min_players_for_using_player_names": 4,
+      "names": [
+        "Hans Wurst",
+        "Fritz Frosch",
+        "Klaus Kleber",
+        "Otto Normalverbraucher",
+        "Peter Lustig",
+        "Karl-Heinz Klammer",
+        "Gustav Gans",
+        "Heinz Erhardt",
+        "Wolfgang Witzig",
+        "Ludwig Lustig",
+        "Rudi R\u00FCssel",
+        "Siggi Sorglos",
+        "Berti Bratwurst",
+        "Dieter Dosenbier",
+        "Erwin Einhorn",
+        "Franz Fuchs",
+        "G\u00FCnther Gans",
+        "Horst Hering",
+        "Ingo Igel",
+        "J\u00FCrgen Jux",
+        "Kurt Ketchup",
+        "Lars Lachs",
+        "Manfred M\u00F6hre",
+        "Norbert Nudel",
+        "Olaf Oktopus",
+        "Paul Pinguin",
+        "Quirin Qualle",
+        "Ralf Rabe",
+        "Stefan Seestern",
+        "Thomas Tintenfisch",
+        "Uwe Uhu",
+        "Volker Vogel",
+        "Willi Wurm",
+        "Xaver Xylophon",
+        "Yannik Yak",
+        "Zacharias Zebra",
+        "Albert Apfel",
+        "Bernd Banane",
+        "Claus Clown",
+        "Detlef Dachs",
+        "Egon Eule",
+        "Ferdinand Frosch",
+        "Gerd Giraffe",
+        "Helmut Hase",
+        "Igor Igel",
+        "Jochen Jaguar",
+        "Knut K\u00E4nguru",
+        "Lothar L\u00F6we",
+        "Martin Marder",
+        "Norbert Nashorn",
+        "Egon Kowalski",
+        "Fritz Fink",
+        "Heinz Hering"
+      ]
+    },
+    "DicePlayerInvisible": {
+      "enabled": true,
+      "invisibility_percentage": 0.5
+    },
+    "DicePlayerSuicide": {
+      "enabled": true
+    },
+    "DicePlayerRespawn": {
+      "enabled": true
+    },
+    "DiceStripWeapons": {
+      "enabled": true
+    },
+    "DiceChickenLeader": {
+      "amount_chicken": 16,
+      "enabled": true
+    },
+    "DiceFastMapAction": {
+      "enabled": true
+    },
+    "DicePlayerVampire": {
+      "enabled": true,
+      "max_health": 200
+    },
+    "DicePlayerLowGravity": {
+      "enabled": true,
+      "gravity_scale": 0.4
+    },
+    "DicePlayerHighGravity": {
+      "enabled": true,
+      "gravity_scale": 4
+    },
+    "DicePlayerOneHP": {
+      "enabled": true
+    },
+    "DicePlayerDisguiseAsPlant": {
+      "enabled": true
+    },
+    "DicePlayerAsChicken": {
+      "enabled": true
+    },
+    "DicePlayerMakeHostageSounds": {
+      "enabled": true
+    },
+    "DicePlayerMakeFakeGunSounds": {
+      "enabled": true
+    },
+    "DiceBigTaserBattery": {
+      "enabled": true,
+      "max_batteries": 10,
+      "min_batteries": 2
+    },
+    "DicePlayerCloak": {
+      "enabled": true
+    },
+    "DiceGiveHealthShot": {
+      "enabled": true,
+      "max_healthshots": 5,
+      "min_healthshots": 1
+    },
+    "DiceNoExplosives": {
+      "enabled": true,
+      "swap_delay": 0.1
+    },
+    "DiceChangePlayerModel": {
+      "enabled": true
+    },
+    "DicePlayerGlow": {
+      "enabled": true
+    },
+    "DiceShowPlayerHealthBar": {
+      "enabled": true
+    },
+    "DiceNoRecoil": {
+      "enabled": true
+    },
+    "DiceChangePlayerSize": {
+      "enabled": true,
+      "max_size": 1.5,
+      "min_size": 0.5
+    },
+    "DiceIncreaseMoney": {
+      "enabled": true,
+      "max_money": 1000,
+      "min_money": 100
+    },
+    "DiceDecreaseMoney": {
+      "enabled": true,
+      "max_money": 1000,
+      "min_money": 100
+    },
+    "DiceThirdPersonView": {
+      "enabled": true
+    }
   },
   "maps": {},
   "ConfigVersion": 1
 }
 ```
 
-You can either disable the complete RollTheDice Plugin by simply setting the *enable* boolean to *false* or disable single dices from being updated. You can also specify a specific map where you want all or specific dices to be disabled (or enabled). This allows for a maximum customizability.
+You can either disable the complete RollTheDice Plugin by simply setting the *enable* boolean to *false* or disable single dices from being updated. You can also specify a specific map where you want all or specific dices to be disabled (or enabled). Most dices also have further settings for their behaviour. This allows for a maximum customizability.
 
 ## Compile Yourself
 
