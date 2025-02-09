@@ -66,7 +66,8 @@ namespace RollTheDice
 
         private void DiceNoExplosivesHandleSmokeGrenade(nint handle)
         {
-            Server.NextFrame(() =>
+            Dictionary<string, object> config = GetDiceConfig("DiceNoExplosives");
+            AddTimer(Convert.ToSingle(config["swap_delay"]), () =>
             {
                 CSmokeGrenadeProjectile grenade = new(handle);
                 if (!grenade.IsValid || grenade.Handle == IntPtr.Zero || grenade.AbsOrigin == null) return;
@@ -83,14 +84,15 @@ namespace RollTheDice
                             grenade.Velocity.Z
                         )
                     );
-                    grenade.Remove();
+                    grenade.AcceptInput("Kill");
                 }
             });
         }
 
         private void DiceNoExplosivesHandleHEGrenade(nint handle)
         {
-            Server.NextFrame(() =>
+            Dictionary<string, object> config = GetDiceConfig("DiceNoExplosives");
+            AddTimer(Convert.ToSingle(config["swap_delay"]), () =>
             {
                 CHEGrenadeProjectile grenade = new(handle);
                 if (!grenade.IsValid || grenade.Handle == IntPtr.Zero || grenade.AbsOrigin == null) return;
@@ -107,14 +109,15 @@ namespace RollTheDice
                             grenade.Velocity.Z
                         )
                     );
-                    grenade.Remove();
+                    grenade.AcceptInput("Kill");
                 }
             });
         }
 
         private void DiceNoExplosivesHandleMolotov(nint handle)
         {
-            Server.NextFrame(() =>
+            Dictionary<string, object> config = GetDiceConfig("DiceNoExplosives");
+            AddTimer(Convert.ToSingle(config["swap_delay"]), () =>
             {
                 CMolotovProjectile grenade = new(handle);
                 if (!grenade.IsValid || grenade.Handle == IntPtr.Zero || grenade.AbsOrigin == null) return;
@@ -131,14 +134,15 @@ namespace RollTheDice
                             grenade.Velocity.Z
                         )
                     );
-                    grenade.Remove();
+                    grenade.AcceptInput("Kill");
                 }
             });
         }
 
         private void DiceNoExplosivesHandleDecoy(nint handle)
         {
-            Server.NextFrame(() =>
+            Dictionary<string, object> config = GetDiceConfig("DiceNoExplosives");
+            AddTimer(Convert.ToSingle(config["swap_delay"]), () =>
             {
                 CDecoyProjectile grenade = new(handle);
                 if (!grenade.IsValid || grenade.Handle == IntPtr.Zero || grenade.AbsOrigin == null) return;
@@ -155,14 +159,15 @@ namespace RollTheDice
                             grenade.Velocity.Z
                         )
                     );
-                    grenade.Remove();
+                    grenade.AcceptInput("Kill");
                 }
             });
         }
 
         private void DiceNoExplosivesHandleFlashbang(nint handle)
         {
-            Server.NextFrame(() =>
+            Dictionary<string, object> config = GetDiceConfig("DiceNoExplosives");
+            AddTimer(Convert.ToSingle(config["swap_delay"]), () =>
             {
                 CFlashbangProjectile grenade = new(handle);
                 if (!grenade.IsValid || grenade.Handle == IntPtr.Zero || grenade.AbsOrigin == null) return;
@@ -179,7 +184,7 @@ namespace RollTheDice
                             grenade.Velocity.Z
                         )
                     );
-                    grenade.Remove();
+                    grenade.AcceptInput("Kill");
                 }
             });
         }
@@ -200,6 +205,13 @@ namespace RollTheDice
             prop.Teleport(origin, angles, velocity);
             prop.AnimGraphUpdateEnabled = false;
             return prop.Index;
+        }
+
+        private Dictionary<string, object> DiceNoExplosivesConfig()
+        {
+            var config = new Dictionary<string, object>();
+            config["swap_delay"] = (float)0.1f;
+            return config;
         }
     }
 }
