@@ -39,7 +39,6 @@ namespace RollTheDice
                     {
                         if (particle == null || !particle.IsValid) return;
                         particle.AcceptInput("Kill");
-                        particle.Remove();
                     });
                 }
             }
