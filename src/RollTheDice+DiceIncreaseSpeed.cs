@@ -17,7 +17,7 @@ namespace RollTheDice
             }
             var speedIncrease = _random.NextDouble() * ((float)config["max_speed"] - (float)config["min_speed"]) + (float)config["min_speed"];
             _playersWithIncreasedSpeed.Add(player, (float)speedIncrease);
-            playerPawn.VelocityModifier *= (float)speedIncrease; ;
+            playerPawn.VelocityModifier *= (float)speedIncrease;
             Utilities.SetStateChanged(playerPawn, "CCSPlayerPawn", "m_flVelocityModifier");
             var percentageIncrease = (speedIncrease - 1.0) * 100;
             return new Dictionary<string, string>
