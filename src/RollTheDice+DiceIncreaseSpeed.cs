@@ -16,8 +16,8 @@ namespace RollTheDice
                 RegisterEventHandler<EventPlayerHurt>(EventDiceIncreaseSpeedOnPlayerHurt);
             }
             var speedIncrease = _random.NextDouble() * ((float)config["max_speed"] - (float)config["min_speed"]) + (float)config["min_speed"];
-            _playersWithIncreasedSpeed.Add(player, (float)speedIncrease);
             playerPawn.VelocityModifier *= (float)speedIncrease;
+            _playersWithIncreasedSpeed.Add(player, (float)playerPawn.VelocityModifier);
             Utilities.SetStateChanged(playerPawn, "CCSPlayerPawn", "m_flVelocityModifier");
             var percentageIncrease = (speedIncrease - 1.0) * 100;
             return new Dictionary<string, string>
@@ -76,7 +76,7 @@ namespace RollTheDice
                     || !_playersWithIncreasedSpeed.ContainsKey(victim)) return;
                 CCSPlayerPawn playerPawn = victim.PlayerPawn.Value!;
                 // set player speed
-                playerPawn.VelocityModifier *= _playersWithIncreasedSpeed[victim];
+                playerPawn.VelocityModifier = _playersWithIncreasedSpeed[victim];
                 // set state changed
                 Utilities.SetStateChanged(playerPawn, "CCSPlayerPawn", "m_flVelocityModifier");
             });
