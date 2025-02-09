@@ -1,13 +1,91 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using System.Drawing;
+using System.Reflection;
 
 namespace RollTheDice
 {
     public partial class RollTheDice : BasePlugin, IPluginConfig<PluginConfig>
     {
+        [ConsoleCommand("givedice", "Give Dice to player")]
+        [RequiresPermissions("@rollthedice/admin")]
+        [CommandHelper(whoCanExecute: CommandUsage.CLIENT_ONLY, minArgs: 0, usage: "[player] [dice]")]
+        public void CommandGiveDice(CCSPlayerController player, CommandInfo command)
+        {
+            string playerName = command.GetArg(1);
+            string diceName = command.GetArg(2);
+            List<CCSPlayerController> availablePlayers = [];
+            foreach (CCSPlayerController entry in Utilities.GetPlayers())
+            {
+                if (playerName == null
+                    || playerName == "" || playerName == "*"
+                    || entry.PlayerName.Contains(playerName, StringComparison.OrdinalIgnoreCase)) availablePlayers.Add(entry);
+            }
+            if (availablePlayers.Count == 0)
+            {
+                command.ReplyToCommand(Localizer["command.givedice.noplayers"]);
+            }
+            else if (availablePlayers.Count == 1 || playerName == null || playerName == "" || playerName == "*")
+            {
+                foreach (CCSPlayerController entry in availablePlayers)
+                {
+                    // remove dice for player (if any)
+                    if (_playersThatRolledTheDice.ContainsKey(entry))
+                    {
+                        // remove gui
+                        RemoveGUI(entry);
+                        // reset dice for player if possible
+                        string methodName = $"{_playersThatRolledTheDice[entry]["dice"]}ResetForPlayer";
+                        var method = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
+                        if (method != null)
+                        {
+                            DebugPrint($"Resetting dice: {_playersThatRolledTheDice[entry]["dice"]} for {entry.PlayerName}");
+                            method.Invoke(this, [entry]);
+                        }
+                        // remove player from dices
+                        _playersThatRolledTheDice.Remove(entry);
+                    }
+                    // check if random dice should be rolled
+                    if (diceName == null || diceName == "")
+                    {
+                        var diceIndex = GetRandomDice();
+                        if (diceIndex == -1)
+                        {
+                            command.ReplyToCommand(Localizer["command.givedice.nodicefound"]);
+                            return;
+                        }
+                        // add player to list
+                        _playersThatRolledTheDice.Add(entry, new Dictionary<string, object> { { "dice", _dices[diceIndex].Method.Name } });
+                        // count dice roll
+                        _countRolledDices[_dices[diceIndex].Method.Name]++;
+                        // execute
+                        ExecuteDice(entry, diceIndex);
+                    } // check if dice is found
+                    else if (_dices.Any(d => d.Method.Name.Contains(diceName, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        // get index
+                        var diceIndex = _dices.FindIndex(d => d.Method.Name.Contains(diceName, StringComparison.OrdinalIgnoreCase));
+                        // add player to list
+                        _playersThatRolledTheDice.Add(entry, new Dictionary<string, object> { { "dice", _dices[diceIndex].Method.Name } });
+                        // execute
+                        ExecuteDice(entry, diceIndex);
+                    }
+                    else
+                    {
+                        // oops, no dice found
+                        command.ReplyToCommand(Localizer["command.givedice.nodicefound"]);
+                    }
+                }
+            }
+            else
+            {
+                command.ReplyToCommand(Localizer["command.givedice.toomanyplayers"]);
+            }
+        }
+
         [ConsoleCommand("rollthedice", "Roll the Dice")]
         [ConsoleCommand("rtd", "Roll the Dice")]
         [ConsoleCommand("dice", "Roll the Dice")]
@@ -48,8 +126,7 @@ namespace RollTheDice
                     Utilities.SetStateChanged(player, "CCSPlayerController", "m_pInGameMoneyServices");
                 }
             }
-            CCSPlayerPawn playerPawn = player!.PlayerPawn.Value!;
-            if (player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || playerPawn.LifeState != (byte)LifeState_t.LIFE_ALIVE)
+            if (player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || player.PlayerPawn.Value.LifeState != (byte)LifeState_t.LIFE_ALIVE)
             {
                 if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.notalive"]);
                 command.ReplyToCommand(Localizer["command.rollthedice.notalive"]);
@@ -68,21 +145,34 @@ namespace RollTheDice
                 return;
             }
             // get random dice
-            var dice = GetRandomDice();
-            if (dice == -1)
+            int diceIndex = GetRandomDice();
+            if (diceIndex == -1)
             {
                 if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["core.nodicesenabled"]);
                 command.ReplyToCommand(Localizer["command.rollthedice.nodicesenabled"]);
                 return;
             }
             // debug print
-            DebugPrint($"Player {player.PlayerName} rolled the dice and got {_dices[dice].Method.Name}");
+            DebugPrint($"Player {player.PlayerName} rolled the dice and got {_dices[diceIndex].Method.Name}");
             // add player to list
-            _playersThatRolledTheDice.Add(player, new Dictionary<string, object> { { "dice", _dices[dice].Method.Name } });
+            _playersThatRolledTheDice.Add(player, new Dictionary<string, object> { { "dice", _dices[diceIndex].Method.Name } });
             // count dice roll
-            _countRolledDices[_dices[dice].Method.Name]++;
+            _countRolledDices[_dices[diceIndex].Method.Name]++;
             // execute dice function
-            Dictionary<string, string> data = _dices[dice](player, playerPawn);
+            ExecuteDice(player, diceIndex);
+            // play sound
+            if (Config.CommandSound != null && Config.CommandSound != "") player.ExecuteClientCommand($"play {Config.CommandSound}");
+        }
+
+        public void ExecuteDice(CCSPlayerController player, int dice = -1)
+        {
+            if (player.PlayerPawn == null
+                || !player.PlayerPawn.IsValid
+                || player.PlayerPawn.Value == null
+                || player.PlayerPawn.Value.LifeState != (byte)LifeState_t.LIFE_ALIVE) return;
+            if (dice == -1) return;
+            // execute dice function
+            Dictionary<string, string> data = _dices[dice](player, player.PlayerPawn.Value);
             // check for error
             if (data.ContainsKey("error"))
             {
@@ -183,8 +273,6 @@ namespace RollTheDice
                 );
                 if (playerGUIStatus != null) _playersThatRolledTheDice[player]["gui_status"] = playerGUIStatus;
             }
-            // play sound
-            if (Config.CommandSound != null && Config.CommandSound != "") player.ExecuteClientCommand($"play {Config.CommandSound}");
         }
     }
 }
