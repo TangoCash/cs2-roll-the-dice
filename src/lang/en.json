@@ -104,5 +104,8 @@
     "DiceNoRecoil_other": "{purple}[RollTheDice] {green}{playerName} {default} has (almost) no recoil!",
     "DiceChangePlayerSize_player": "{default}You changed your size to {playerSize}x",
     "DiceChangePlayerSize_gui": "Player Size: {playerSize}x",
-    "DiceChangePlayerSize_other": "{purple}[RollTheDice] {green}{playerName} {default} is now {playerSize}x his size!"
+    "DiceChangePlayerSize_other": "{purple}[RollTheDice] {green}{playerName} {default} is now {playerSize}x his size!",
+    "DiceThirdPersonView_player": "{default}You're now in Third Person Mode",
+    "DiceThirdPersonView_gui": "{default}Third Person Mode",
+    "DiceThirdPersonView_other": "{purple}[RollTheDice] {green}{playerName} {default} is now in Third Person mode!"
 }

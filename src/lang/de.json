@@ -104,5 +104,8 @@
     "DiceNoRecoil_other": "{purple}[WürfelSpiel] {green}{playerName} {default} hat kaum Rückstoß!",
     "DiceChangePlayerSize_player": "{default}Du hast deine Größe zu {playerSize}x geändert!",
     "DiceChangePlayerSize_gui": "Spieler-Größe: {playerSize}x",
-    "DiceChangePlayerSize_other": "{purple}[WürfelSpiel] {green}{playerName} {default} ist nun {playerSize}x so groß wie vorher!"
+    "DiceChangePlayerSize_other": "{purple}[WürfelSpiel] {green}{playerName} {default} ist nun {playerSize}x so groß wie vorher!",
+    "DiceThirdPersonView_player": "{default}Du bist nun in der externen Ansicht",
+    "DiceThirdPersonView_gui": "{default}Externe Ansicht",
+    "DiceThirdPersonView_other": "{purple}[RollTheDice] {green}{playerName} {default} ist nun in der externen Ansicht!"
 }

@@ -170,7 +170,8 @@ namespace RollTheDice
                 DiceNoRecoil,
                 DiceChangePlayerSize,
                 DiceIncreaseMoney,
-                DiceDecreaseMoney
+                DiceDecreaseMoney,
+                DiceThirdPersonView,
             };
             // initialize dice counter
             foreach (var dice in _dices)
