@@ -12,6 +12,7 @@ namespace RollTheDice
         private string _currentMap = "";
         private Dictionary<CCSPlayerController, Dictionary<string, object>> _playersThatRolledTheDice = new();
         private Dictionary<string, int> _countRolledDices = new();
+        private Dictionary<CCSPlayerController, int> _PlayerCooldown = new();
         private List<Func<CCSPlayerController, CCSPlayerPawn, Dictionary<string, string>>> _dices = new();
         private bool _isDuringRound = false;
         Random _random = new Random(Guid.NewGuid().GetHashCode());
@@ -98,6 +99,15 @@ namespace RollTheDice
             RemoveAllGUIs();
             // disallow dice rolls
             _isDuringRound = false;
+            // reduct cooldown if applicable
+            if (Config.CooldownRounds > 0)
+            {
+                foreach (var kvp in _PlayerCooldown)
+                {
+                    // remove one round per player
+                    if (_PlayerCooldown[kvp.Key] > 0) _PlayerCooldown[kvp.Key] -= 1;
+                }
+            }
             // continue event
             return HookResult.Continue;
         }
@@ -134,6 +144,8 @@ namespace RollTheDice
             RemoveAllGUIs();
             // disallow dice rolls
             _isDuringRound = false;
+            // reset cooldown
+            _PlayerCooldown.Clear();
         }
 
         private void InitializeDices()

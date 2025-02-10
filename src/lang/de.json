@@ -17,6 +17,8 @@
     "command.rollthedice.alreadyrolled": "{purple}[WürfelSpiel] {red}Bereits gewürfelt: {default}{dice}",
     "command.rollthedice.error": "{default}Fehler: konnte nicht würfeln :(",
     "command.rollthedice.unlucky": "{default}Du hast die Würfel verloren :D",
+    "command.rollthedice.cooldown.rounds": "{purple}[RollTheDice] {red}Cooldown: {default}Warte {green}{rounds} {default}Runde(n)!",
+    "command.rollthedice.cooldown.seconds": "{purple}[RollTheDice] {red}Cooldown: {default}Warte {green}{seconds} {default}Runde(n)!",
     "command.givedice.noplayers": "{purple}[WürfelSpiel] {default}Keinen Spieler gefunden",
     "command.givedice.toomanyplayers": "{purple}[WürfelSpiel] {default}Zu viele Spieler gefunden. Bitte genauer angeben",
     "command.givedice.nodicefound": "{purple}[WürfelSpiel] {default}Keinen zu vergebenen Würfel gefunden",

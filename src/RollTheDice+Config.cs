@@ -35,11 +35,15 @@ namespace RollTheDice
         [JsonPropertyName("enabled")] public bool Enabled { get; set; } = true;
         // debug prints
         [JsonPropertyName("debug")] public bool Debug { get; set; } = false;
-        // command sound
+        // limit !rtd usage to every X rounds (only set one of both)
+        [JsonPropertyName("cooldown_rounds")] public int CooldownRounds { get; set; } = 0;
+        // limit !rtd usage to every X seconds (only set one of both)
+        [JsonPropertyName("cooldown_seconds")] public int CooldownSeconds { get; set; } = 0;
+        // sound to play on command usage
         [JsonPropertyName("sound_command")] public string CommandSound { get; set; } = "sounds/ui/coin_pickup_01.vsnd";
-        // command price
+        // price to charge on command usage
         [JsonPropertyName("price_to_dice")] public int PriceToDice { get; set; } = 0;
-        // command price
+        // allow re-dice after respawn
         [JsonPropertyName("allow_dice_after_respawn")] public bool AllowDiceAfterRespawn { get; set; } = false;
         // gui positions
         [JsonPropertyName("default_gui_position")] public string GUIPosition { get; set; } = "top_center";
