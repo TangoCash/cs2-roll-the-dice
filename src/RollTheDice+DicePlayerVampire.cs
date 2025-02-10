@@ -45,6 +45,7 @@ namespace RollTheDice
             if (!_playerVampires.Contains(attacker)) return HookResult.Continue;
             var playerPawn = attacker.PlayerPawn.Value;
             if (playerPawn == null) return HookResult.Continue;
+            if (victim == attacker) return HookResult.Continue;
             Dictionary<string, object> config = GetDiceConfig("DicePlayerVampire");
             playerPawn.Health += (int)float.Round(@event.DmgHealth);
             if (playerPawn.Health > Convert.ToInt32(config["max_health"])) playerPawn.Health = Convert.ToInt32(config["max_health"]);
