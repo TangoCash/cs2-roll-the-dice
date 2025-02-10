@@ -66,9 +66,11 @@ namespace RollTheDice
         private HookResult EventDiceIncreaseSpeedOnPlayerHurt(EventPlayerHurt @event, GameEventInfo info)
         {
             CCSPlayerController? victim = @event.Userid;
+            CCSPlayerController? attacker = @event.Attacker;
             if (victim == null) return HookResult.Continue;
             if (!_playersWithIncreasedSpeed.ContainsKey(victim)) return HookResult.Continue;
             if (victim == null || victim.PlayerPawn == null || !victim.PlayerPawn.IsValid || victim.PlayerPawn.Value == null || victim.LifeState != (byte)LifeState_t.LIFE_ALIVE) return HookResult.Continue;
+            if (victim == attacker) return HookResult.Continue;
             Server.NextFrame(() =>
             {
                 if (victim == null
