@@ -97,21 +97,24 @@ namespace RollTheDice
             if ((!Config.Enabled)
                 || (Config.Enabled && mapConfig != null && !mapConfig.Enabled))
             {
-                if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["core.disabled"]);
+                if (command.CallingContext == CommandCallingContext.Console)
+                    player.PrintToChat(Localizer["core.disabled"]);
                 command.ReplyToCommand(Localizer["core.disabled"]);
                 return;
             }
             // check if warmup period
             if ((bool)GetGameRule("WarmupPeriod")!)
             {
-                if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.iswarmup"]);
+                if (command.CallingContext == CommandCallingContext.Console)
+                    player.PrintToChat(Localizer["command.rollthedice.iswarmup"]);
                 command.ReplyToCommand(Localizer["command.rollthedice.iswarmup"]);
                 return;
             }
             // check if round is active
             if (!_isDuringRound)
             {
-                if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.noactiveround"]);
+                if (command.CallingContext == CommandCallingContext.Console)
+                    player.PrintToChat(Localizer["command.rollthedice.noactiveround"]);
                 command.ReplyToCommand(Localizer["command.rollthedice.noactiveround"]);
                 return;
             }
@@ -120,11 +123,11 @@ namespace RollTheDice
             {
                 if (_playersThatRolledTheDice[player].ContainsKey("message"))
                 {
+                    string message = Localizer["command.rollthedice.alreadyrolled"].Value
+                            .Replace("{dice}", (string)_playersThatRolledTheDice[player]["message"]);
                     if (command.CallingContext == CommandCallingContext.Console)
-                        player.PrintToChat(Localizer["command.rollthedice.alreadyrolled"].Value
-                            .Replace("{dice}", (string)_playersThatRolledTheDice[player]["message"]));
-                    command.ReplyToCommand(Localizer["command.rollthedice.alreadyrolled"].Value
-                        .Replace("{dice}", (string)_playersThatRolledTheDice[player]["message"]));
+                        player.PrintToChat(message);
+                    command.ReplyToCommand(message);
                 }
                 return;
             }
@@ -135,7 +138,8 @@ namespace RollTheDice
                 {
                     string message = Localizer["command.rollthedice.cooldown.rounds"].Value
                         .Replace("{rounds}", _PlayerCooldown[player].ToString());
-                    player.PrintToChat(message);
+                    if (command.CallingContext == CommandCallingContext.Console)
+                        player.PrintToChat(message);
                     command.ReplyToCommand(message);
                     return;
                 }
@@ -144,7 +148,8 @@ namespace RollTheDice
                     int secondsLeft = _PlayerCooldown[player] - (int)Server.CurrentTime;
                     string message = Localizer["command.rollthedice.cooldown.seconds"].Value
                         .Replace("{seconds}", secondsLeft.ToString());
-                    player.PrintToChat(message);
+                    if (command.CallingContext == CommandCallingContext.Console)
+                        player.PrintToChat(message);
                     command.ReplyToCommand(message);
                     return;
                 }
@@ -154,8 +159,10 @@ namespace RollTheDice
             {
                 if (player.InGameMoneyServices!.Account < Config.PriceToDice)
                 {
-                    if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.notenoughmoney"].Value.Replace("{money}", Config.PriceToDice.ToString()));
-                    command.ReplyToCommand(Localizer["command.rollthedice.notenoughmoney"].Value.Replace("{money}", Config.PriceToDice.ToString()));
+                    string message = Localizer["command.rollthedice.notenoughmoney"].Value.Replace("{money}", Config.PriceToDice.ToString());
+                    if (command.CallingContext == CommandCallingContext.Console)
+                        player.PrintToChat(message);
+                    command.ReplyToCommand(message);
                     return;
                 }
                 else
@@ -166,7 +173,8 @@ namespace RollTheDice
             }
             if (player.PlayerPawn == null || !player.PlayerPawn.IsValid || player.PlayerPawn.Value == null || player.PlayerPawn.Value.LifeState != (byte)LifeState_t.LIFE_ALIVE)
             {
-                if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["command.rollthedice.notalive"]);
+                if (command.CallingContext == CommandCallingContext.Console)
+                    player.PrintToChat(Localizer["command.rollthedice.notalive"]);
                 command.ReplyToCommand(Localizer["command.rollthedice.notalive"]);
                 return;
             }
@@ -174,7 +182,8 @@ namespace RollTheDice
             int diceIndex = GetRandomDice();
             if (diceIndex == -1)
             {
-                if (command.CallingContext == CommandCallingContext.Console) player.PrintToChat(Localizer["core.nodicesenabled"]);
+                if (command.CallingContext == CommandCallingContext.Console)
+                    player.PrintToChat(Localizer["core.nodicesenabled"]);
                 command.ReplyToCommand(Localizer["command.rollthedice.nodicesenabled"]);
                 return;
             }
