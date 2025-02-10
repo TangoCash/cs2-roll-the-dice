@@ -1,5 +1,6 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Config;
+using CounterStrikeSharp.API.Modules.Extensions;
 using System.IO.Enumeration;
 using System.Reflection;
 using System.Text.Json;
@@ -56,16 +57,10 @@ namespace RollTheDice
 
     public partial class RollTheDice : BasePlugin, IPluginConfig<PluginConfig>
     {
-        public PluginConfig Config { get; set; } = null!;
+        public required PluginConfig Config { get; set; }
         private MapConfig[] _currentMapConfigs = Array.Empty<MapConfig>();
-        private string _configPath = "";
 
-        private void LoadConfig()
-        {
-            Config = ConfigManager.Load<PluginConfig>("RollTheDice");
-            _configPath = Path.Combine(ModuleDirectory, $"../../configs/plugins/RollTheDice/RollTheDice.json");
-        }
-
+        public void OnConfigParsed(PluginConfig config) { Config = config; }
         private void InitializeConfig(string mapName)
         {
             // select map configs whose regexes (keys) match against the map name
@@ -94,12 +89,6 @@ namespace RollTheDice
                 Config.MapConfigs.Add(mapName, new MapConfig());
             }
             Console.WriteLine(Localizer["core.foundconfig"].Value.Replace("{count}", _currentMapConfigs.Length.ToString()).Replace("{mapName}", mapName));
-        }
-
-        public void OnConfigParsed(PluginConfig config)
-        {
-            Config = config;
-            Console.WriteLine("[RollTheDice] Initialized map configuration!");
         }
 
         private void UpdateConfig()
@@ -165,7 +154,7 @@ namespace RollTheDice
         private void SaveConfig()
         {
             var jsonString = JsonSerializer.Serialize(Config, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(_configPath, jsonString);
+            File.WriteAllText(Config.GetConfigPath(), jsonString);
         }
 
         private Dictionary<string, object> GetDiceConfig(string diceName)

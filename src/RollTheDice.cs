@@ -1,5 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Extensions;
 using System.Reflection;
 
 namespace RollTheDice
@@ -22,7 +23,6 @@ namespace RollTheDice
             // initialize dices
             InitializeDices();
             // initialize configuration
-            LoadConfig();
             UpdateConfig();
             SaveConfig();
             // initialize sounds
@@ -132,7 +132,7 @@ namespace RollTheDice
             // set current map
             _currentMap = mapName;
             // update configuration
-            LoadConfig();
+            Config.Reload();
             UpdateConfig();
             SaveConfig();
         }
