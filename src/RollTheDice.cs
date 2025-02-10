@@ -20,6 +20,18 @@ namespace RollTheDice
 
         public override void Load(bool hotReload)
         {
+            //
+            if (hotReload)
+            {
+                // Precache resources
+                RegisterListener<Listeners.OnServerPrecacheResources>((manifest) =>
+                {
+                    foreach (var model in _precacheModels)
+                    {
+                        manifest.AddResource(model);
+                    }
+                });
+            }
             // initialize dices
             InitializeDices();
             // initialize configuration

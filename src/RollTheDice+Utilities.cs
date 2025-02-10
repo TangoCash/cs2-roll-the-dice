@@ -102,6 +102,15 @@ namespace RollTheDice
                 }
             }
         }
+        public CPlantedC4? GetPlantedC4()
+        {
+            var PlantedC4 = CounterStrikeSharp.API.Utilities.FindAllEntitiesByDesignerName<CPlantedC4>("planted_c4");
+
+            if (PlantedC4 == null || !PlantedC4.Any())
+                return null;
+
+            return PlantedC4.FirstOrDefault();
+        }
 
         private object? GetGameRule(string rule)
         {
@@ -247,6 +256,26 @@ namespace RollTheDice
         private static string GetPlayerModel(CCSPlayerPawn playerPawn)
         {
             return playerPawn.CBodyComponent?.SceneNode?.GetSkeletonInstance().ModelState.ModelName ?? string.Empty;
+        }
+
+        private static bool IsValidPly(CCSPlayerController player)
+        {
+            return player is { IsValid: true, IsBot: false, PlayerPawn: { IsValid: true } };
+        }
+        private static void RefreshUI(CCSPlayerController player)
+        {
+            if (!IsValidPly(player) ||
+                player is { PlayerPawn.Value: { WeaponServices: null, ItemServices: null } } ||
+                player.PlayerPawn.Value == null
+            ) return;
+
+            var setStateChanged = CounterStrikeSharp.API.Utilities.SetStateChanged;
+            setStateChanged(player, "CCSPlayerController", "m_pInGameMoneyServices");
+            setStateChanged(player.PlayerPawn.Value, "CBaseEntity", "m_iHealth");
+            setStateChanged(player.PlayerPawn.Value, "CBaseModelEntity", "m_clrRender");
+            setStateChanged(player.PlayerPawn.Value, "CBaseEntity", "m_MoveType");
+            setStateChanged(player, "CBasePlayerController", "m_iDesiredFOV");
+            setStateChanged(player.PlayerPawn!.Value!, "CBasePlayerPawn", "m_pCameraServices");
         }
 
         // thx to https://github.com/grrhn/ThirdPerson-WIP/ (license GPLv3)
