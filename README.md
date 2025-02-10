@@ -88,6 +88,8 @@ This plugin automatically creates a readable JSON configuration file. This confi
 {
   "enabled": true,
   "debug": true,
+  "cooldown_rounds": 0,
+  "cooldown_seconds": 0,
   "sound_command": "sounds/ui/coin_pickup_01.vsnd",
   "price_to_dice": 0,
   "allow_dice_after_respawn": true,
@@ -282,6 +284,34 @@ This plugin automatically creates a readable JSON configuration file. This confi
 ```
 
 You can either disable the complete RollTheDice Plugin by simply setting the *enable* boolean to *false* or disable single dices from being updated. You can also specify a specific map where you want all or specific dices to be disabled (or enabled). Most dices also have further settings for their behaviour. This allows for a maximum customizability.
+
+### enabled
+
+Whether the plugin is globally enabled or disabled.
+
+### debug
+
+Whether the debug mode is enabled or disabled.
+
+### cooldown_rounds
+
+Rounds a player needs to wait until he can use !rtd again (enable only this OR the other cooldown option). Resets after map change.
+
+### cooldown_seconds
+
+Seconds a player needs to wait until he can use !rtd again (enable only this OR the other cooldown option). Resets after map change.
+
+### sound_command
+
+Sound to play when a player use !rtd.
+
+### price_to_dice
+
+The cost of rolling the dice.
+
+### allow_dice_after_respawn
+
+Whether or not to allow to use dice again after respawn.
 
 ## Compile Yourself
 
